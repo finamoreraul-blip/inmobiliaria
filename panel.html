@@ -19,17 +19,12 @@ button:hover{background:#8E0000;}
 .hidden{display:none;}
 .flex{display:flex;gap:30px;}
 .col-1{flex:1.2;}.col-2{flex:1;}
-
-/* LISTA DE PROPIEDADES */
 .prop-grid-panel { display:grid; grid-template-columns:repeat(auto-fill, minmax(320px, 1fr)); gap:20px; margin-top:20px; }
 .prop-card-panel { background:#f9fafb; border:1px solid var(--border); border-radius:8px; overflow:hidden; }
 .prop-card-panel img { width:100%; height:180px; object-fit:cover; }
 .prop-card-panel-info { padding:15px; }
 .prop-card-panel h3 { font-size:16px; margin-bottom:5px; }
 .prop-card-panel p { font-size:13px; color:#666; margin-bottom:10px; }
-.prop-card-panel.btns { display:flex; gap:10px; }
-
-/* VISTA PREVIA */
 .preview-card{background:#FFF;border:1px solid var(--border);border-radius:8px;overflow:hidden;position:sticky;top:20px;}
 .preview-img{position:relative;height:220px;}
 .preview-tag{position:absolute;top:15px;left:15px;background:var(--primary);color:#FFF;padding:6px 12px;font-weight:700;font-size:11px;letter-spacing:1px;}
@@ -40,46 +35,39 @@ button:hover{background:#8E0000;}
 .preview-title{font-size:15px;color:#777;margin-bottom:15px;}
 .preview-features{display:flex;gap:15px;border-top:1px solid var(--border);padding-top:12px;font-size:12px;flex-wrap:wrap;}
 .feature-item{display:flex;align-items:center;gap:5px;}.feature-item svg{width:18px;height:18px;fill:var(--primary);}
-
-/* RESPONSIVE */
-@media(max-width:900px){
- .flex{flex-direction:column;}
- .prop-grid-panel { grid-template-columns:1fr; }
- .preview-card{position:static;}
-}
+.upload-box{border:2px dashed #ccc;padding:15px;text-align:center;border-radius:8px;margin:10px 0;}
+.upload-box img{max-width:100%;max-height:150px;margin-top:10px;border-radius:6px;}
+.loading{color:var(--primary);font-weight:bold;}
+@media(max-width:900px){.flex{flex-direction:column;}.prop-grid-panel { grid-template-columns:1fr; }.preview-card{position:static;}}
 </style>
 </head>
 <body>
 <div class="container">
 
-<!-- LOGIN -->
 <div class="login" id="login">
   <h1>Panel Admin ML</h1>
   <input type="password" id="pass" placeholder="Contraseña: admin123">
   <button onclick="entrar()">Entrar</button>
 </div>
 
-<!-- PANEL -->
 <div class="panel hidden" id="panel">
   <h1>Panel de Propiedades</h1>
   <button onclick="salir()" style="float:right; background:#666;">Salir</button>
   <button onclick="mostrarForm()">+ Nueva Propiedad</button>
 
-  <!-- FORMULARIO + VISTA PREVIA -->
   <div id="formulario" class="hidden" style="margin-top:20px; border-top:2px solid #eee; padding-top:20px;">
     <h3 id="formTitulo">Agregar Propiedad</h3>
     <div class="flex">
-      <!-- COLUMNA FORM -->
       <div class="col-1">
         <input type="hidden" id="editId">
-        <input type="text" id="titulo" placeholder="Título: Ej: Casa 3 Dormitorios Centro" onkeyup="actualizarPreview()">
+        <input type="text" id="titulo" placeholder="Título" onkeyup="actualizarPreview()">
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
           <select id="tipo" onchange="actualizarPreview()"><option value="">Tipo</option><option value="casa">Casa</option><option value="depto">Depto</option><option value="local">Local</option></select>
           <select id="operacion" onchange="actualizarPreview()"><option value="">Operación</option><option value="venta">Venta</option><option value="alquiler">Alquiler</option></select>
         </div>
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
           <input type="text" id="precio" placeholder="Precio: 95000000" onkeyup="actualizarPreview()">
-          <input type="text" id="ubicacion" placeholder="Ubicación: Barrio Centro">
+          <input type="text" id="ubicacion" placeholder="Ubicación">
         </div>
         <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:10px;">
           <input type="number" id="dorm" placeholder="Dorm" onkeyup="actualizarPreview()">
@@ -87,14 +75,22 @@ button:hover{background:#8E0000;}
           <input type="number" id="amb" placeholder="Amb" onkeyup="actualizarPreview()">
           <input type="number" id="m2cub" placeholder="m2" onkeyup="actualizarPreview()">
         </div>
-        <input type="text" id="imagen" placeholder="URL Imagen Principal" onkeyup="actualizarPreview()">
+
+        <!-- SUBIR FOTO DESDE GALERIA -->
+        <div class="upload-box">
+          <label><b>Foto Principal</b></label>
+          <input type="file" id="fotoInput" accept="image/*" onchange="subirFotoAGithub()">
+          <p id="uploadStatus">Selecciona una foto de tu galería</p>
+          <img id="fotoPreview" src="" style="display:none;">
+          <input type="hidden" id="imagen">
+        </div>
+
         <textarea id="descripcion" rows="4" placeholder="Descripción completa"></textarea>
         <div class="btns">
-          <button onclick="guardar()">Guardar Propiedad</button>
+          <button onclick="guardar()" id="btnGuardar">Guardar Propiedad</button>
           <button onclick="cancelar()" style="background:#666;">Cancelar</button>
         </div>
       </div>
-      <!-- COLUMNA VISTA PREVIA -->
       <div class="col-2">
         <h4 style="margin-bottom:10px;">Vista Previa en Vivo</h4>
         <div class="preview-card">
@@ -109,7 +105,6 @@ button:hover{background:#8E0000;}
     </div>
   </div>
 
-  <!-- LISTA DE PROPIEDADES PUBLICADAS -->
   <h3 style="margin-top:40px;">Propiedades Publicadas</h3>
   <div class="prop-grid-panel" id="lista">Cargando...</div>
 </div>
@@ -117,36 +112,56 @@ button:hover{background:#8E0000;}
 </div>
 
 <script>
-// CONFIG - CAMBIA SOLO ESTO SI HACE FALTA
+// CONFIG
 const CLAVE = "admin123";
 const GITHUB_USER = "finamoreraul-blip";
 const GITHUB_REPO = "web-inmobiliaria";
 const GITHUB_TOKEN = "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";
 const FILE_PATH = "propiedades.json";
-let propiedades = []; let sha = "";
+let propiedades = []; let sha = ""; let subiendoFoto = false;
 
-// CARGAR CON PROTECCION DE ERROR
+// CARGAR
 async function cargarDatos(){
   try{
     let res = await fetch(`https://api.github.com/repos/${GITHUB_USER}/${GITHUB_REPO}/contents/${FILE_PATH}`);
-    if(!res.ok) throw new Error("Archivo no encontrado en GitHub");
-
-    let data = await res.json();
-    sha = data.sha;
-
-    if(!data.content || data.content.trim() === ""){
-      propiedades = [];
-    } else {
-      let content = atob(data.content.replace(/\s/g, ''));
-      propiedades = JSON.parse(content);
-    }
+    let data = await res.json(); sha = data.sha;
+    let content = atob(data.content.replace(/\s/g, '')); propiedades = JSON.parse(content);
     listar();
-  } catch(e){
-    console.error(e);
-    alert("Error al cargar: " + e.message + "\n\nSolución: Crea el archivo propiedades.json en GitHub y pegale [] adentro");
-    propiedades = [];
-    listar();
-  }
+  } catch(e){ propiedades = []; listar(); }
+}
+
+// SUBIR FOTO A GITHUB
+async function subirFotoAGithub(){
+  const file = document.getElementById('fotoInput').files[0];
+  if(!file) return;
+  subiendoFoto = true;
+  document.getElementById('uploadStatus').innerHTML = '<span class="loading">Subiendo foto...</span>';
+  document.getElementById('btnGuardar').disabled = true;
+
+  const reader = new FileReader();
+  reader.onload = async function(e){
+    const base64 = e.target.result.split(',')[1];
+    const nombreArchivo = `img/${Date.now()}_${file.name}`;
+
+    // 1. Subir imagen a carpeta /img
+    let resImg = await fetch(`https://api.github.com/repos/${GITHUB_USER}/${GITHUB_REPO}/contents/${nombreArchivo}`, {
+      method: 'PUT',
+      headers: { 'Authorization': `token ${GITHUB_TOKEN}` },
+      body: JSON.stringify({ message: `Subir foto ${nombreArchivo}`, content: base64 })
+    });
+    let dataImg = await resImg.json();
+    const urlFoto = `https://raw.githubusercontent.com/${GITHUB_USER}/${GITHUB_REPO}/main/${nombreArchivo}`;
+
+    // 2. Guardar URL en el input
+    document.getElementById('imagen').value = urlFoto;
+    document.getElementById('fotoPreview').src = urlFoto;
+    document.getElementById('fotoPreview').style.display = 'block';
+    document.getElementById('uploadStatus').innerText = 'Foto subida correctamente!';
+    actualizarPreview();
+    subiendoFoto = false;
+    document.getElementById('btnGuardar').disabled = false;
+  };
+  reader.readAsDataURL(file);
 }
 
 async function guardarEnGithub(){
@@ -164,10 +179,13 @@ function salir(){ location.reload(); }
 function mostrarForm(id = null){
   document.getElementById('formulario').classList.remove('hidden');
   window.scrollTo(0,0);
+  document.getElementById('fotoPreview').style.display = 'none';
+  document.getElementById('uploadStatus').innerText = 'Selecciona una foto de tu galería';
   if(id){
     document.getElementById('formTitulo').innerText = "Editando Propiedad";
     let p = propiedades.find(x => x.id === id);
     for(let key in p){ if(document.getElementById(key)) document.getElementById(key).value = p[key]; }
+    if(p.imagen){ document.getElementById('fotoPreview').src = p.imagen; document.getElementById('fotoPreview').style.display = 'block'; }
   } else {
     document.getElementById('formTitulo').innerText = "Agregar Propiedad";
     document.getElementById('editId').value = "";
@@ -179,22 +197,20 @@ function cancelar(){ document.getElementById('formulario').classList.add('hidden
 
 function actualizarPreview(){
   document.getElementById('previewTitle').innerText = document.getElementById('titulo').value || 'Título de la propiedad';
-  let precio = document.getElementById('precio').value; document.getElementById('previewPrice').innerText = precio? '$' + precio : '$0';
+  let precio = document.getElementById('precio').value; document.getElementById('previewPrice').innerText = precio? '$' + parseInt(precio).toLocaleString('es-AR') : '$0';
   document.getElementById('previewImg').src = document.getElementById('imagen').value || 'https://via.placeholder.com/400x300';
-
   let dorm = document.getElementById('dorm').value, bano = document.getElementById('bano').value, m2 = document.getElementById('m2cub').value;
   document.getElementById('previewFeatures').innerHTML = `
     ${dorm?`<div class="feature-item"><svg viewBox="0 0 24 24"><path d="M12 3L2 12h3v8h14v-8h3L12 3z"/></svg><span>${dorm}</span>Dorm</div>`:''}
     ${bano?`<div class="feature-item"><svg viewBox="0 0 24 24"><path d="M7 2v2h10V2h2v2h1a2 2 0 0 1 2 2v3a7 7 0 0 1-7 7H9A7 7 0 0 1 2 9V6a2 2 0 0 1 2-2h1V2h2z"/></svg><span>${bano}</span>Baño</div>`:''}
     ${m2?`<div class="feature-item"><svg viewBox="0 0 24 24"><path d="M19 9.3V4h-3v2.6L12 3 2 12h3v8h14v-8h3z"/></svg><span>${m2}</span>m²</div>`:''}
   `;
-
-  let operacion = document.getElementById('operacion').value; let tipo = document.getElementById('tipo').value;
-  let tag = document.getElementById('previewTag'); tag.innerText = operacion? operacion.toUpperCase() : 'VENTA';
-  tag.className = 'preview-tag'; if(operacion === 'alquiler') tag.classList.add('alquiler'); if(tipo === 'local') tag.style.background = '#FF8F00';
+  let operacion = document.getElementById('operacion').value; let tag = document.getElementById('previewTag'); tag.innerText = operacion? operacion.toUpperCase() : 'VENTA';
+  tag.className = 'preview-tag'; if(operacion === 'alquiler') tag.classList.add('alquiler');
 }
 
 async function guardar(){
+  if(subiendoFoto) return alert("Espera a que termine de subir la foto");
   let prop = { id: document.getElementById('editId').value || Date.now().toString(),
     titulo: titulo.value, tipo: tipo.value, operacion: operacion.value, precio: precio.value, ubicacion: ubicacion.value,
     dorm: dorm.value, bano: bano.value, amb: amb.value, m2cub: m2cub.value, imagen: imagen.value, descripcion: descripcion.value, whatsapp: "5492983389710" };
@@ -212,7 +228,7 @@ function listar(){
       <img src="${p.imagen}">
       <div class="prop-card-panel-info">
         <h3>${p.titulo}</h3>
-        <p><b>$${p.precio}</b> - ${p.ubicacion} - ${p.operacion}</p>
+        <p><b>$${parseInt(p.precio).toLocaleString('es-AR')}</b> - ${p.ubicacion} - ${p.operacion}</p>
         <div class="btns">
           <button class="btn-edit" onclick="mostrarForm('${p.id}')">Editar</button>
           <button class="btn-danger" onclick="eliminar('${p.id}')">Eliminar</button>
@@ -220,7 +236,7 @@ function listar(){
       </div>
     </div>`;
   });
-  document.getElementById('lista').innerHTML = html || "<p>Aún no hay propiedades publicadas. Crea la primera.</p>";
+  document.getElementById('lista').innerHTML = html || "<p>Aún no hay propiedades publicadas</p>";
 }
 </script>
 </body>
