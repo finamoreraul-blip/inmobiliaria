@@ -18,17 +18,42 @@
     * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Montserrat', sans-serif; scroll-behavior: smooth; }
     body { background: var(--bg); color: var(--text); }
     a { text-decoration: none; color: inherit; }
-.hidden-section { display: none!important; }
+    .hidden-section { display: none!important; }
 
-    /* HEADER NEGRO FIJO */
+    /* HEADER NEGRO CON MENU HAMBURGUESA */
     header { position: fixed; top: 0; width: 100%; z-index: 100; background: var(--dark); box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
-    .navbar { max-width: 1400px; margin: auto; display: flex; justify-content: space-between; align-items: center; padding: 18px 40px; }
-    .logo { font-size: 24px; font-weight: 900; color: #FFF; letter-spacing: 3px; cursor: pointer; display: flex; align-items: center; gap: 8px; }
-    .logo span { font-weight: 300; font-size: 13px; letter-spacing: 1px; opacity: 0.8; }
-    .nav-links { display: flex; gap: 30px; font-weight: 600; font-size: 14px; }
-    .nav-links a { color: #FFF; cursor: pointer; opacity: 0.9; }
-    .nav-links a:hover { color: var(--primary); opacity: 1; }
-    .btn-whatsapp { background: var(--green); color: #FFF; padding: 10px 20px; font-weight: 700; font-size: 13px; }
+    .navbar { max-width: 1400px; margin: auto; display: flex; justify-content: space-between; align-items: center; padding: 18px 40px; position: relative; }
+    .logo { font-size: 24px; font-weight: 900; color: #FFF; letter-spacing: 3px; cursor: pointer; text-align: center; flex: 1; }
+    .logo span { font-weight: 300; font-size: 13px; letter-spacing: 1px; opacity: 0.8; display: block; }
+
+    /* BOTON 3 PUNTITOS */
+    .menu-btn { background: none; border: none; color: #FFF; font-size: 28px; cursor: pointer; position: absolute; left: 40px; transition: 0.3s; }
+    .menu-btn:hover { color: var(--primary); }
+
+    /* MENU DESPLEGABLE TRANSPARENTE */
+    .nav-links { 
+      display: none; 
+      position: absolute; 
+      top: 100%; 
+      left: 0; 
+      width: 100%; 
+      background: rgba(17, 17, 17, 0.95); /* NEGRO TRANSPARENTE */
+      backdrop-filter: blur(10px);
+      flex-direction: column; 
+      padding: 20px 0; 
+      gap: 0; 
+    }
+    .nav-links.active { display: flex; }
+    .nav-links a { 
+      color: #FFF; 
+      padding: 16px 40px; 
+      font-weight: 600; 
+      font-size: 16px; 
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+      cursor: pointer;
+      transition: 0.3s;
+    }
+    .nav-links a:hover { background: var(--primary); color: #FFF; }
 
     /* HERO */
     .hero { margin-top: 70px; height: 85vh; background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('https://images.unsplash.com/photo-1564013799919-ab600027ffc6?q=80&w=2070') center/cover; color: #FFF; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding: 0 20px; }
@@ -81,7 +106,7 @@
     .btn-whatsapp-modal { background: var(--green); color: #FFF; padding: 16px; text-align: center; font-weight: 900; display: block; font-size: 16px; letter-spacing: 1px; }
 
     /* SECCIONES */
-    .about { background: #FA; }
+    .about { background: #FAFAFA; }
     .about-content { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center; }
     .about-content img { width: 100%; }
     .steps-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 40px; text-align: center; }
@@ -108,10 +133,10 @@
     }
     @media(max-width: 768px) {
       .navbar { padding: 15px 20px; }
-      .logo { font-size: 22px; letter-spacing: 2px; }
-      .logo span { display: none; }
-      .nav-links { display: none; }
-      .btn-whatsapp { padding: 8px 12px; font-size: 12px; }
+      .menu-btn { left: 20px; font-size: 24px; }
+      .logo { font-size: 20px; letter-spacing: 2px; }
+      .logo span { font-size: 11px; }
+      .nav-links a { padding: 14px 20px; }
       .hero { margin-top: 60px; height: 75vh; }
       .hero h1 { font-size: 32px; }
       .hero p { font-size: 16px; }
@@ -131,16 +156,18 @@
 
   <header id="header">
     <div class="navbar">
+      <button class="menu-btn" onclick="toggleMenu()">⋮</button>
+      
       <div class="logo" onclick="showAll()">ML <span>MAY Y LEO LABRUNÉE</span></div>
-      <div class="nav-links">
-        <a onclick="showSection('propiedades')">Propiedades</a>
-        <a onclick="showSection('nosotros')">Nosotros</a>
-        <a onclick="showSection('comprar')">Comprar</a>
-        <a onclick="showSection('vender')">Vender</a>
-        <a onclick="showSection('tasaciones')">Tasaciones</a>
-        <a onclick="showSection('contacto')">Contacto</a>
+
+      <div class="nav-links" id="navMenu">
+        <a onclick="showSection('propiedades'); toggleMenu()">Propiedades</a>
+        <a onclick="showSection('nosotros'); toggleMenu()">Nosotros</a>
+        <a onclick="showSection('comprar'); toggleMenu()">Comprar</a>
+        <a onclick="showSection('vender'); toggleMenu()">Vender</a>
+        <a onclick="showSection('tasaciones'); toggleMenu()">Tasaciones</a>
+        <a onclick="showSection('contacto'); toggleMenu()">Contacto</a>
       </div>
-      <a href="https://wa.me/549XXXXXXXXXX" target="_blank" class="btn-whatsapp">WHATSAPP</a>
     </div>
   </header>
 
@@ -215,7 +242,6 @@
     <h2 class="section-title">Cómo Vender</h2><p class="section-subtitle">Rápido y seguro</p>
     <div class="steps-grid"><div class="step-card"><div class="step-number">01</div><h3>Tasación</h3><p>Gratuita y real</p></div><div class="step-card"><div class="step-number">02</div><h3>Publicidad</h3><p>En todos los portales</p></div><div class="step-card"><div class="step-number">03</div><h3>Venta</h3><p>Gestionamos todo</p></div></div>
   </section>
-
   <section id="tasaciones">
     <h2 class="section-title">Tasaciones</h2><p class="section-subtitle">Valor real de mercado</p>
     <div class="mini-contact" style="background:var(--dark);"><h3>Solicitá tu tasación gratuita</h3><a href="https://wa.me/549XXXXXXXXXX" target="_blank" class="btn">PEDIR AHORA</a></div>
@@ -225,7 +251,7 @@
     <h2 class="section-title">Contacto</h2>
     <div class="contact-grid">
       <div><h3 style="font-size:24px; margin-bottom:20px;">ML - MAY Y LEO LABRUNÉE</h3><p>📍 Av. San Martín 123, Tres Arroyos</p><p>📞 (02983) 43-XXXX</p><p>✉️ contacto@mlabrunee.com</p></div>
-           <form class="contact-form" onsubmit="alert('Consulta enviada! Te contactaremos.'); return false;"><input type="text" placeholder="Nombre" required><input type="email" placeholder="Email" required><textarea rows="4" placeholder="Mensaje" required></textarea><button class="btn-send">ENVIAR</button></form>
+      <form class="contact-form" onsubmit="alert('Consulta enviada! Te contactaremos.'); return false;"><input type="text" placeholder="Nombre" required><input type="email" placeholder="Email" required><textarea rows="4" placeholder="Mensaje" required></textarea><button class="btn-send">ENVIAR</button></form>
     </div>
   </section>
 
@@ -262,6 +288,19 @@
     let currentModalImgs = [];
     let currentModalIndex = 0;
 
+    // MENU HAMBURGUESA
+    function toggleMenu() {
+      document.getElementById('navMenu').classList.toggle('active');
+    }
+    // Cerrar menu al hacer click afuera
+    window.addEventListener('click', function(e) {
+      const nav = document.getElementById('navMenu');
+      const btn = document.querySelector('.menu-btn');
+      if (!nav.contains(e.target) &&!btn.contains(e.target)) {
+        nav.classList.remove('active');
+      }
+    });
+
     // FILTRO PRECIO
     function cambiarFiltroPrecio() {
       const operacion = document.getElementById('searchOperacion').value;
@@ -293,7 +332,7 @@
       showSection('propiedades');
     }
 
-    // NAVEGACION SECCIONES - ARREGLADO PARA QUE NO QUEDE BLANCO
+    // NAVEGACION SECCIONES
     function showSection(id) {
       document.querySelectorAll('section,.hero').forEach(s => s.style.display = 'none');
       document.getElementById(id).style.display = 'block';
