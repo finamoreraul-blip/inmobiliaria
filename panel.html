@@ -38,8 +38,15 @@ button:hover{background:#8E0000;}
 .preview-info{padding:20px;}
 .preview-price{font-size:24px;font-weight:900;color:var(--dark);margin-bottom:8px;}
 .preview-title{font-size:15px;color:#777;margin-bottom:15px;}
-.preview-features{display:flex;gap:15px;border-top:1px solid var(--border);padding-top:12px;font-size:12px;}
+.preview-features{display:flex;gap:15px;border-top:1px solid var(--border);padding-top:12px;font-size:12px;flex-wrap:wrap;}
 .feature-item{display:flex;align-items:center;gap:5px;}.feature-item svg{width:18px;height:18px;fill:var(--primary);}
+
+/* RESPONSIVE */
+@media(max-width:900px){
+ .flex{flex-direction:column;}
+ .prop-grid-panel { grid-template-columns:1fr; }
+ .preview-card{position:static;}
+}
 </style>
 </head>
 <body>
@@ -48,7 +55,7 @@ button:hover{background:#8E0000;}
 <!-- LOGIN -->
 <div class="login" id="login">
   <h1>Panel Admin ML</h1>
-  <input type="password" id="pass" placeholder="Contraseña">
+  <input type="password" id="pass" placeholder="Contraseña: admin123">
   <button onclick="entrar()">Entrar</button>
 </div>
 
@@ -66,15 +73,15 @@ button:hover{background:#8E0000;}
       <div class="col-1">
         <input type="hidden" id="editId">
         <input type="text" id="titulo" placeholder="Título: Ej: Casa 3 Dormitorios Centro" onkeyup="actualizarPreview()">
-        <div class="grid-2" style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
           <select id="tipo" onchange="actualizarPreview()"><option value="">Tipo</option><option value="casa">Casa</option><option value="depto">Depto</option><option value="local">Local</option></select>
           <select id="operacion" onchange="actualizarPreview()"><option value="">Operación</option><option value="venta">Venta</option><option value="alquiler">Alquiler</option></select>
         </div>
-        <div class="grid-2" style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
           <input type="text" id="precio" placeholder="Precio: 95000000" onkeyup="actualizarPreview()">
           <input type="text" id="ubicacion" placeholder="Ubicación: Barrio Centro">
         </div>
-        <div class="grid-2" style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:10px;">
+        <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:10px;">
           <input type="number" id="dorm" placeholder="Dorm" onkeyup="actualizarPreview()">
           <input type="number" id="bano" placeholder="Baño" onkeyup="actualizarPreview()">
           <input type="number" id="amb" placeholder="Amb" onkeyup="actualizarPreview()">
@@ -110,7 +117,7 @@ button:hover{background:#8E0000;}
 </div>
 
 <script>
-// CONFIG
+// CONFIG - CAMBIA SOLO ESTO SI HACE FALTA
 const CLAVE = "admin123";
 const GITHUB_USER = "finamoreraul-blip";
 const GITHUB_REPO = "web-inmobiliaria";
@@ -118,17 +125,32 @@ const GITHUB_TOKEN = "github_pat_11CFYNUBI0SvRDMG26reFu_0NyNAYBKV5c0dqAKbTgv6SKU
 const FILE_PATH = "propiedades.json";
 let propiedades = []; let sha = "";
 
+// CARGAR CON PROTECCION DE ERROR
 async function cargarDatos(){
   try{
     let res = await fetch(`https://api.github.com/repos/${GITHUB_USER}/${GITHUB_REPO}/contents/${FILE_PATH}`);
-    let data = await res.json(); sha = data.sha;
-    let content = atob(data.content); propiedades = JSON.parse(content);
+    if(!res.ok) throw new Error("Archivo no encontrado en GitHub");
+
+    let data = await res.json();
+    sha = data.sha;
+
+    if(!data.content || data.content.trim() === ""){
+      propiedades = [];
+    } else {
+      let content = atob(data.content.replace(/\s/g, ''));
+      propiedades = JSON.parse(content);
+    }
     listar();
-  } catch(e){ document.getElementById('lista').innerHTML = "<p>Error al cargar. Revisa el token y el archivo.</p>" }
+  } catch(e){
+    console.error(e);
+    alert("Error al cargar: " + e.message + "\n\nSolución: Crea el archivo propiedades.json en GitHub y pegale [] adentro");
+    propiedades = [];
+    listar();
+  }
 }
 
 async function guardarEnGithub(){
-  let content = btoa(JSON.stringify(propiedades, null, 2));
+  let content = btoa(unescape(encodeURIComponent(JSON.stringify(propiedades, null, 2))));
   let res = await fetch(`https://api.github.com/repos/${GITHUB_USER}/${GITHUB_REPO}/contents/${FILE_PATH}`, {
     method: 'PUT', headers: { 'Authorization': `token ${GITHUB_TOKEN}` },
     body: JSON.stringify({ message: "Update desde panel", content: content, sha: sha })
@@ -198,7 +220,7 @@ function listar(){
       </div>
     </div>`;
   });
-  document.getElementById('lista').innerHTML = html || "<p>Aún no hay propiedades publicadas</p>";
+  document.getElementById('lista').innerHTML = html || "<p>Aún no hay propiedades publicadas. Crea la primera.</p>";
 }
 </script>
 </body>
