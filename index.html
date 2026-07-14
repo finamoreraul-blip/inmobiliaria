@@ -24,10 +24,10 @@
 .navbar { max-width: 1300px; margin: auto; display: flex; justify-content: space-between; align-items: center; padding: 15px 20px; }
 .logo { font-size: 28px; font-weight: 900; color: var(--primary); cursor: pointer; letter-spacing: 2px; }
 .logo span { color: var(--dark); font-weight: 600; font-size: 18px; letter-spacing: 0; }
-.nav-links { display: flex; gap: 25px; font-weight: 600; }
+.nav-links { display: flex; gap: 20px; font-weight: 600; font-size: 14px; }
 .nav-links a { cursor: pointer; }
 .nav-links a:hover { color: var(--primary); }
-.btn-whatsapp { background: var(--green); color: #FFF; padding: 12px 20px; border-radius: 5px; font-weight: 700; }
+.btn-whatsapp { background: var(--green); color: #FFF; padding: 10px 18px; border-radius: 5px; font-weight: 700; font-size: 14px; }
 
 .hero { background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('https://images.unsplash.com/photo-1564013799919-ab600027ffc6?q=80&w=2070') center/cover; color: #FFF; text-align: center; padding: 100px 20px; }
 .hero h1 { font-size: 42px; font-weight: 900; margin-bottom: 15px; }
@@ -38,9 +38,10 @@
 .btn-search:hover { background: var(--primary-dark); }
 
     section { max-width: 1300px; margin: auto; padding: 60px 20px; }
-.section-title { font-size: 32px; font-weight: 900; text-align: center; margin-bottom: 40px; color: var(--dark); }
-.prop-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 30px; }
+.section-title { font-size: 32px; font-weight: 900; text-align: center; margin-bottom: 15px; color: var(--dark); }
+.section-subtitle { text-align: center; max-width: 700px; margin: 0 auto 40px auto; font-size: 16px; color: var(--text-light); }
 
+.prop-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 30px; }
 .prop-card { background: #FFF; border-radius: 8px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.1); transition: 0.3s; border: 1px solid #eee; }
 .prop-card:hover { transform: translateY(-3px); box-shadow: 0 4px 15px rgba(0,0,0,0.15); }
 .prop-img-wrapper { position: relative; }
@@ -52,81 +53,44 @@
 .prop-info { padding: 18px; }
 .prop-price { font-size: 24px; font-weight: 900; color: var(--dark); margin-bottom: 8px; }
 .prop-title { font-size: 16px; font-weight: 600; margin-bottom: 15px; color: #444; line-height: 1.4; }
-.prop-features { display: flex; justify-content: space-around; border-top: 1px solid #eee; padding-top: 12px; margin-top: 12px; }
+.prop-features { display: flex; justify-content: space-around; border-top: 1px solid #eee; padding-top: 12px; margin-top: 12px; flex-wrap: wrap; }
 .feature-item { display: flex; flex-direction: column; align-items: center; gap: 5px; font-size: 12px; color: var(--text-light); text-align: center; }
 .feature-item svg { width: 24px; height: 24px; fill: var(--primary); }
 .feature-item span { font-weight: 800; color: var(--dark); font-size: 15px; }
 .btn-contact { background: var(--primary); color: #FFF; padding: 12px; border-radius: 5px; text-align: center; font-weight: 700; display: block; margin-top: 15px; cursor: pointer; border: none; width: 100%; font-size: 15px; }
 .btn-contact:hover { background: var(--primary-dark); }
 
-    /* MODAL DETALLES */
-.modal {
-  display: none;
-  position: fixed;
-  z-index: 1000;
-  left: 0;
-  top: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0,0,0,0.85);
-  overflow-y: auto;
-}
-.modal-content {
-  background-color: #FFF;
-  margin: 3% auto;
-  padding: 0;
-  border-radius: 10px;
-  width: 90%;
-  max-width: 900px;
-  position: relative;
-  animation: slideDown 0.3s;
-}
+    /* MODAL */
+.modal { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.85); overflow-y: auto; }
+.modal-content { background-color: #FFF; margin: 3% auto; border-radius: 10px; width: 90%; max-width: 900px; position: relative; animation: slideDown 0.3s; }
 @keyframes slideDown { from {transform: translateY(-50px); opacity: 0;} to {transform: translateY(0); opacity: 1;} }
-.close {
-  color: #FFF;
-  position: absolute;
-  top: 15px;
-  right: 25px;
-  font-size: 35px;
-  font-weight: bold;
-  cursor: pointer;
-  z-index: 1001;
-}
-.close:hover { color: var(--primary); }
-
+.close { color: #FFF; position: absolute; top: 15px; right: 25px; font-size: 35px; font-weight: bold; cursor: pointer; z-index: 1001; }
 .modal-carousel { position: relative; height: 450px; background: #000; border-radius: 10px 10px 0 0; overflow: hidden; }
 .modal-carousel img { width: 100%; height: 100%; object-fit: contain; position: absolute; opacity: 0; transition: opacity 0.5s; }
 .modal-carousel img.active { opacity: 1; }
-.modal-nav {
-  position: absolute;
-  top: 50%;
-  width: 100%;
-  display: flex;
-  justify-content: space-between;
-  transform: translateY(-50%);
-}
-.modal-nav button {
-  background: rgba(0,0,0,0.5);
-  color: #FFF;
-  border: none;
-  font-size: 30px;
-  padding: 10px 15px;
-  cursor: pointer;
-}
-.modal-nav button:hover { background: rgba(0,0,0,0.8); }
-
+.modal-nav { position: absolute; top: 50%; width: 100%; display: flex; justify-content: space-between; transform: translateY(-50%); }
+.modal-nav button { background: rgba(0,0,0,0.5); color: #FFF; border: none; font-size: 30px; padding: 10px 15px; cursor: pointer; }
 .modal-info { padding: 30px; }
 .modal-price { font-size: 32px; font-weight: 900; color: var(--primary); margin-bottom: 10px; }
 .modal-title { font-size: 22px; font-weight: 700; color: var(--dark); margin-bottom: 20px; }
 .modal-features { display: flex; gap: 30px; margin-bottom: 25px; flex-wrap: wrap; }
-.modal-features.feature-item svg { width: 28px; height: 28px; }
 .modal-desc { font-size: 16px; line-height: 1.7; color: var(--text); margin-bottom: 25px; }
 .btn-whatsapp-modal { background: var(--green); color: #FFF; padding: 15px; border-radius: 8px; text-align: center; font-weight: 900; display: block; font-size: 16px; }
 
-.why-us { background: var(--dark); color: #FFF; text-align: center; }
-.why-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px; margin-top: 40px; }
-.why-item { padding: 20px; }
-.why-item h3 { font-size: 20px; margin-bottom: 10px; color: var(--primary); }
+    /* NUEVAS SECCIONES */
+.about { background: #FFF; }
+.about-content { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: center; }
+.about-content img { width: 100%; border-radius: 8px; }
+
+.steps-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px; text-align: center; }
+.step-card { background: #FFF; padding: 30px 20px; border-radius: 8px; border-top: 4px solid var(--primary); box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
+.step-number { font-size: 40px; font-weight: 900; color: var(--primary); margin-bottom: 10px; }
+.step-card h3 { font-size: 18px; color: var(--dark); margin-bottom: 10px; }
+.step-card p { font-size: 15px; color: var(--text-light); }
+
+.mini-contact { background: var(--primary); color: #FFF; text-align: center; padding: 25px 20px; border-radius: 8px; margin-top: 40px; }
+.mini-contact h3 { font-size: 20px; margin-bottom: 10px; }
+.mini-contact.btn { background: #FFF; color: var(--primary); padding: 10px 25px; border-radius: 5px; font-weight: 900; display: inline-block; margin-top: 10px; }
 
 .office { background: #FFF; }
 .office-grid { display: grid; grid-template-columns: 1fr 1.5fr; gap: 40px; align-items: center; }
@@ -139,7 +103,42 @@
 .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; }
 .contact-form input,.contact-form textarea { width: 100%; padding: 14px; margin-bottom: 15px; border: 1px solid #DDD; border-radius: 5px; }
 .btn-send { background: var(--primary); color: #FFF; border: none; padding: 15px; width: 100%; border-radius: 5px; font-weight: 900; cursor: pointer; }
-.btn-send:hover { background: var(--primary-dark); }
+
+    /* WHATSAPP FLOTANTE CON GLOBO */
+.whatsapp-container {
+  position: fixed;
+  bottom: 25px;
+  right: 25px;
+  z-index: 999;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.whatsapp-text {
+  background: #FFF;
+  padding: 8px 15px;
+  border-radius: 20px;
+  box-shadow: 2px 2px 10px rgba(0,0,0,0.2);
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--dark);
+  animation: pulse 2s infinite;
+}
+@keyframes pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.05); } }
+.whatsapp-float {
+  width: 60px;
+  height: 60px;
+  background-color: var(--green);
+  color: #FFF;
+  border-radius: 50%;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 2px 2px 10px rgba(0,0,0,0.3);
+  transition: 0.3s;
+}
+.whatsapp-float:hover { transform: scale(1.1); }
 
     footer { background: var(--dark); color: #FFF; text-align: center; padding: 30px 20px; }
 
@@ -147,9 +146,9 @@
 .nav-links { display: none; }
 .hero h1 { font-size: 32px; }
 .search-box { grid-template-columns: 1fr; }
-.why-grid,.contact-grid,.office-grid { grid-template-columns: 1fr; }
+.steps-grid,.contact-grid,.office-grid,.about-content { grid-template-columns: 1fr; }
 .modal-carousel { height: 300px; }
-.modal-content { width: 95%; margin: 10% auto; }
+.whatsapp-text { display: none; }
     }
   </style>
 </head>
@@ -161,7 +160,9 @@
       <div class="nav-links">
         <a onclick="showSection('propiedades')">Propiedades</a>
         <a onclick="showSection('nosotros')">Nosotros</a>
-        <a onclick="showSection('oficina')">Oficina</a>
+        <a onclick="showSection('comprar')">Comprar</a>
+        <a onclick="showSection('vender')">Vender</a>
+        <a onclick="showSection('tasaciones')">Tasaciones</a>
         <a onclick="showSection('contacto')">Contacto</a>
       </div>
       <a href="https://wa.me/549XXXXXXXXXX" target="_blank" class="btn-whatsapp">WhatsApp</a>
@@ -173,21 +174,9 @@
     <p>ML - MAY Y LEO LABRUNÉE | Asesoramiento inmobiliario en Tres Arroyos</p>
     <div class="search-box">
       <input type="text" id="searchInput" placeholder="Buscar por barrio, calle o palabra clave">
-      <select id="searchTipo">
-        <option value="all">Tipo</option>
-        <option value="casa">Casa</option>
-        <option value="depto">Departamento</option>
-        <option value="local">Local</option>
-        <option value="campo">Campo</option>
-      </select>
-      <select id="searchOperacion" onchange="cambiarFiltroPrecio()">
-        <option value="all">Operación</option>
-        <option value="venta">Venta</option>
-        <option value="alquiler">Alquiler</option>
-      </select>
-      <select id="searchPrecio">
-        <option value="all">Precio</option>
-      </select>
+      <select id="searchTipo"><option value="all">Tipo</option><option value="casa">Casa</option><option value="depto">Departamento</option></select>
+      <select id="searchOperacion" onchange="cambiarFiltroPrecio()"><option value="all">Operación</option><option value="venta">Venta</option><option value="alquiler">Alquiler</option></select>
+      <select id="searchPrecio"><option value="all">Precio</option></select>
       <button class="btn-search" onclick="filtrarProps()">Buscar</button>
     </div>
   </div>
@@ -196,60 +185,29 @@
     <h2 class="section-title">Propiedades Destacadas</h2>
     <div class="prop-grid" id="propGrid">
 
-      <!-- PROPIEDAD 1 -->
+      <!-- EJEMPLO PROPIEDAD -->
       <div class="prop-card"
         data-tipo="casa" data-operacion="venta" data-precio="2"
         data-titulo="Casa 4 Ambientes - Centro, Tres Arroyos"
         data-precio-text="$95.000.000"
         data-dorm="3" data-bano="2" data-amb="4" data-m2cub="200" data-m2tot="300"
-        data-desc="Hermosa casa ubicada en pleno centro. Cuenta con living comedor, cocina independiente, 3 dormitorios, 2 baños completos, lavadero y patio. Excelente estado general. Ideal para familia."
-        data-imgs='["https://images.unsplash.com/photo-1570129477492-45c003edd2be?q=80&w=2070","https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=2070","https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?q=80&w=2075"]'>
+        data-desc="Hermosa casa ubicada en pleno centro. Cuenta con living comedor, cocina independiente, 3 dormitorios, 2 baños completos, lavadero y patio. Excelente estado general."
+        data-imgs='["https://images.unsplash.com/photo-1570129477492-45c003edd2be?q=80&w=2070","https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=2070"]'>
         <div class="prop-img-wrapper">
           <span class="prop-tag">Venta</span>
           <div class="carousel">
             <img src="https://images.unsplash.com/photo-1570129477492-45c003edd2be?q=80&w=2070" class="active">
             <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=2070">
-            <img src="https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?q=80&w=2075">
           </div>
         </div>
         <div class="prop-info">
           <div class="prop-price">$95.000.000</div>
           <div class="prop-title">Casa 4 Ambientes - Centro, Tres Arroyos</div>
           <div class="prop-features">
-            <div class="feature-item"><svg viewBox="0 0 24 24"><path d="M12 3L2 12h3v8h14v-8h3L12 3zm7 15H5v-6.59l7-7 7 7V18z"/><path d="M7 10.19L12 5.5l5 4.69V18h-2v-6H9v6H7z"/></svg><span>3</span>Dorm</div>
-            <div class="feature-item"><svg viewBox="0 0 24 24"><path d="M7 2v2h10V2h2v2h1a2 2 0 0 1 2 2v3a7 7 0 0 1-7 7H9A7 7 0 0 1 2 9V6a2 2 0 0 1 2-2h1V2h2zm12 7v-3h-1v3a5 5 0 0 0 1 0zM4 9a5 5 0 0 0 5 5h6a5 5 0 0 0 5-5v-2H4v2zM9 16v2h2v-2H9zm4 0v2h2v-2h-2z"/></svg><span>2</span>Baño</div>
-            <div class="feature-item"><svg viewBox="0 0 24 24"><path d="M4 11h6v2H4zm10 0h6v2h-6zM4 15h6v2H4zm10 0h6v2h-6zM3 21h18v-2H3v2zM3 3v16h2V5h14v14h2V3H3z"/></svg><span>4</span>Amb</div>
-            <div class="feature-item"><svg viewBox="0 0 24 24"><path d="M19 9.3V4h-3v2.6L12 3 2 12h3v8h14v-8h3l-3-2.7zm-5.7h-4V8h4v2z"/></svg><span>200</span>m² Cub</div>
-            <div class="feature-item"><svg viewBox="0 0 24 24"><path d="M18.92 6.01C18.72 5.42 18.16 5 17.5 5h-11c-.66 0-1.21.42-1.42 1.01L3 12v8c0.55.45 1 1 1h1c.55 0 1-.45 1-1v-1h12v1c0.55.45 1 1 1h1c.55 0 1-.45 1-1v-8l-2.08-5.99zM6.5 16c-.83 0-1.5-.67-1.5-1.5S5.67 13 6.5 13s1.5.67 1.5 1.5S7.33 16 6.5 16zm11 0c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zM5 11l1.5-4.5h11L19 11H5z"/></svg><span>300</span>m² Tot</div>
-          </div>
-          <button class="btn-contact" onclick="openModal(this.parentElement.parentElement)">Ver Detalles</button>
-        </div>
-      </div>
-
-      <!-- PROPIEDAD 2 -->
-      <div class="prop-card"
-        data-tipo="depto" data-operacion="alquiler" data-precio="1"
-        data-titulo="Depto 2 Ambientes - Barrio Norte, Tres Arroyos"
-        data-precio-text="$280.000 / mes"
-        data-dorm="2" data-bano="1" data-amb="2" data-m2cub="60" data-m2tot="0"
-        data-desc="Departamento luminoso en 2do piso con ascensor. Living, cocina, 2 dormitorios y baño completo. Edificio con portero. Excelente ubicación cerca de todo."
-        data-imgs='["https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?q=80&w=2080","https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?q=80&w=2070"]'>
-        <div class="prop-img-wrapper">
-          <span class="prop-tag alquiler">Alquiler</span>
-          <div class="carousel">
-            <img src="https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?q=80&w=2080" class="active">
-            <img src="https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?q=80&w=2070">
-          </div>
-        </div>
-        <div class="prop-info">
-          <div class="prop-price">$280.000 / mes</div>
-          <div class="prop-title">Depto 2 Ambientes - Barrio Norte, Tres Arroyos</div>
-          <div class="prop-features">
-            <div class="feature-item"><svg viewBox="0 0 24 24"><path d="M12 3L2 12h3v8h14v-8h3L12 3zm7 15H5v-6.59l7-7 7 7V18z"/><path d="M7 10.19L12 5.5l5 4.69V18h-2v-6H9v6H7z"/></svg><span>2</span>Dorm</div>
-            <div class="feature-item"><svg viewBox="0 0 24 24"><path d="M7 2v2h10V2h2v2h1a2 2 0 0 1 2 2v3a7 7 0 0 1-7 7H9A7 7 0 0 1 2 9V6a2 2 0 0 1 2-2h1V2h2zm12 7v-3h-1v3a5 5 0 0 0 1 0zM4 9a5 5 0 0 0 5 5h6a5 5 0 0 0 5-5v-2H4v2zM9 16v2h2v-2H9zm4 0v2h2v-2h-2z"/></svg><span>1</span>Baño</div>
-            <div class="feature-item"><svg viewBox="0 0 24 24"><path d="M4 11h6v2H4zm10 0h6v2h-6zM4 15h6v2H4zm10 0h6v2h-6zM3 21h18v-2H3v2zM3 3v16h2V5h14v14h2V3H3z"/></svg><span>2</span>Amb</div>
-            <div class="feature-item"><svg viewBox="0 0 24 24"><path d="M19 9.3V4h-3v2.6L12 3 2 12h3v8h14v-8h3l-3-2.7zm-5.7h-4V8h4v2z"/></svg><span>60</span>m² Cub</div>
-            <div class="feature-item"><svg viewBox="0 0 24 24"><path d="M18.92 6.01C18.72 5.42 18.16 5 17.5 5h-11c-.66 0-1.21.42-1.42 1.01L3 12v8c0.55.45 1 1 1h1c.55 0 1-.45 1-1v-1h12v1c0.55.45 1 1 1h1c.55 0 1-.45 1-1v-8l-2.08-5.99zM6.5 16c-.83 0-1.5-.67-1.5-1.5S5.67 13 6.5 13s1.5.67 1.5 1.5S7.33 16 6.5 16zm11 0c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zM5 11l1.5-4.5h11L19 11H5z"/></svg><span>0</span>Coch</div>
+            <div class="feature-item"><svg viewBox="0 0 24 24"><path d="M12 3L2 12h3v8h14v-8h3L12 3z"/></svg><span>3</span>Dorm</div>
+            <div class="feature-item"><svg viewBox="0 0 24 24"><path d="M7 2v2h10V2h2v2h1a2 2 0 0 1 2 2v3a7 7 0 0 1-7 7H9A7 7 0 0 1 2 9V6a2 2 0 0 1 2-2h1V2h2z"/></svg><span>2</span>Baño</div>
+            <div class="feature-item"><svg viewBox="0 0 24 24"><path d="M4 11h6v2H4zm10 0h6v2h-6z"/></svg><span>4</span>Amb</div>
+            <div class="feature-item"><svg viewBox="0 0 24 24"><path d="M19 9.3V4h-3v2.6L12 3 2 12h3v8h14v-8h3z"/></svg><span>200</span>m²</div>
           </div>
           <button class="btn-contact" onclick="openModal(this.parentElement.parentElement)">Ver Detalles</button>
         </div>
@@ -258,55 +216,74 @@
     </div>
   </section>
 
-  <!-- MODAL -->
-  <div id="propModal" class="modal">
-    <div class="modal-content">
-      <span class="close" onclick="closeModal()">&times;</span>
-      <div class="modal-carousel" id="modalCarousel"></div>
-      <div class="modal-nav">
-        <button onclick="prevModalImg()">&#10094;</button>
-        <button onclick="nextModalImg()">&#10095;</button>
+  <!-- NOSOTROS -->
+  <section class="about" id="nosotros">
+    <h2 class="section-title">Quiénes Somos</h2>
+    <p class="section-subtitle">Profesionales dedicados a brindarte seguridad y confianza en cada operación inmobiliaria.</p>
+    <div class="about-content">
+      <div>
+        <p>Trabajamos con compromiso y transparencia para ayudarte a encontrar la propiedad ideal o vender la tuya de la mejor manera.</p>
+        <p style="margin-top:15px;">Te acompañamos en todo el proceso para que tu inversión sea exitosa.</p>
       </div>
-      <div class="modal-info">
-        <div class="modal-price" id="modalPrice"></div>
-        <div class="modal-title" id="modalTitle"></div>
-        <div class="modal-features" id="modalFeatures"></div>
-        <div class="modal-desc" id="modalDesc"></div>
-        <a href="https://wa.me/549XXXXXXXXXX" target="_blank" class="btn-whatsapp-modal">Consultar por WhatsApp</a>
-      </div>
+      <img src="https://images.unsplash.com/photo-1551836022-d5d88e9218df?q=80&w=2070" alt="Equipo ML">
     </div>
-  </div>
-
-  <section class="why-us" id="nosotros">
-    <h2 class="section-title" style="color:#FFF;">¿Por qué elegir ML - MAY Y LEO LABRUNÉE?</h2>
-    <div class="why-grid">
-      <div class="why-item"><h3>Asesoramiento Personalizado</h3><p>Te acompañamos en cada paso de tu inversión</p></div>
-      <div class="why-item"><h3>Propiedades Exclusivas</h3><p>Las mejores opciones en venta y alquiler</p></div>
-      <div class="why-item"><h3>Compromiso y Confianza</h3><p>Tu tranquilidad es nuestra prioridad</p></div>
+    <div class="mini-contact">
+      <h3>¿Tenés dudas? Hablemos</h3>
+      <a href="https://wa.me/549XXXXXXXXXX" target="_blank" class="btn">Escribinos por WhatsApp</a>
     </div>
   </section>
 
-  <section class="office" id="oficina">
-    <h2 class="section-title">Visitanos en Nuestra Oficina</h2>
-    <div class="office-grid">
+  <!-- COMO COMPRAR -->
+  <section id="comprar">
+    <h2 class="section-title">¿Cómo Comprar?</h2>
+    <p class="section-subtitle">En 3 pasos simples</p>
+    <div class="steps-grid">
+      <div class="step-card"><div class="step-number">1</div><h3>Contanos qué buscás</h3><p>Te asesoramos según tu presupuesto</p></div>
+      <div class="step-card"><div class="step-number">2</div><h3>Visitá las propiedades</h3><p>Coordinamos las visitas</p></div>
+      <div class="step-card"><div class="step-number">3</div><h3>Cerramos la operación</h3><p>Hasta la firma y entrega</p></div>
+    </div>
+    <div class="mini-contact">
+      <h3>¿Querés ver propiedades disponibles?</h3>
+      <a href="https://wa.me/549XXXXXXXXXX" target="_blank" class="btn">Consultar ahora</a>
+    </div>
+  </section>
+
+  <!-- COMO VENDER -->
+  <section id="vender" style="background:#FFF;">
+    <h2 class="section-title">¿Cómo Vender?</h2>
+    <p class="section-subtitle">Vende rápido y seguro</p>
+    <div class="steps-grid">
+      <div class="step-card"><div class="step-number">1</div><h3>Tasación Gratuita</h3><p>Valor real de tu propiedad</p></div>
+      <div class="step-card"><div class="step-number">2</div><h3>La publicamos</h3><p>En portales y redes</p></div>
+      <div class="step-card"><div class="step-number">3</div><h3>Vendemos</h3><p>Gestionamos todo el cierre</p></div>
+    </div>
+    <div class="mini-contact">
+      <h3>¿Querés tasar tu propiedad?</h3>
+      <a href="https://wa.me/549XXXXXXXXXX" target="_blank" class="btn">Tasación Gratis</a>
+    </div>
+  </section>
+
+  <!-- TASACIONES -->
+  <section id="tasaciones">
+    <h2 class="section-title">Tasaciones</h2>
+    <p class="section-subtitle">Análisis profesional y sin compromiso</p>
+    <div class="mini-contact" style="background:var(--dark);">
+      <h3>Solicitá tu tasación gratuita</h3>
+      <a href="https://wa.me/549XXXXXXXXXX" target="_blank" class="btn">Pedir Tasación</a>
+    </div>
+  </section>
+
+  <!-- CONTACTO -->
+  <section class="contact" id="contacto">
+    <h2 class="section-title">Contacto</h2>
+    <div class="contact-grid">
       <div class="office-info">
         <h3>ML - MAY Y LEO LABRUNÉE</h3>
-        <p>📍 Av. San Martín 123, Tres Arroyos, Buenos Aires</p>
+        <p>📍 Av. San Martín 123, Tres Arroyos</p>
         <p>📞 (02983) 43-XXXX</p>
         <p>✉️ contacto@mlabrunee.com</p>
-        <p>🕒 Lunes a Viernes: 9:00 a 18:00 hs<br>Sábados: 9:00 a 13:00 hs</p>
-        <a href="https://wa.me/549XXXXXXXXXX" target="_blank" class="btn-contact" style="background:var(--green);">Escribinos por WhatsApp</a>
+        <p>🕒 Lun a Vie: 9 a 18hs | Sáb: 9 a 13hs</p>
       </div>
-      <div class="map-container">
-        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3172.5!2d-60.275!3d-38.378!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMzhCsDIyJzQwLjgiUyA2MMKwMTYnMzAuMCJX!5e0!3m2!1ses!2sar!4v1234567890" allowfullscreen="" loading="lazy"></iframe>
-      </div>
-    </div>
-  </section>
-
-  <section class="contact" id="contacto">
-    <h2 class="section-title">Envianos tu Consulta</h2>
-    <div class="contact-grid">
-      <div><h3 style="margin-bottom:15px; color:var(--dark);">¿Querés tasar tu propiedad?</h3><p>Dejanos tus datos y un asesor de ML - MAY Y LEO LABRUNÉE se contacta con vos sin compromiso.</p></div>
       <form class="contact-form" onsubmit="alert('Consulta enviada! Te contactaremos.'); return false;">
         <input type="text" placeholder="Nombre" required>
         <input type="email" placeholder="Email" required>
@@ -318,6 +295,30 @@
   </section>
 
   <footer><p>© 2026 ML - MAY Y LEO LABRUNÉE. Todos los derechos reservados.</p></footer>
+
+  <!-- MODAL -->
+  <div id="propModal" class="modal">
+    <div class="modal-content">
+      <span class="close" onclick="closeModal()">&times;</span>
+      <div class="modal-carousel" id="modalCarousel"></div>
+      <div class="modal-nav"><button onclick="prevModalImg()">&#10094;</button><button onclick="nextModalImg()">&#10095;</button></div>
+      <div class="modal-info">
+        <div class="modal-price" id="modalPrice"></div>
+        <div class="modal-title" id="modalTitle"></div>
+        <div class="modal-features" id="modalFeatures"></div>
+        <div class="modal-desc" id="modalDesc"></div>
+        <a href="https://wa.me/549XXXXXXXXXX" target="_blank" class="btn-whatsapp-modal">Consultar por WhatsApp</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- BOTON WHATSAPP FLOTANTE CON TEXTO -->
+  <div class="whatsapp-container">
+    <div class="whatsapp-text">¿Querés saber más?</div>
+    <a href="https://wa.me/549XXXXXXXXXX" class="whatsapp-float" target="_blank">
+      <svg viewBox="0 0 24 24" width="32" height="32" fill="#FFF"><path d="M.057 24l1.687-6.163c-1.041-1.8-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.894 11.892-1.99-.001-3.959-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.284 1.592 5.471 0 10.042-4.484 10.017-9.964-.018-3.567-1.587-6.522-4.349-8.392-1.728-1.158-5.294-3.195-8.388-3.008-3.433.177-6.16 2.89-6.498 6.23-.209 1.89.1 3.643.8 5.311l-1.2 4.386 4.451-1.163z"/></svg>
+    </a>
+  </div>
 
   <script>
     let currentModalImgs = [];
@@ -380,29 +381,24 @@
       const modal = document.getElementById('propModal');
       currentModalImgs = JSON.parse(card.dataset.imgs);
       currentModalIndex = 0;
-
       document.getElementById('modalPrice').innerText = card.dataset.precioText;
       document.getElementById('modalTitle').innerText = card.dataset.titulo;
       document.getElementById('modalDesc').innerText = card.dataset.desc;
-
       document.getElementById('modalFeatures').innerHTML = `
-        <div class="feature-item"><svg viewBox="0 0 24 24"><path d="M12 3L2 12h3v8h14v-8h3L12 3zm7 15H5v-6.59l7-7 7 7V18z"/><path d="M7 10.19L12 5.5l5 4.69V18h-2v-6H9v6H7z"/></svg><span>${card.dataset.dorm}</span>Dorm</div>
-        <div class="feature-item"><svg viewBox="0 0 24 24"><path d="M7 2v2h10V2h2v2h1a2 2 0 0 1 2 2v3a7 7 0 0 1-7 7H9A7 7 0 0 1 2 9V6a2 2 0 0 1 2-2h1V2h2zm12 7v-3h-1v3a5 5 0 0 0 1 0zM4 9a5 5 0 0 0 5 5h6a5 5 0 0 0 5-5v-2H4v2zM9 16v2h2v-2H9zm4 0v2h2v-2h-2z"/></svg><span>${card.dataset.bano}</span>Baño</div>
-        <div class="feature-item"><svg viewBox="0 0 24 24"><path d="M4 11h6v2H4zm10 0h6v2h-6zM4 15h6v2H4zm10 0h6v2h-6zM3 21h18v-2H3v2zM3 3v16h2V5h14v14h2V3H3z"/></svg><span>${card.dataset.amb}</span>Amb</div>
-        <div class="feature-item"><svg viewBox="0 0 24 24"><path d="M19 9.3V4h-3v2.6L12 3 2 12h3v8h14v-8h3l-3-2.7zm-5.7h-4V8h4v2z"/></svg><span>${card.dataset.m2cub}</span>m² Cub</div>
-        <div class="feature-item"><svg viewBox="0 0 24 24"><path d="M18.92 6.01C18.72 5.42 18.16 5 17.5 5h-11c-.66 0-1.21.42-1.42 1.01L3 12v8c0.55.45 1 1 1h1c.55 0 1-.45 1-1v-1h12v1c0.55.45 1 1 1h1c.55 0 1-.45 1-1v-8l-2.08-5.99zM6.5 16c-.83 0-1.5-.67-1.5-1.5S5.67 13 6.5 13s1.5.67 1.5 1.5S7.33 16 6.5 16zm11 0c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zM5 11l1.5-4.5h11L19 11H5z"/></svg><span>${card.dataset.m2tot}</span>m² Tot</div>
+        <div class="feature-item"><svg viewBox="0 0 24 24"><path d="M12 3L2 12h3v8h14v-8h3L12 3z"/></svg><span>${card.dataset.dorm}</span>Dorm</div>
+        <div class="feature-item"><svg viewBox="0 0 24 24"><path d="M7 2v2h10V2h2v2h1a2 2 0 0 1 2 2v3a7 7 0 0 1-7 7H9A7 7 0 0 1 2 9V6a2 2 0 0 1 2-2h1V2h2z"/></svg><span>${card.dataset.bano}</span>Baño</div>
+        <div class="feature-item"><svg viewBox="0 0 24 24"><path d="M4 11h6v2H4zm10 0h6v2h-6z"/></svg><span>${card.dataset.amb}</span>Amb</div>
+        <div class="feature-item"><svg viewBox="0 0 24 24"><path d="M19 9.3V4h-3v2.6L12 3 2 12h3v8h14v-8h3z"/></svg><span>${card.dataset.m2cub}</span>m² Cub</div>
+        <div class="feature-item"><svg viewBox="0 0 24 24"><path d="M18.92 6.01C18.72 5.42 18.16 5 17.5 5h-11c-.66 0-1.21.42-1.42 1.01L3 12v8c0.55.45 1 1 1h1c.55 0 1-.45 1-1v-1h12v1c0.55.45 1 1 1h1c.55 0 1-.45 1-1v-8l-2.08-5.99z"/></svg><span>${card.dataset.m2tot}</span>m² Tot</div>
       `;
-
       renderModalCarousel();
       modal.style.display = "block";
       document.body.style.overflow = "hidden";
     }
-
     function closeModal() {
       document.getElementById('propModal').style.display = "none";
       document.body.style.overflow = "auto";
     }
-
     function renderModalCarousel() {
       const container = document.getElementById('modalCarousel');
       container.innerHTML = '';
@@ -413,38 +409,22 @@
         container.appendChild(img);
       });
     }
-
     function nextModalImg() {
       const imgs = document.querySelectorAll('#modalCarousel img');
       imgs[currentModalIndex].classList.remove('active');
       currentModalIndex = (currentModalIndex + 1) % currentModalImgs.length;
       imgs[currentModalIndex].classList.add('active');
     }
-
     function prevModalImg() {
       const imgs = document.querySelectorAll('#modalCarousel img');
       imgs[currentModalIndex].classList.remove('active');
       currentModalIndex = (currentModalIndex - 1 + currentModalImgs.length) % currentModalImgs.length;
       imgs[currentModalIndex].classList.add('active');
     }
-
-    // Cerrar modal clickeando afuera
     window.onclick = function(event) {
       const modal = document.getElementById('propModal');
-      if (event.target == modal) {
-        closeModal();
-      }
+      if (event.target == modal) closeModal();
     }
-
-    // Flechas del teclado
-    document.addEventListener('keydown', function(e) {
-      const modal = document.getElementById('propModal');
-      if(modal.style.display === "block") {
-        if(e.key === "ArrowRight") nextModalImg();
-        if(e.key === "ArrowLeft") prevModalImg();
-        if(e.key === "Escape") closeModal();
-      }
-    })
   </script>
 
 </body>
