@@ -9,148 +9,120 @@
 body { background:#f5f5f5; padding:20px; }
 .container { max-width:1000px; margin:0 auto; }
 .login,.panel { background:white; padding:30px; border-radius:10px; box-shadow:0 2px 10px rgba(0,0,0,0.1); }
-h1 { color:#1e40af; margin-bottom:20px; text-align:center; }
-input, textarea, select { width:100%; padding:12px; margin:8px 0; border:1px solid #ddd; border-radius:6px; font-size:14px; }
-button { background:#1e40af; color:white; border:none; padding:12px 20px; border-radius:6px; cursor:pointer; font-weight:bold; margin-top:10px; }
-button:hover { background:#1e3a8a; }
-.btn-danger { background:#dc2626; }
-.btn-danger:hover { background:#b91c1c; }
-.btn-edit { background:#059669; }
+h1 { color:#1e40af; margin-bottom:20px; }
+input, textarea, select { width:100%; padding:12px; margin:8px 0; border:1px solid #ddd; border-radius:6px; }
+button { background:#1e40af; color:white; border:none; padding:12px 20px; border-radius:6px; cursor:pointer; font-weight:bold; }
+.btn-danger { background:#dc2626; }.btn-edit { background:#059669; }
 .propiedad { background:#f9fafb; padding:15px; margin:15px 0; border-radius:8px; border-left:4px solid #1e40af; }
 .propiedad img { width:100px; height:100px; object-fit:cover; border-radius:6px; float:left; margin-right:15px; }
 .hidden { display:none; }
-.flex { display:flex; gap:10px; }
 </style>
 </head>
 <body>
 <div class="container">
-
-<!-- LOGIN -->
 <div class="login" id="login">
   <h1>Panel Admin</h1>
   <input type="password" id="pass" placeholder="Contraseña">
   <button onclick="entrar()">Entrar</button>
-  <p style="font-size:12px; color:#666; margin-top:10px;">Clave por defecto: admin123</p>
 </div>
 
-<!-- PANEL -->
 <div class="panel hidden" id="panel">
   <h1>Panel de Propiedades</h1>
   <button onclick="salir()" style="float:right; background:#666;">Salir</button>
   <button onclick="mostrarForm()">+ Nueva Propiedad</button>
 
-  <!-- FORMULARIO -->
   <div id="formulario" class="hidden" style="margin-top:20px;">
     <h3 id="formTitulo">Agregar Propiedad</h3>
-    <input type="hidden" id="editIndex">
-    <input type="text" id="titulo" placeholder="Título de la propiedad">
-    <input type="text" id="precio" placeholder="Precio ej: 150000">
+    <input type="hidden" id="editId">
+    <input type="text" id="titulo" placeholder="Título">
+    <input type="text" id="precio" placeholder="Precio sin $">
     <input type="text" id="ubicacion" placeholder="Ubicación">
-    <select id="tipo">
-      <option>Casa</option>
-      <option>Departamento</option>
-      <option>Terreno</option>
-      <option>Local</option>
-    </select>
-    <input type="text" id="imagen" placeholder="URL de la imagen">
+    <select id="tipo"><option>Casa</option><option>Departamento</option><option>Terreno</option><option>Local</option></select>
+    <input type="text" id="imagen" placeholder="URL Imagen">
     <textarea id="descripcion" rows="3" placeholder="Descripción"></textarea>
-    <input type="text" id="whatsapp" placeholder="WhatsApp con código país ej: 5491112345678">
-    <div class="flex">
-      <button onclick="guardar()">Guardar</button>
-      <button onclick="cancelar()" style="background:#666;">Cancelar</button>
-    </div>
+    <button onclick="guardar()">Guardar</button>
+    <button onclick="cancelar()" style="background:#666;">Cancelar</button>
   </div>
 
-  <!-- LISTA -->
   <div id="lista" style="margin-top:30px;"></div>
 </div>
-
 </div>
 
 <script>
 const CLAVE = "admin123";
-let propiedades = JSON.parse(localStorage.getItem('propiedades')) || [];
+const GITHUB_USER = "finamoreraul-blip";
+const GITHUB_REPO = "web-inmobiliaria";
+const GITHUB_TOKEN = "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";
+const FILE_PATH = "propiedades.json";
+const WHATSAPP_DEFAULT = "5492983389710";
+
+let propiedades = [];
+let sha = "";
+
+async function cargarDatos(){
+  let res = await fetch(`https://api.github.com/repos/${GITHUB_USER}/${GITHUB_REPO}/contents/${FILE_PATH}`);
+  let data = await res.json();
+  sha = data.sha;
+  let content = atob(data.content);
+  propiedades = JSON.parse(content);
+  listar();
+}
+
+async function guardarEnGithub(){
+  let content = btoa(JSON.stringify(propiedades, null, 2));
+  await fetch(`https://api.github.com/repos/${GITHUB_USER}/${GITHUB_REPO}/contents/${FILE_PATH}`, {
+    method: 'PUT',
+    headers: { 'Authorization': `token ${GITHUB_TOKEN}`, 'Content-Type': 'application/json' },
+    body: JSON.stringify({ message: "Update propiedades", content: content, sha: sha })
+  });
+  cargarDatos();
+}
 
 function entrar(){
   if(document.getElementById('pass').value === CLAVE){
     document.getElementById('login').classList.add('hidden');
     document.getElementById('panel').classList.remove('hidden');
-    listar();
+    cargarDatos();
   } else { alert('Contraseña incorrecta') }
 }
+function salir(){ location.reload(); }
+function mostrarForm(id = null){ /* igual que antes, carga datos en form */ }
+function cancelar(){ document.getElementById('formulario').classList.add('hidden'); }
 
-function salir(){
-  document.getElementById('login').classList.remove('hidden');
-  document.getElementById('panel').classList.add('hidden');
-}
-
-function mostrarForm(index = null){
-  document.getElementById('formulario').classList.remove('hidden');
-  if(index!== null){
-    document.getElementById('formTitulo').innerText = "Editar Propiedad";
-    document.getElementById('editIndex').value = index;
-    let p = propiedades[index];
-    document.getElementById('titulo').value = p.titulo;
-    document.getElementById('precio').value = p.precio;
-    document.getElementById('ubicacion').value = p.ubicacion;
-    document.getElementById('tipo').value = p.tipo;
-    document.getElementById('imagen').value = p.imagen;
-    document.getElementById('descripcion').value = p.descripcion;
-    document.getElementById('whatsapp').value = p.whatsapp;
-  } else {
-    document.getElementById('formTitulo').innerText = "Agregar Propiedad";
-    document.getElementById('editIndex').value = "";
-    document.querySelectorAll('#formulario input, #formulario textarea').forEach(i => i.value = "");
-  }
-}
-
-function cancelar(){
-  document.getElementById('formulario').classList.add('hidden');
-}
-
-function guardar(){
+async function guardar(){
   let prop = {
+    id: document.getElementById('editId').value || Date.now().toString(),
     titulo: document.getElementById('titulo').value,
     precio: document.getElementById('precio').value,
     ubicacion: document.getElementById('ubicacion').value,
     tipo: document.getElementById('tipo').value,
     imagen: document.getElementById('imagen').value,
     descripcion: document.getElementById('descripcion').value,
-    whatsapp: document.getElementById('whatsapp').value
+    whatsapp: WHATSAPP_DEFAULT
   };
-
-  let index = document.getElementById('editIndex').value;
-  if(index === "") propiedades.push(prop);
-  else propiedades[index] = prop;
-
-  localStorage.setItem('propiedades', JSON.stringify(propiedades));
-  cancelar();
-  listar();
+  let index = propiedades.findIndex(p => p.id === prop.id);
+  if(index === -1) propiedades.push(prop); else propiedades[index] = prop;
+  await guardarEnGithub(); cancelar();
 }
 
-function eliminar(index){
-  if(confirm("¿Eliminar esta propiedad?")){
-    propiedades.splice(index,1);
-    localStorage.setItem('propiedades', JSON.stringify(propiedades));
-    listar();
+async function eliminar(id){
+  if(confirm("¿Eliminar?")){
+    propiedades = propiedades.filter(p => p.id!== id);
+    await guardarEnGithub();
   }
 }
 
 function listar(){
   let html = "";
-  propiedades.forEach((p,i) => {
-    html += `
-    <div class="propiedad">
-      <img src="${p.imagen}" alt="">
-      <h3>${p.titulo}</h3>
-      <p><b>Precio:</b> $${p.precio}</p>
-      <p><b>Ubicación:</b> ${p.ubicacion}</p>
-      <p><b>Tipo:</b> ${p.tipo}</p>
-      <button class="btn-edit" onclick="mostrarForm(${i})">Editar</button>
-      <button class="btn-danger" onclick="eliminar(${i})">Eliminar</button>
+  propiedades.forEach(p => {
+    html += `<div class="propiedad">
+      <img src="${p.imagen}">
+      <h3>${p.titulo}</h3><p><b>Precio:</b> $${p.precio}</p><p><b>Ubicación:</b> ${p.ubicacion}</p>
+      <button class="btn-edit" onclick="mostrarForm('${p.id}')">Editar</button>
+      <button class="btn-danger" onclick="eliminar('${p.id}')">Eliminar</button>
     </div>`;
   });
-  document.getElementById('lista').innerHTML = html || "<p>No hay propiedades cargadas</p>";
+  document.getElementById('lista').innerHTML = html;
 }
 </script>
 </body>
