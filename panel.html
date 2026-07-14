@@ -3,52 +3,97 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Panel Admin - Inmobiliaria</title>
+<title>Panel Admin - ML Inmobiliaria</title>
 <style>
-* { margin:0; padding:0; box-sizing:border-box; font-family: Arial, sans-serif; }
+* { margin:0; padding:0; box-sizing:border-box; font-family: 'Montserrat', sans-serif; }
 body { background:#f5f5f5; padding:20px; }
-.container { max-width:1000px; margin:0 auto; }
+.container { max-width:1200px; margin:0 auto; }
 .login,.panel { background:white; padding:30px; border-radius:10px; box-shadow:0 2px 10px rgba(0,0,0,0.1); }
-h1 { color:#1e40af; margin-bottom:20px; }
-input, textarea, select { width:100%; padding:12px; margin:8px 0; border:1px solid #ddd; border-radius:6px; }
-button { background:#1e40af; color:white; border:none; padding:12px 20px; border-radius:6px; cursor:pointer; font-weight:bold; }
-.btn-danger { background:#dc2626; }.btn-edit { background:#059669; }
-.propiedad { background:#f9fafb; padding:15px; margin:15px 0; border-radius:8px; border-left:4px solid #1e40af; }
-.propiedad img { width:100px; height:100px; object-fit:cover; border-radius:6px; float:left; margin-right:15px; }
+h1 { color:#C62828; margin-bottom:20px; text-align:center; }
+input, textarea, select { width:100%; padding:12px; margin:8px 0; border:1px solid #ddd; border-radius:6px; font-size:14px; }
+button { background:#C62828; color:white; border:none; padding:12px 20px; border-radius:6px; cursor:pointer; font-weight:bold; margin:5px 0; }
+button:hover { background:#8E0000; }
+.btn-danger { background:#dc2626; }
+.btn-danger:hover { background:#b91c1c; }
+.btn-edit { background:#059669; }
+.propiedad { background:#f9fafb; padding:15px; margin:15px 0; border-radius:8px; border-left:4px solid #C62828; overflow:hidden; }
+.propiedad img { width:120px; height:120px; object-fit:cover; border-radius:6px; float:left; margin-right:15px; }
 .hidden { display:none; }
+.flex { display:flex; gap:10px; }
+.grid-2 { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
 </style>
 </head>
 <body>
 <div class="container">
+
+<!-- LOGIN -->
 <div class="login" id="login">
-  <h1>Panel Admin</h1>
+  <h1>Panel Admin ML</h1>
   <input type="password" id="pass" placeholder="Contraseña">
   <button onclick="entrar()">Entrar</button>
+  <p style="font-size:12px; color:#666; margin-top:10px;">Clave por defecto: admin123</p>
 </div>
 
+<!-- PANEL -->
 <div class="panel hidden" id="panel">
   <h1>Panel de Propiedades</h1>
   <button onclick="salir()" style="float:right; background:#666;">Salir</button>
   <button onclick="mostrarForm()">+ Nueva Propiedad</button>
 
-  <div id="formulario" class="hidden" style="margin-top:20px;">
+  <!-- FORMULARIO -->
+  <div id="formulario" class="hidden" style="margin-top:20px; border-top:2px solid #eee; padding-top:20px;">
     <h3 id="formTitulo">Agregar Propiedad</h3>
     <input type="hidden" id="editId">
-    <input type="text" id="titulo" placeholder="Título">
-    <input type="text" id="precio" placeholder="Precio sin $">
-    <input type="text" id="ubicacion" placeholder="Ubicación">
-    <select id="tipo"><option>Casa</option><option>Departamento</option><option>Terreno</option><option>Local</option></select>
-    <input type="text" id="imagen" placeholder="URL Imagen">
-    <textarea id="descripcion" rows="3" placeholder="Descripción"></textarea>
-    <button onclick="guardar()">Guardar</button>
-    <button onclick="cancelar()" style="background:#666;">Cancelar</button>
+    <input type="text" id="titulo" placeholder="Título: Ej: Casa 3 Dormitorios Centro">
+    
+    <div class="grid-2">
+      <select id="tipo">
+        <option value="">Tipo de Propiedad</option>
+        <option value="casa">Casa</option>
+        <option value="depto">Departamento</option>
+        <option value="local">Local</option>
+        <option value="terreno">Terreno</option>
+      </select>
+      <select id="operacion">
+        <option value="">Operación</option>
+        <option value="venta">Venta</option>
+        <option value="alquiler">Alquiler</option>
+      </select>
+    </div>
+
+    <div class="grid-2">
+      <input type="text" id="precio" placeholder="Precio sin $ ni puntos: 95000000">
+      <input type="text" id="ubicacion" placeholder="Ubicación: Barrio Centro">
+    </div>
+
+    <div class="grid-2">
+      <input type="number" id="dorm" placeholder="Dormitorios">
+      <input type="number" id="bano" placeholder="Baños">
+    </div>
+
+    <div class="grid-2">
+      <input type="number" id="amb" placeholder="Ambientes">
+      <input type="number" id="m2cub" placeholder="m2 Cubiertos">
+    </div>
+
+    <input type="text" id="imagen" placeholder="URL de la imagen principal">
+    <textarea id="descripcion" rows="4" placeholder="Descripción completa de la propiedad"></textarea>
+    <input type="text" id="whatsapp" placeholder="WhatsApp: 5492983389710" value="5492983389710">
+    
+    <div class="flex">
+      <button onclick="guardar()">Guardar</button>
+      <button onclick="cancelar()" style="background:#666;">Cancelar</button>
+    </div>
   </div>
 
+  <!-- LISTA -->
   <div id="lista" style="margin-top:30px;"></div>
 </div>
+
 </div>
 
 <script>
+// CONFIG
 const CLAVE = "admin123";
 const GITHUB_USER = "finamoreraul-blip";
 const GITHUB_REPO = "web-inmobiliaria";
@@ -60,21 +105,25 @@ let propiedades = [];
 let sha = "";
 
 async function cargarDatos(){
-  let res = await fetch(`https://api.github.com/repos/${GITHUB_USER}/${GITHUB_REPO}/contents/${FILE_PATH}`);
-  let data = await res.json();
-  sha = data.sha;
-  let content = atob(data.content);
-  propiedades = JSON.parse(content);
-  listar();
+  try{
+    let res = await fetch(`https://api.github.com/repos/${GITHUB_USER}/${GITHUB_REPO}/contents/${FILE_PATH}`);
+    let data = await res.json();
+    sha = data.sha;
+    let content = atob(data.content);
+    propiedades = JSON.parse(content);
+    listar();
+  } catch(e){ alert("Error al cargar: " + e) }
 }
 
 async function guardarEnGithub(){
   let content = btoa(JSON.stringify(propiedades, null, 2));
-  await fetch(`https://api.github.com/repos/${GITHUB_USER}/${GITHUB_REPO}/contents/${FILE_PATH}`, {
+  let res = await fetch(`https://api.github.com/repos/${GITHUB_USER}/${GITHUB_REPO}/contents/${FILE_PATH}`, {
     method: 'PUT',
     headers: { 'Authorization': `token ${GITHUB_TOKEN}`, 'Content-Type': 'application/json' },
-    body: JSON.stringify({ message: "Update propiedades", content: content, sha: sha })
+    body: JSON.stringify({ message: "Update propiedades desde panel", content: content, sha: sha })
   });
+  let data = await res.json();
+  sha = data.content.sha;
   cargarDatos();
 }
 
@@ -85,29 +134,67 @@ function entrar(){
     cargarDatos();
   } else { alert('Contraseña incorrecta') }
 }
+
 function salir(){ location.reload(); }
-function mostrarForm(id = null){ /* igual que antes, carga datos en form */ }
+
+function mostrarForm(id = null){
+  document.getElementById('formulario').classList.remove('hidden');
+  if(id){
+    document.getElementById('formTitulo').innerText = "Editar Propiedad";
+    let p = propiedades.find(x => x.id === id);
+    document.getElementById('editId').value = p.id;
+    document.getElementById('titulo').value = p.titulo;
+    document.getElementById('tipo').value = p.tipo;
+    document.getElementById('operacion').value = p.operacion;
+    document.getElementById('precio').value = p.precio;
+    document.getElementById('ubicacion').value = p.ubicacion;
+    document.getElementById('dorm').value = p.dorm || '';
+    document.getElementById('bano').value = p.bano || '';
+    document.getElementById('amb').value = p.amb || '';
+    document.getElementById('m2cub').value = p.m2cub || '';
+    document.getElementById('imagen').value = p.imagen;
+    document.getElementById('descripcion').value = p.descripcion;
+    document.getElementById('whatsapp').value = p.whatsapp || WHATSAPP_DEFAULT;
+  } else {
+    document.getElementById('formTitulo').innerText = "Agregar Propiedad";
+    document.getElementById('editId').value = "";
+    document.querySelectorAll('#formulario input, #formulario textarea, #formulario select').forEach(i => {
+      if(i.id !== 'whatsapp') i.value = "";
+    });
+  }
+}
+
 function cancelar(){ document.getElementById('formulario').classList.add('hidden'); }
 
 async function guardar(){
   let prop = {
     id: document.getElementById('editId').value || Date.now().toString(),
     titulo: document.getElementById('titulo').value,
+    tipo: document.getElementById('tipo').value,
+    operacion: document.getElementById('operacion').value,
     precio: document.getElementById('precio').value,
     ubicacion: document.getElementById('ubicacion').value,
-    tipo: document.getElementById('tipo').value,
+    dorm: document.getElementById('dorm').value,
+    bano: document.getElementById('bano').value,
+    amb: document.getElementById('amb').value,
+    m2cub: document.getElementById('m2cub').value,
     imagen: document.getElementById('imagen').value,
     descripcion: document.getElementById('descripcion').value,
-    whatsapp: WHATSAPP_DEFAULT
+    whatsapp: document.getElementById('whatsapp').value || WHATSAPP_DEFAULT
   };
+
   let index = propiedades.findIndex(p => p.id === prop.id);
-  if(index === -1) propiedades.push(prop); else propiedades[index] = prop;
-  await guardarEnGithub(); cancelar();
+  if(index === -1) propiedades.push(prop);
+  else propiedades[index] = prop;
+
+  await guardarEnGithub(); 
+  cancelar();
+  alert("Guardado! En 30 seg aparece en la web");
 }
 
 async function eliminar(id){
-  if(confirm("¿Eliminar?")){
-    propiedades = propiedades.filter(p => p.id!== id);
+  if(confirm("¿Eliminar esta propiedad?")){
+    propiedades = propiedades.filter(p => p.id !== id);
     await guardarEnGithub();
   }
 }
@@ -116,13 +203,15 @@ function listar(){
   let html = "";
   propiedades.forEach(p => {
     html += `<div class="propiedad">
-      <img src="${p.imagen}">
-      <h3>${p.titulo}</h3><p><b>Precio:</b> $${p.precio}</p><p><b>Ubicación:</b> ${p.ubicacion}</p>
+      <img src="${p.imagen}" alt="">
+      <h3>${p.titulo}</h3>
+      <p><b>Tipo:</b> ${p.tipo} | <b>Operación:</b> ${p.operacion}</p>
+      <p><b>Precio:</b> $${p.precio} | <b>Ubicación:</b> ${p.ubicacion}</p>
       <button class="btn-edit" onclick="mostrarForm('${p.id}')">Editar</button>
       <button class="btn-danger" onclick="eliminar('${p.id}')">Eliminar</button>
     </div>`;
   });
-  document.getElementById('lista').innerHTML = html;
+  document.getElementById('lista').innerHTML = html || "<p>No hay propiedades cargadas</p>";
 }
 </script>
 </body>
