@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Miqueleiz Inmobiliaria | Venta y Alquiler en Tres Arroyos</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #0A2540;
+      --secondary: #D4AF37;
+      --green: #25D366;
+      --bg: #F8F9FA;
+      --text: #333;
+      --text-light: #666;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Montserrat', sans-serif; }
+    body { background: var(--bg); color: var(--text); }
+    a { text-decoration: none; color: inherit; }
+
+    header {
+      background: #FFF;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    .navbar {
+      max-width: 1300px;
+      margin: auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 15px 20px;
+    }
+    .logo {
+      font-size: 26px;
+      font-weight: 900;
+      color: var(--primary);
+    }
+    .logo span { color: var(--secondary); }
+    .nav-links { display: flex; gap: 25px; font-weight: 600; }
+    .btn-whatsapp {
+      background: var(--green);
+      color: #FFF;
+      padding: 12px 20px;
+      border-radius: 8px;
+      font-weight: 700;
+    }
+
+    .hero {
+      background: linear-gradient(rgba(10,37,64,0.7), rgba(10,37,64,0.7)), url('https://images.unsplash.com/photo-1564013799919-ab600027ffc6?q=80&w=2070') center/cover;
+      color: #FFF;
+      text-align: center;
+      padding: 120px 20px;
+    }
+    .hero h1 { font-size: 48px; font-weight: 900; margin-bottom: 15px; }
+    .hero p { font-size: 18px; margin-bottom: 30px; }
+    .search-box {
+      max-width: 900px;
+      margin: auto;
+      background: #FFF;
+      padding: 20px;
+      border-radius: 12px;
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr 1fr auto;
+      gap: 10px;
+    }
+    .search-box input, .search-box select {
+      padding: 14px;
+      border: 1px solid #DDD;
+      border-radius: 8px;
+      font-size: 15px;
+    }
+    .btn-search {
+      background: var(--secondary);
+      color: #000;
+      border: none;
+      padding: 14px 25px;
+      border-radius: 8px;
+      font-weight: 900;
+      cursor: pointer;
+    }
+
+    section { max-width: 1300px; margin: auto; padding: 60px 20px; }
+    .section-title { font-size: 32px; font-weight: 900; text-align: center; margin-bottom: 40px; color: var(--primary); }
+    .prop-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 30px;
+    }
+    .prop-card {
+      background: #FFF;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+      transition: 0.3s;
+    }
+    .prop-card:hover { transform: translateY(-5px); }
+    .prop-card img { width: 100%; height: 240px; object-fit: cover; }
+    .prop-tag {
+      position: absolute;
+      background: var(--secondary);
+      color: #000;
+      padding: 5px 12px;
+      border-radius: 5px;
+      font-weight: 700;
+      font-size: 12px;
+      margin: 15px;
+    }
+    .prop-info { padding: 20px; }
+    .prop-price { font-size: 26px; font-weight: 900; color: var(--primary); margin-bottom: 8px; }
+    .prop-title { font-size: 18px; font-weight: 700; margin-bottom: 10px; }
+    .prop-features { display: flex; gap: 15px; color: var(--text-light); font-size: 14px; margin-bottom: 15px; }
+    .btn-contact {
+      background: var(--primary);
+      color: #FFF;
+      padding: 12px;
+      border-radius: 8px;
+      text-align: center;
+      font-weight: 700;
+      display: block;
+    }
+
+    .why-us {
+      background: var(--primary);
+      color: #FFF;
+      text-align: center;
+    }
+    .why-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 30px;
+      margin-top: 40px;
+    }
+    .why-item { padding: 20px; }
+    .why-item h3 { font-size: 20px; margin-bottom: 10px; color: var(--secondary); }
+
+    /* SECCION OFICINA */
+    .office {
+      background: #FFF;
+    }
+    .office-grid {
+      display: grid;
+      grid-template-columns: 1fr 1.5fr;
+      gap: 40px;
+      align-items: center;
+    }
+    .office-info h3 { font-size: 24px; color: var(--primary); margin-bottom: 15px; }
+    .office-info p { margin-bottom: 12px; font-size: 16px; }
+    .office-info .icon { color: var(--secondary); font-weight: 700; }
+    .map-container {
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    }
+    .map-container iframe {
+      width: 100%;
+      height: 350px;
+      border: 0;
+    }
+
+    .contact {
+      background: var(--bg);
+    }
+    .contact-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 40px;
+    }
+    .contact-form input, .contact-form textarea {
+      width: 100%;
+      padding: 14px;
+      margin-bottom: 15px;
+      border: 1px solid #DDD;
+      border-radius: 8px;
+    }
+    .btn-send {
+      background: var(--secondary);
+      color: #000;
+      border: none;
+      padding: 15px;
+      width: 100%;
+      border-radius: 8px;
+      font-weight: 900;
+      cursor: pointer;
+    }
+
+    footer {
+      background: var(--primary);
+      color: #FFF;
+      text-align: center;
+      padding: 30px 20px;
+    }
+
+    @media(max-width: 768px) {
+      .nav-links { display: none; }
+      .hero h1 { font-size: 32px; }
+      .search-box { grid-template-columns: 1fr; }
+      .why-grid, .contact-grid, .office-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="navbar">
+      <div class="logo">MIQUELEIZ <span>INMOBILIARIA</span></div>
+      <div class="nav-links">
+        <a href="#propiedades">Propiedades</a>
+        <a href="#nosotros">Nosotros</a>
+        <a href="#oficina">Oficina</a>
+        <a href="#contacto">Contacto</a>
+      </div>
+      <a href="https://wa.me/549XXXXXXXXXX" target="_blank" class="btn-whatsapp">WhatsApp</a>
+    </div>
+  </header>
+
+  <div class="hero">
+    <h1>Encontrá tu próximo hogar</h1>
+    <p>Más de 20 años acompañando familias en Tres Arroyos</p>
+    <div class="search-box">
+      <input type="text" id="searchInput" placeholder="Buscar por barrio, calle o palabra clave">
+      <select id="searchTipo">
+        <option value="all">Tipo</option>
+        <option value="casa">Casa</option>
+        <option value="depto">Departamento</option>
+        <option value="local">Local</option>
+        <option value="campo">Campo</option>
+      </select>
+      <select id="searchOperacion">
+        <option value="all">Operación</option>
+        <option value="venta">Venta</option>
+        <option value="alquiler">Alquiler</option>
+      </select>
+      <select id="searchPrecio">
+        <option value="all">Precio</option>
+        <option value="1">Hasta $50.000.000</option>
+        <option value="2">Hasta $100.000.000</option>
+      </select>
+      <button class="btn-search" onclick="filtrarProps()">Buscar</button>
+    </div>
+  </div>
+
+  <section id="propiedades">
+    <h2 class="section-title">Propiedades Destacadas</h2>
+    <div class="prop-grid" id="propGrid">
+      
+      <div class="prop-card" data-tipo="casa" data-operacion="venta" data-precio="2">
+        <div style="position:relative;">
+          <span class="prop-tag">VENTA</span>
+          <img src="https://images.unsplash.com/photo-1570129477492-45c003edd2be?q=80&w=2070" alt="Casa">
+        </div>
+        <div class="prop-info">
+          <div class="prop-price">$95.000.000</div>
+          <div class="prop-title">Casa 4 ambientes - Centro</div>
+          <div class="prop-features">3 Dorm · 2 Baños · 200m²</div>
+          <a href="https://wa.me/549XXXXXXXXXX?text=Hola! Me interesa la Casa de 4 ambientes" target="_blank" class="btn-contact">Consultar por WhatsApp</a>
+        </div>
+      </div>
+
+      <div class="prop-card" data-tipo="depto" data-operacion="alquiler" data-precio="1">
+        <div style="position:relative;">
+          <span class="prop-tag" style="background:var(--primary); color:#FFF;">ALQUILER</span>
+          <img src="https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?q=80&w=2080" alt="Depto">
+        </div>
+        <div class="prop-info">
+          <div class="prop-price">$280.000 / mes</div>
+          <div class="prop-title">Depto 2 ambientes - Barrio Norte</div>
+          <div class="prop-features">2 Dorm · 1 Baño · 60m²</div>
+          <a href="https://wa.me/549XXXXXXXXXX?text=Hola! Me interesa el Depto de 2 ambientes" target="_blank" class="btn-contact">Consultar por WhatsApp</a>
+        </div>
+      </div>
+
+      <div class="prop-card" data-tipo="local" data-operacion="venta" data-precio="2">
+        <div style="position:relative;">
+          <span class="prop-tag">VENTA</span>
+          <img src="https://images.unsplash.com/photo-1497366811353-6870744d04b2?q=80&w=2069" alt="Local">
+        </div>
+        <div class="prop-info">
+          <div class="prop-price">$120.000.000</div>
+          <div class="prop-title">Local Comercial - Av. San Martín</div>
+          <div class="prop-features">Vitrina · Baño · 80m²</div>
+          <a href="https://wa.me/549XXXXXXXXXX?text=Hola! Me interesa el Local Comercial" target="_blank" class="btn-contact">Consultar por WhatsApp</a>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <section class="why-us" id="nosotros">
+    <h2 class="section-title" style="color:#FFF;">¿Por qué elegir Miqueleiz?</h2>
+    <div class="why-grid">
+      <div class="why-item">
+        <h3>20+ Años de Trayectoria</h3>
+        <p>La inmobiliaria de mayor confianza en Tres Arroyos</p>
+      </div>
+      <div class="why-item">
+        <h3>Asesoramiento Integral</h3>
+        <p>Te acompañamos en todo el proceso de compra y venta</p>
+      </div>
+      <div class="why-item">
+        <h3>Mayor Cartera de Propiedades</h3>
+        <p>Las mejores opciones en casas, deptos y campos</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- NUEVA SECCION OFICINA -->
+  <section class="office" id="oficina">
+    <h2 class="section-title">Visitanos en Nuestra Oficina</h2>
+    <div class="office-grid">
+      <div class="office-info">
+        <h3>Miqueleiz Inmobiliaria</h3>
+        <p><span class="icon">📍</span> Av. San Martín 123, Tres Arroyos, Buenos Aires</p>
+        <p><span class="icon">📞</span> (02983) 43-XXXX</p>
+        <p><span class="icon">✉️</span> contacto@miqueleizinmobiliaria.com</p>
+        <p><span class="icon">🕒</span> Lunes a Viernes: 9:00 a 18:00 hs<br>Sábados: 9:00 a 13:00 hs</p>
+        <a href="https://wa.me/549XXXXXXXXXX" target="_blank" class="btn-contact" style="margin-top:15px; background:var(--green);">Escribinos por WhatsApp</a>
+      </div>
+      <div class="map-container">
+        <!-- CAMBIA LA DIRECCION EN EL SRC POR LA REAL DE MIQUELEIZ -->
+        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3172.5!2d-60.275!3d-38.378!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMzhCsDIyJzQwLjgiUyA2MMKwMTYnMzAuMCJX!5e0!3m2!1ses!2sar!4v1234567890" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+      </div>
+    </div>
+  </section>
+
+  <section class="contact" id="contacto">
+    <h2 class="section-title">Envianos tu Consulta</h2>
+    <div class="contact-grid">
+      <div>
+        <h3 style="margin-bottom:15px; color:var(--primary);">¿Querés tasar tu propiedad?</h3>
+        <p>Dejanos tus datos y un asesor de Miqueleiz se contacta con vos sin compromiso.</p>
+      </div>
+      <form class="contact-form" onsubmit="alert('Consulta enviada! Te contactaremos.'); return false;">
+        <input type="text" placeholder="Nombre" required>
+        <input type="email" placeholder="Email" required>
+        <input type="tel" placeholder="Teléfono">
+        <textarea rows="4" placeholder="Mensaje" required></textarea>
+        <button class="btn-send">ENVIAR CONSULTA</button>
+      </form>
+    </div>
+  </section>
+
+  <footer>
+    <p>© 2026 Miqueleiz Inmobiliaria. Todos los derechos reservados.</p>
+  </footer>
+
+  <script>
+    function filtrarProps() {
+      const tipo = document.getElementById('searchTipo').value;
+      const operacion = document.getElementById('searchOperacion').value;
+      const precio = document.getElementById('searchPrecio').value;
+      const texto = document.getElementById('searchInput').value.toLowerCase();
+      const cards = document.querySelectorAll('.prop-card');
+
+      cards.forEach(card => {
+        let show = true;
+        if(tipo !== 'all' && card.dataset.tipo !== tipo) show = false;
+        if(operacion !== 'all' && card.dataset.operacion !== operacion) show = false;
+        if(precio !== 'all' && card.dataset.precio !== precio) show = false;
+        if(texto && !card.querySelector('.prop-title').textContent.toLowerCase().includes(texto)) show = false;
+        
+        card.style.display = show ? 'block' : 'none';
+      });
+    }
+  </script>
+
+</body>
+</html>
