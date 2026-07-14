@@ -1,0 +1,22 @@
+[
+  {
+    "id": "1",
+    "titulo": "Casa 3 Dormitorios Centro",
+    "precio": "185000",
+    "ubicacion": "Tres Arroyos, Bs As",
+    "tipo": "Casa",
+    "imagen": "https://images.pexels.com/photos/1396122/pexels-photo-1396122.jpeg",
+    "descripcion": "Hermosa casa con patio, 2 baños y cochera. A 3 cuadras de la plaza.",
+    "whatsapp": "5492983389710"
+  },
+  {
+    "id": "2",
+    "titulo": "Departamento a Estrenar",
+    "precio": "120000",
+    "ubicacion": "Tres Arroyos, Bs As",
+    "tipo": "Departamento",
+    "imagen": "https://images.pexels.com/photos/1571460/pexels-photo-1571460.jpeg",
+    "descripcion": "1 dormitorio, amenities, seguridad 24hs. Listo para mudarse.",
+    "whatsapp": "5492983389710"
+  }
+]
