@@ -20,21 +20,18 @@
     a { text-decoration: none; color: inherit; }
 .hidden-section { display: none!important; }
 
-    /* HEADER FROST */
-    header { position: fixed; top: 0; width: 100%; z-index: 100; background: transparent; transition: 0.3s; }
-    header.scrolled { background: #FFF; box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
-    .navbar { max-width: 1400px; margin: auto; display: flex; justify-content: space-between; align-items: center; padding: 25px 40px; }
-    .logo { font-size: 26px; font-weight: 900; color: #FFF; letter-spacing: 3px; cursor: pointer; }
-    header.scrolled .logo { color: var(--primary); }
-    .logo span { font-weight: 300; font-size: 14px; letter-spacing: 1px; }
-    .nav-links { display: flex; gap: 35px; font-weight: 600; font-size: 14px; }
-    .nav-links a { color: #FFF; cursor: pointer; }
-    header.scrolled .nav-links a { color: var(--dark); }
-    .nav-links a:hover { color: var(--primary); }
+    /* HEADER NEGRO FIJO */
+    header { position: fixed; top: 0; width: 100%; z-index: 100; background: var(--dark); box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+    .navbar { max-width: 1400px; margin: auto; display: flex; justify-content: space-between; align-items: center; padding: 18px 40px; }
+    .logo { font-size: 24px; font-weight: 900; color: #FFF; letter-spacing: 3px; cursor: pointer; display: flex; align-items: center; gap: 8px; }
+    .logo span { font-weight: 300; font-size: 13px; letter-spacing: 1px; opacity: 0.8; }
+    .nav-links { display: flex; gap: 30px; font-weight: 600; font-size: 14px; }
+    .nav-links a { color: #FFF; cursor: pointer; opacity: 0.9; }
+    .nav-links a:hover { color: var(--primary); opacity: 1; }
     .btn-whatsapp { background: var(--green); color: #FFF; padding: 10px 20px; font-weight: 700; font-size: 13px; }
 
-    /* HERO FROST */
-    .hero { height: 90vh; background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('https://images.unsplash.com/photo-1564013799919-ab600027ffc6?q=80&w=2070') center/cover; color: #FFF; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding: 0 20px; }
+    /* HERO */
+    .hero { margin-top: 70px; height: 85vh; background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('https://images.unsplash.com/photo-1564013799919-ab600027ffc6?q=80&w=2070') center/cover; color: #FFF; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding: 0 20px; }
     .hero h1 { font-size: 60px; font-weight: 900; margin-bottom: 20px; line-height: 1.1; }
     .hero p { font-size: 20px; font-weight: 300; margin-bottom: 40px; }
     .search-box { max-width: 1000px; width: 100%; background: #FFF; padding: 15px; display: grid; grid-template-columns: 2fr 1fr 1fr 1fr auto; gap: 10px; }
@@ -60,7 +57,7 @@
     .prop-info { padding: 30px; }
     .prop-price { font-size: 28px; font-weight: 900; color: var(--dark); margin-bottom: 10px; }
     .prop-title { font-size: 17px; font-weight: 400; margin-bottom: 20px; color: var(--text-light); }
-    .prop-features { display: flex; justify-content: space-between; border-top: 1px solid var(--border); padding-top: 15px; margin-top: 15px; flex-wrap: wrap; }
+    .prop-features { display: flex; justify-content: space-between; border-top: 1px solid var(--border); padding-top: 15px; margin-top: 15px; flex-wrap: wrap; gap: 10px; }
     .feature-item { display: flex; flex-direction: column; align-items: center; gap: 5px; font-size: 12px; color: var(--text-light); text-align: center; }
     .feature-item svg { width: 22px; height: 22px; fill: var(--primary); }
     .feature-item span { font-weight: 700; color: var(--dark); font-size: 16px; }
@@ -69,7 +66,7 @@
 
     /* MODAL */
     .modal { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.9); overflow-y: auto; }
-    .modal-content { background-color: #FFF; margin: 3% auto; width: 90%; max-width: 1000px; }
+    .modal-content { background-color: #FFF; margin: 5% auto; width: 90%; max-width: 1000px; }
     .close { color: #FFF; position: absolute; top: 20px; right: 30px; font-size: 40px; font-weight: 300; cursor: pointer; z-index: 1001; }
     .modal-carousel { position: relative; height: 500px; background: #000; overflow: hidden; }
     .modal-carousel img { width: 100%; height: 100%; object-fit: contain; position: absolute; opacity: 0; transition: opacity 0.5s; }
@@ -84,7 +81,7 @@
     .btn-whatsapp-modal { background: var(--green); color: #FFF; padding: 16px; text-align: center; font-weight: 900; display: block; font-size: 16px; letter-spacing: 1px; }
 
     /* SECCIONES */
-    .about { background: #FAFA; }
+    .about { background: #FA; }
     .about-content { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center; }
     .about-content img { width: 100%; }
     .steps-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 40px; text-align: center; }
@@ -94,6 +91,7 @@
     .mini-contact .btn { background: #FFF; color: var(--primary); padding: 14px 30px; font-weight: 900; display: inline-block; margin-top: 15px; letter-spacing: 1px; }
     .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; }
     .contact-form input,.contact-form textarea { width: 100%; padding: 16px; margin-bottom: 15px; border: 1px solid var(--border); font-weight: 300; }
+    .btn-send { background: var(--dark); color: #FFF; border: none; padding: 16px; width: 100%; font-weight: 900; cursor: pointer; letter-spacing: 1px; }
 
     /* WHATSAPP FLOTANTE */
     .whatsapp-container { position: fixed; bottom: 30px; right: 30px; z-index: 999; display: flex; align-items: center; gap: 12px; }
@@ -109,10 +107,13 @@
       .prop-grid { grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); }
     }
     @media(max-width: 768px) {
-      .navbar { padding: 20px; }
+      .navbar { padding: 15px 20px; }
+      .logo { font-size: 22px; letter-spacing: 2px; }
+      .logo span { display: none; }
       .nav-links { display: none; }
-      .hero { height: 80vh; }
-      .hero h1 { font-size: 36px; }
+      .btn-whatsapp { padding: 8px 12px; font-size: 12px; }
+      .hero { margin-top: 60px; height: 75vh; }
+      .hero h1 { font-size: 32px; }
       .hero p { font-size: 16px; }
       .search-box { grid-template-columns: 1fr; }
       section { padding: 60px 20px; }
@@ -210,7 +211,7 @@
     <div class="steps-grid"><div class="step-card"><div class="step-number">01</div><h3>Contanos</h3><p>Qué buscás y tu presupuesto</p></div><div class="step-card"><div class="step-number">02</div><h3>Visitas</h3><p>Coordinamos para que veas</p></div><div class="step-card"><div class="step-number">03</div><h3>Cerramos</h3><p>Hasta la firma y entrega</p></div></div>
   </section>
 
-  <section id="vender" style="background:#FAFAFA;">
+  <section id="vender" style="background:#FA;">
     <h2 class="section-title">Cómo Vender</h2><p class="section-subtitle">Rápido y seguro</p>
     <div class="steps-grid"><div class="step-card"><div class="step-number">01</div><h3>Tasación</h3><p>Gratuita y real</p></div><div class="step-card"><div class="step-number">02</div><h3>Publicidad</h3><p>En todos los portales</p></div><div class="step-card"><div class="step-number">03</div><h3>Venta</h3><p>Gestionamos todo</p></div></div>
   </section>
@@ -224,13 +225,13 @@
     <h2 class="section-title">Contacto</h2>
     <div class="contact-grid">
       <div><h3 style="font-size:24px; margin-bottom:20px;">ML - MAY Y LEO LABRUNÉE</h3><p>📍 Av. San Martín 123, Tres Arroyos</p><p>📞 (02983) 43-XXXX</p><p>✉️ contacto@mlabrunee.com</p></div>
-      <form class="contact-form" onsubmit="alert('Consulta enviada! Te contactaremos.'); return false;"><input type="text" placeholder="Nombre" required><input type="email" placeholder="Email" required><textarea rows="4" placeholder="Mensaje" required></textarea><button class="btn-send">ENVIAR</button></form>
+           <form class="contact-form" onsubmit="alert('Consulta enviada! Te contactaremos.'); return false;"><input type="text" placeholder="Nombre" required><input type="email" placeholder="Email" required><textarea rows="4" placeholder="Mensaje" required></textarea><button class="btn-send">ENVIAR</button></form>
     </div>
   </section>
 
   <footer><p>© 2026 ML - MAY Y LEO LABRUNÉE</p></footer>
 
-   <!-- MODAL -->
+  <!-- MODAL -->
   <div id="propModal" class="modal">
     <div class="modal-content">
       <span class="close" onclick="closeModal()">&times;</span>
@@ -260,11 +261,6 @@
   <script>
     let currentModalImgs = [];
     let currentModalIndex = 0;
-
-    // HEADER SCROLLED
-    window.addEventListener('scroll', function() {
-      document.getElementById('header').classList.toggle('scrolled', window.scrollY > 50);
-    });
 
     // FILTRO PRECIO
     function cambiarFiltroPrecio() {
@@ -297,15 +293,15 @@
       showSection('propiedades');
     }
 
-    // NAVEGACION SECCIONES
+    // NAVEGACION SECCIONES - ARREGLADO PARA QUE NO QUEDE BLANCO
     function showSection(id) {
-      document.querySelectorAll('section,.hero').forEach(s => s.classList.add('hidden-section'));
-      document.getElementById(id).classList.remove('hidden-section');
-      if(id === 'propiedades') document.getElementById('heroSection').classList.remove('hidden-section');
+      document.querySelectorAll('section,.hero').forEach(s => s.style.display = 'none');
+      document.getElementById(id).style.display = 'block';
+      if(id === 'propiedades') document.getElementById('heroSection').style.display = 'flex';
       window.scrollTo(0,0);
     }
     function showAll() {
-      document.querySelectorAll('section,.hero').forEach(s => s.classList.remove('hidden-section'));
+      document.querySelectorAll('section,.hero').forEach(s => s.style.display = 'block');
       window.scrollTo(0,0);
     }
 
