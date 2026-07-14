@@ -3,201 +3,108 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Miqueleiz Inmobiliaria | Venta y Alquiler en Tres Arroyos</title>
+  <title>ML - MAY Y LEO LABRUNÉE | Venta y Alquiler en Tres Arroyos</title>
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;900&display=swap" rel="stylesheet">
   <style>
     :root {
-      --primary: #0A2540;
-      --secondary: #D4AF37;
-      --green: #25D366;
-      --bg: #F8F9FA;
-      --text: #333;
+      --primary: #C62828;
+      --primary-dark: #8E0000;
+      --dark: #222;
+      --bg: #F5F5F5;
+      --text: #444;
       --text-light: #666;
+      --green: #25D366;
     }
-    * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Montserrat', sans-serif; }
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Montserrat', sans-serif; scroll-behavior: smooth; }
     body { background: var(--bg); color: var(--text); }
     a { text-decoration: none; color: inherit; }
+.hidden-section { display: none!important; }
 
-    header {
-      background: #FFF;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.08);
-      position: sticky;
-      top: 0;
-      z-index: 100;
-    }
-    .navbar {
-      max-width: 1300px;
-      margin: auto;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 15px 20px;
-    }
-    .logo {
-      font-size: 26px;
-      font-weight: 900;
-      color: var(--primary);
-    }
-    .logo span { color: var(--secondary); }
-    .nav-links { display: flex; gap: 25px; font-weight: 600; }
-    .btn-whatsapp {
-      background: var(--green);
-      color: #FFF;
-      padding: 12px 20px;
-      border-radius: 8px;
-      font-weight: 700;
-    }
+    header { background: #FFF; box-shadow: 0 2px 5px rgba(0,0,0,0.1); position: sticky; top: 0; z-index: 100; }
+.navbar { max-width: 1300px; margin: auto; display: flex; justify-content: space-between; align-items: center; padding: 15px 20px; }
+.logo { font-size: 28px; font-weight: 900; color: var(--primary); cursor: pointer; letter-spacing: 2px; }
+.logo span { color: var(--dark); font-weight: 600; font-size: 18px; letter-spacing: 0; }
+.nav-links { display: flex; gap: 25px; font-weight: 600; }
+.nav-links a { cursor: pointer; }
+.nav-links a:hover { color: var(--primary); }
+.btn-whatsapp { background: var(--green); color: #FFF; padding: 12px 20px; border-radius: 5px; font-weight: 700; }
 
-    .hero {
-      background: linear-gradient(rgba(10,37,64,0.7), rgba(10,37,64,0.7)), url('https://images.unsplash.com/photo-1564013799919-ab600027ffc6?q=80&w=2070') center/cover;
-      color: #FFF;
-      text-align: center;
-      padding: 120px 20px;
-    }
-    .hero h1 { font-size: 48px; font-weight: 900; margin-bottom: 15px; }
-    .hero p { font-size: 18px; margin-bottom: 30px; }
-    .search-box {
-      max-width: 900px;
-      margin: auto;
-      background: #FFF;
-      padding: 20px;
-      border-radius: 12px;
-      display: grid;
-      grid-template-columns: 2fr 1fr 1fr 1fr auto;
-      gap: 10px;
-    }
-    .search-box input, .search-box select {
-      padding: 14px;
-      border: 1px solid #DDD;
-      border-radius: 8px;
-      font-size: 15px;
-    }
-    .btn-search {
-      background: var(--secondary);
-      color: #000;
-      border: none;
-      padding: 14px 25px;
-      border-radius: 8px;
-      font-weight: 900;
-      cursor: pointer;
-    }
+.hero { background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('https://images.unsplash.com/photo-1564013799919-ab600027ffc6?q=80&w=2070') center/cover; color: #FFF; text-align: center; padding: 100px 20px; }
+.hero h1 { font-size: 42px; font-weight: 900; margin-bottom: 15px; }
+.hero p { font-size: 18px; margin-bottom: 30px; }
+.search-box { max-width: 1000px; margin: auto; background: #FFF; padding: 20px; border-radius: 8px; display: grid; grid-template-columns: 2fr 1fr 1fr 1fr auto; gap: 10px; }
+.search-box input,.search-box select { padding: 14px; border: 1px solid #DDD; border-radius: 5px; font-size: 15px; color: var(--text); }
+.btn-search { background: var(--primary); color: #FFF; border: none; padding: 14px 25px; border-radius: 5px; font-weight: 900; cursor: pointer; }
+.btn-search:hover { background: var(--primary-dark); }
 
     section { max-width: 1300px; margin: auto; padding: 60px 20px; }
-    .section-title { font-size: 32px; font-weight: 900; text-align: center; margin-bottom: 40px; color: var(--primary); }
-    .prop-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-      gap: 30px;
-    }
-    .prop-card {
-      background: #FFF;
-      border-radius: 12px;
-      overflow: hidden;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.08);
-      transition: 0.3s;
-    }
-    .prop-card:hover { transform: translateY(-5px); }
-    .prop-card img { width: 100%; height: 240px; object-fit: cover; }
-    .prop-tag {
-      position: absolute;
-      background: var(--secondary);
-      color: #000;
-      padding: 5px 12px;
-      border-radius: 5px;
-      font-weight: 700;
-      font-size: 12px;
-      margin: 15px;
-    }
-    .prop-info { padding: 20px; }
-    .prop-price { font-size: 26px; font-weight: 900; color: var(--primary); margin-bottom: 8px; }
-    .prop-title { font-size: 18px; font-weight: 700; margin-bottom: 10px; }
-    .prop-features { display: flex; gap: 15px; color: var(--text-light); font-size: 14px; margin-bottom: 15px; }
-    .btn-contact {
-      background: var(--primary);
-      color: #FFF;
-      padding: 12px;
-      border-radius: 8px;
-      text-align: center;
-      font-weight: 700;
-      display: block;
-    }
+.section-title { font-size: 32px; font-weight: 900; text-align: center; margin-bottom: 40px; color: var(--dark); }
+.prop-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 30px; }
 
-    .why-us {
-      background: var(--primary);
-      color: #FFF;
-      text-align: center;
-    }
-    .why-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 30px;
-      margin-top: 40px;
-    }
-    .why-item { padding: 20px; }
-    .why-item h3 { font-size: 20px; margin-bottom: 10px; color: var(--secondary); }
+    /* CARD ESTILO EDUARDO MIQUELEIZ */
+.prop-card { background: #FFF; border-radius: 8px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.1); transition: 0.3s; border: 1px solid #eee; }
+.prop-card:hover { transform: translateY(-3px); box-shadow: 0 4px 15px rgba(0,0,0,0.15); }
+.prop-img-wrapper { position: relative; }
+.prop-tag { position: absolute; top: 15px; left: 15px; background: var(--primary); color: #FFF; padding: 6px 14px; border-radius: 4px; font-weight: 700; font-size: 13px; z-index: 2; text-transform: uppercase; }
+.prop-tag.alquiler { background: #1565C0; }
 
-    /* SECCION OFICINA */
-    .office {
-      background: #FFF;
-    }
-    .office-grid {
-      display: grid;
-      grid-template-columns: 1fr 1.5fr;
-      gap: 40px;
-      align-items: center;
-    }
-    .office-info h3 { font-size: 24px; color: var(--primary); margin-bottom: 15px; }
-    .office-info p { margin-bottom: 12px; font-size: 16px; }
-    .office-info .icon { color: var(--secondary); font-weight: 700; }
-    .map-container {
-      border-radius: 12px;
-      overflow: hidden;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-    }
-    .map-container iframe {
-      width: 100%;
-      height: 350px;
-      border: 0;
-    }
+    /* CARRUSEL */
+.carousel { position: relative; height: 240px; overflow: hidden; }
+.carousel img { width: 100%; height: 100%; object-fit: cover; position: absolute; opacity: 0; transition: opacity 1s ease-in-out; }
+.carousel img.active { opacity: 1; }
 
-    .contact {
-      background: var(--bg);
-    }
-    .contact-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 40px;
-    }
-    .contact-form input, .contact-form textarea {
-      width: 100%;
-      padding: 14px;
-      margin-bottom: 15px;
-      border: 1px solid #DDD;
-      border-radius: 8px;
-    }
-    .btn-send {
-      background: var(--secondary);
-      color: #000;
-      border: none;
-      padding: 15px;
-      width: 100%;
-      border-radius: 8px;
-      font-weight: 900;
-      cursor: pointer;
-    }
+.prop-info { padding: 18px; }
+.prop-price { font-size: 24px; font-weight: 900; color: var(--dark); margin-bottom: 8px; }
+.prop-title { font-size: 16px; font-weight: 600; margin-bottom: 15px; color: #444; line-height: 1.4; }
 
-    footer {
-      background: var(--primary);
-      color: #FFF;
-      text-align: center;
-      padding: 30px 20px;
-    }
+    /* FEATURES ESTILO EDUARDO MIQUELEIZ */
+.prop-features {
+  display: flex;
+  justify-content: space-around;
+  border-top: 1px solid #eee;
+  padding-top: 12px;
+  margin-top: 12px;
+}
+.feature-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+  font-size: 12px;
+  color: var(--text-light);
+  text-align: center;
+}
+.feature-item svg { width: 24px; height: 24px; fill: var(--primary); }
+.feature-item span { font-weight: 800; color: var(--dark); font-size: 15px; }
+
+.btn-contact { background: var(--primary); color: #FFF; padding: 12px; border-radius: 5px; text-align: center; font-weight: 700; display: block; margin-top: 15px; }
+.btn-contact:hover { background: var(--primary-dark); }
+
+.why-us { background: var(--dark); color: #FFF; text-align: center; }
+.why-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px; margin-top: 40px; }
+.why-item { padding: 20px; }
+.why-item h3 { font-size: 20px; margin-bottom: 10px; color: var(--primary); }
+
+.office { background: #FFF; }
+.office-grid { display: grid; grid-template-columns: 1fr 1.5fr; gap: 40px; align-items: center; }
+.office-info h3 { font-size: 24px; color: var(--dark); margin-bottom: 15px; }
+.office-info p { margin-bottom: 12px; font-size: 16px; }
+.map-container { border-radius: 8px; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
+.map-container iframe { width: 100%; height: 350px; border: 0; }
+
+.contact { background: var(--bg); }
+.contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; }
+.contact-form input,.contact-form textarea { width: 100%; padding: 14px; margin-bottom: 15px; border: 1px solid #DDD; border-radius: 5px; }
+.btn-send { background: var(--primary); color: #FFF; border: none; padding: 15px; width: 100%; border-radius: 5px; font-weight: 900; cursor: pointer; }
+.btn-send:hover { background: var(--primary-dark); }
+
+    footer { background: var(--dark); color: #FFF; text-align: center; padding: 30px 20px; }
 
     @media(max-width: 768px) {
-      .nav-links { display: none; }
-      .hero h1 { font-size: 32px; }
-      .search-box { grid-template-columns: 1fr; }
-      .why-grid, .contact-grid, .office-grid { grid-template-columns: 1fr; }
+.nav-links { display: none; }
+.hero h1 { font-size: 32px; }
+.search-box { grid-template-columns: 1fr; }
+.why-grid,.contact-grid,.office-grid { grid-template-columns: 1fr; }
     }
   </style>
 </head>
@@ -205,20 +112,20 @@
 
   <header>
     <div class="navbar">
-      <div class="logo">MIQUELEIZ <span>INMOBILIARIA</span></div>
+      <div class="logo" onclick="showAll()">ML <span>MAY Y LEO LABRUNÉE</span></div>
       <div class="nav-links">
-        <a href="#propiedades">Propiedades</a>
-        <a href="#nosotros">Nosotros</a>
-        <a href="#oficina">Oficina</a>
-        <a href="#contacto">Contacto</a>
+        <a onclick="showSection('propiedades')">Propiedades</a>
+        <a onclick="showSection('nosotros')">Nosotros</a>
+        <a onclick="showSection('oficina')">Oficina</a>
+        <a onclick="showSection('contacto')">Contacto</a>
       </div>
       <a href="https://wa.me/549XXXXXXXXXX" target="_blank" class="btn-whatsapp">WhatsApp</a>
     </div>
   </header>
 
-  <div class="hero">
+  <div class="hero" id="heroSection">
     <h1>Encontrá tu próximo hogar</h1>
-    <p>Más de 20 años acompañando familias en Tres Arroyos</p>
+    <p>ML - MAY Y LEO LABRUNÉE | Asesoramiento inmobiliario en Tres Arroyos</p>
     <div class="search-box">
       <input type="text" id="searchInput" placeholder="Buscar por barrio, calle o palabra clave">
       <select id="searchTipo">
@@ -228,15 +135,13 @@
         <option value="local">Local</option>
         <option value="campo">Campo</option>
       </select>
-      <select id="searchOperacion">
+      <select id="searchOperacion" onchange="cambiarFiltroPrecio()">
         <option value="all">Operación</option>
         <option value="venta">Venta</option>
         <option value="alquiler">Alquiler</option>
       </select>
       <select id="searchPrecio">
         <option value="all">Precio</option>
-        <option value="1">Hasta $50.000.000</option>
-        <option value="2">Hasta $100.000.000</option>
       </select>
       <button class="btn-search" onclick="filtrarProps()">Buscar</button>
     </div>
@@ -245,43 +150,66 @@
   <section id="propiedades">
     <h2 class="section-title">Propiedades Destacadas</h2>
     <div class="prop-grid" id="propGrid">
-      
+
+      <!-- CASA CON CARRUSEL Y 5 ICONOS -->
       <div class="prop-card" data-tipo="casa" data-operacion="venta" data-precio="2">
-        <div style="position:relative;">
-          <span class="prop-tag">VENTA</span>
-          <img src="https://images.unsplash.com/photo-1570129477492-45c003edd2be?q=80&w=2070" alt="Casa">
+        <div class="prop-img-wrapper">
+          <span class="prop-tag">Venta</span>
+          <div class="carousel">
+            <img src="https://images.unsplash.com/photo-1570129477492-45c003edd2be?q=80&w=2070" class="active">
+            <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=2070">
+            <img src="https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?q=80&w=2075">
+          </div>
         </div>
         <div class="prop-info">
           <div class="prop-price">$95.000.000</div>
-          <div class="prop-title">Casa 4 ambientes - Centro</div>
-          <div class="prop-features">3 Dorm · 2 Baños · 200m²</div>
-          <a href="https://wa.me/549XXXXXXXXXX?text=Hola! Me interesa la Casa de 4 ambientes" target="_blank" class="btn-contact">Consultar por WhatsApp</a>
+          <div class="prop-title">Casa 4 Ambientes - Centro, Tres Arroyos</div>
+          <div class="prop-features">
+            <div class="feature-item">
+              <svg viewBox="0 0 24 24"><path d="M12 3L2 12h3v8h14v-8h3L12 3zm7 15H5v-6.59l7-7 7 7V18z"/><path d="M7 10.19L12 5.5l5 4.69V18h-2v-6H9v6H7z"/></svg>
+              <span>3</span>Dorm
+            </div>
+            <div class="feature-item">
+              <svg viewBox="0 0 24 24"><path d="M7 2v2h10V2h2v2h1a2 2 0 0 1 2 2v3a7 7 0 0 1-7 7H9A7 7 0 0 1 2 9V6a2 2 0 0 1 2-2h1V2h2zm12 7v-3h-1v3a5 5 0 0 0 1 0zM4 9a5 5 0 0 0 5 5h6a5 5 0 0 0 5-5v-2H4v2zM9 16v2h2v-2H9zm4 0v2h2v-2h-2z"/></svg>
+              <span>2</span>Baño
+            </div>
+            <div class="feature-item">
+              <svg viewBox="0 0 24 24"><path d="M4 11h6v2H4zm10 0h6v2h-6zM4 15h6v2H4zm10 0h6v2h-6zM3 21h18v-2H3v2zM3 3v16h2V5h14v14h2V3H3z"/></svg>
+              <span>4</span>Amb
+            </div>
+            <div class="feature-item">
+              <svg viewBox="0 0 24 24"><path d="M19 9.3V4h-3v2.6L12 3 2 12h3v8h14v-8h3l-3-2.7zm-5.7h-4V8h4v2z"/></svg>
+              <span>200</span>m² Cub
+            </div>
+            <div class="feature-item">
+              <svg viewBox="0 0 24 24"><path d="M18.92 6.01C18.72 5.42 18.16 5 17.5 5h-11c-.66 0-1.21.42-1.42 1.01L3 12v8c0.55.45 1 1 1h1c.55 0 1-.45 1-1v-1h12v1c0.55.45 1 1 1h1c.55 0 1-.45 1-1v-8l-2.08-5.99zM6.5 16c-.83 0-1.5-.67-1.5-1.5S5.67 13 6.5 13s1.5.67 1.5 1.5S7.33 16 6.5 16zm11 0c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zM5 11l1.5-4.5h11L19 11H5z"/></svg>
+              <span>300</span>m² Tot
+            </div>
+          </div>
+          <a href="https://wa.me/549XXXXXXXXXX?text=Hola! Me interesa la Casa de 4 ambientes" target="_blank" class="btn-contact">Ver Detalles</a>
         </div>
       </div>
 
+      <!-- DEPTO CON CARRUSEL -->
       <div class="prop-card" data-tipo="depto" data-operacion="alquiler" data-precio="1">
-        <div style="position:relative;">
-          <span class="prop-tag" style="background:var(--primary); color:#FFF;">ALQUILER</span>
-          <img src="https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?q=80&w=2080" alt="Depto">
+        <div class="prop-img-wrapper">
+          <span class="prop-tag alquiler">Alquiler</span>
+          <div class="carousel">
+            <img src="https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?q=80&w=2080" class="active">
+            <img src="https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?q=80&w=2070">
+          </div>
         </div>
         <div class="prop-info">
           <div class="prop-price">$280.000 / mes</div>
-          <div class="prop-title">Depto 2 ambientes - Barrio Norte</div>
-          <div class="prop-features">2 Dorm · 1 Baño · 60m²</div>
-          <a href="https://wa.me/549XXXXXXXXXX?text=Hola! Me interesa el Depto de 2 ambientes" target="_blank" class="btn-contact">Consultar por WhatsApp</a>
-        </div>
-      </div>
-
-      <div class="prop-card" data-tipo="local" data-operacion="venta" data-precio="2">
-        <div style="position:relative;">
-          <span class="prop-tag">VENTA</span>
-          <img src="https://images.unsplash.com/photo-1497366811353-6870744d04b2?q=80&w=2069" alt="Local">
-        </div>
-        <div class="prop-info">
-          <div class="prop-price">$120.000.000</div>
-          <div class="prop-title">Local Comercial - Av. San Martín</div>
-          <div class="prop-features">Vitrina · Baño · 80m²</div>
-          <a href="https://wa.me/549XXXXXXXXXX?text=Hola! Me interesa el Local Comercial" target="_blank" class="btn-contact">Consultar por WhatsApp</a>
+          <div class="prop-title">Depto 2 Ambientes - Barrio Norte, Tres Arroyos</div>
+          <div class="prop-features">
+            <div class="feature-item"><svg viewBox="0 0 24 24"><path d="M12 3L2 12h3v8h14v-8h3L12 3zm7 15H5v-6.59l7-7 7 7V18z"/><path d="M7 10.19L12 5.5l5 4.69V18h-2v-6H9v6H7z"/></svg><span>2</span>Dorm</div>
+            <div class="feature-item"><svg viewBox="0 0 24 24"><path d="M7 2v2h10V2h2v2h1a2 2 0 0 1 2 2v3a7 7 0 0 1-7 7H9A7 7 0 0 1 2 9V6a2 2 0 0 1 2-2h1V2h2zm12 7v-3h-1v3a5 5 0 0 0 1 0zM4 9a5 5 0 0 0 5 5h6a5 5 0 0 0 5-5v-2H4v2zM9 16v2h2v-2H9zm4 0v2h2v-2h-2z"/></svg><span>1</span>Baño</div>
+            <div class="feature-item"><svg viewBox="0 0 24 24"><path d="M4 11h6v2H4zm10 0h6v2h-6zM4 15h6v2H4zm10 0h6v2h-6zM3 21h18v-2H3v2zM3 3v16h2V5h14v14h2V3H3z"/></svg><span>2</span>Amb</div>
+            <div class="feature-item"><svg viewBox="0 0 24 24"><path d="M19 9.3V4h-3v2.6L12 3 2 12h3v8h14v-8h3l-3-2.7zm-5.7h-4V8h4v2z"/></svg><span>60</span>m² Cub</div>
+            <div class="feature-item"><svg viewBox="0 0 24 24"><path d="M18.92 6.01C18.72 5.42 18.16 5 17.5 5h-11c-.66 0-1.21.42-1.42 1.01L3 12v8c0.55.45 1 1 1h1c.55 0 1-.45 1-1v-1h12v1c0.55.45 1 1 1h1c.55 0 1-.45 1-1v-8l-2.08-5.99zM6.5 16c-.83 0-1.5-.67-1.5-1.5S5.67 13 6.5 13s1.5.67 1.5 1.5S7.33 16 6.5 16zm11 0c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zM5 11l1.5-4.5h11L19 11H5z"/></svg><span>0</span>Coch</div>
+          </div>
+          <a href="https://wa.me/549XXXXXXXXXX?text=Hola! Me interesa el Depto de 2 ambientes" target="_blank" class="btn-contact">Ver Detalles</a>
         </div>
       </div>
 
@@ -289,38 +217,27 @@
   </section>
 
   <section class="why-us" id="nosotros">
-    <h2 class="section-title" style="color:#FFF;">¿Por qué elegir Miqueleiz?</h2>
+    <h2 class="section-title" style="color:#FFF;">¿Por qué elegir ML - MAY Y LEO LABRUNÉE?</h2>
     <div class="why-grid">
-      <div class="why-item">
-        <h3>20+ Años de Trayectoria</h3>
-        <p>La inmobiliaria de mayor confianza en Tres Arroyos</p>
-      </div>
-      <div class="why-item">
-        <h3>Asesoramiento Integral</h3>
-        <p>Te acompañamos en todo el proceso de compra y venta</p>
-      </div>
-      <div class="why-item">
-        <h3>Mayor Cartera de Propiedades</h3>
-        <p>Las mejores opciones en casas, deptos y campos</p>
-      </div>
+      <div class="why-item"><h3>Asesoramiento Personalizado</h3><p>Te acompañamos en cada paso de tu inversión</p></div>
+      <div class="why-item"><h3>Propiedades Exclusivas</h3><p>Las mejores opciones en venta y alquiler</p></div>
+      <div class="why-item"><h3>Compromiso y Confianza</h3><p>Tu tranquilidad es nuestra prioridad</p></div>
     </div>
   </section>
 
-  <!-- NUEVA SECCION OFICINA -->
   <section class="office" id="oficina">
     <h2 class="section-title">Visitanos en Nuestra Oficina</h2>
     <div class="office-grid">
       <div class="office-info">
-        <h3>Miqueleiz Inmobiliaria</h3>
-        <p><span class="icon">📍</span> Av. San Martín 123, Tres Arroyos, Buenos Aires</p>
-        <p><span class="icon">📞</span> (02983) 43-XXXX</p>
-        <p><span class="icon">✉️</span> contacto@miqueleizinmobiliaria.com</p>
-        <p><span class="icon">🕒</span> Lunes a Viernes: 9:00 a 18:00 hs<br>Sábados: 9:00 a 13:00 hs</p>
-        <a href="https://wa.me/549XXXXXXXXXX" target="_blank" class="btn-contact" style="margin-top:15px; background:var(--green);">Escribinos por WhatsApp</a>
+        <h3>ML - MAY Y LEO LABRUNÉE</h3>
+        <p>📍 Av. San Martín 123, Tres Arroyos, Buenos Aires</p>
+        <p>📞 (02983) 43-XXXX</p>
+        <p>✉️ contacto@mlabrunee.com</p>
+        <p>🕒 Lunes a Viernes: 9:00 a 18:00 hs<br>Sábados: 9:00 a 13:00 hs</p>
+        <a href="https://wa.me/549XXXXXXXXXX" target="_blank" class="btn-contact" style="background:var(--green);">Escribinos por WhatsApp</a>
       </div>
       <div class="map-container">
-        <!-- CAMBIA LA DIRECCION EN EL SRC POR LA REAL DE MIQUELEIZ -->
-        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3172.5!2d-60.275!3d-38.378!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMzhCsDIyJzQwLjgiUyA2MMKwMTYnMzAuMCJX!5e0!3m2!1ses!2sar!4v1234567890" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3172.5!2d-60.275!3d-38.378!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMzhCsDIyJzQwLjgiUyA2MMKwMTYnMzAuMCJX!5e0!3m2!1ses!2sar!4v1234567890" allowfullscreen="" loading="lazy"></iframe>
       </div>
     </div>
   </section>
@@ -328,10 +245,7 @@
   <section class="contact" id="contacto">
     <h2 class="section-title">Envianos tu Consulta</h2>
     <div class="contact-grid">
-      <div>
-        <h3 style="margin-bottom:15px; color:var(--primary);">¿Querés tasar tu propiedad?</h3>
-        <p>Dejanos tus datos y un asesor de Miqueleiz se contacta con vos sin compromiso.</p>
-      </div>
+      <div><h3 style="margin-bottom:15px; color:var(--dark);">¿Querés tasar tu propiedad?</h3><p>Dejanos tus datos y un asesor de ML - MAY Y LEO LABRUNÉE se contacta con vos sin compromiso.</p></div>
       <form class="contact-form" onsubmit="alert('Consulta enviada! Te contactaremos.'); return false;">
         <input type="text" placeholder="Nombre" required>
         <input type="email" placeholder="Email" required>
@@ -342,28 +256,60 @@
     </div>
   </section>
 
-  <footer>
-    <p>© 2026 Miqueleiz Inmobiliaria. Todos los derechos reservados.</p>
-  </footer>
+  <footer><p>© 2026 ML - MAY Y LEO LABRUNÉE. Todos los derechos reservados.</p></footer>
 
   <script>
+    function cambiarFiltroPrecio() {
+      const operacion = document.getElementById('searchOperacion').value;
+      const precioSelect = document.getElementById('searchPrecio');
+      precioSelect.innerHTML = '<option value="all">Precio</option>';
+      if(operacion === 'alquiler') {
+        precioSelect.innerHTML += '<option value="1">Hasta $300.000</option><option value="2">Hasta $500.000</option>';
+      } else {
+        precioSelect.innerHTML += '<option value="1">Hasta $50.000.000</option><option value="2">Hasta $100.000.000</option>';
+      }
+    }
+    cambiarFiltroPrecio();
+
     function filtrarProps() {
       const tipo = document.getElementById('searchTipo').value;
       const operacion = document.getElementById('searchOperacion').value;
       const precio = document.getElementById('searchPrecio').value;
       const texto = document.getElementById('searchInput').value.toLowerCase();
       const cards = document.querySelectorAll('.prop-card');
-
       cards.forEach(card => {
         let show = true;
-        if(tipo !== 'all' && card.dataset.tipo !== tipo) show = false;
-        if(operacion !== 'all' && card.dataset.operacion !== operacion) show = false;
-        if(precio !== 'all' && card.dataset.precio !== precio) show = false;
-        if(texto && !card.querySelector('.prop-title').textContent.toLowerCase().includes(texto)) show = false;
-        
-        card.style.display = show ? 'block' : 'none';
+        if(tipo!== 'all' && card.dataset.tipo!== tipo) show = false;
+        if(operacion!== 'all' && card.dataset.operacion!== operacion) show = false;
+        if(precio!== 'all' && card.dataset.precio!== precio) show = false;
+        if(texto &&!card.querySelector('.prop-title').textContent.toLowerCase().includes(texto)) show = false;
+        card.style.display = show? 'block' : 'none';
       });
+      showSection('propiedades');
     }
+
+    function showSection(id) {
+      document.querySelectorAll('section,.hero').forEach(s => s.classList.add('hidden-section'));
+      document.getElementById(id).classList.remove('hidden-section');
+      if(id === 'propiedades') document.getElementById('heroSection').classList.remove('hidden-section');
+      window.scrollTo(0,0);
+    }
+    function showAll() {
+      document.querySelectorAll('section,.hero').forEach(s => s.classList.remove('hidden-section'));
+      window.scrollTo(0,0);
+    }
+
+    // CARRUSEL AUTOMATICO CADA 3 SEG
+    setInterval(() => {
+      document.querySelectorAll('.carousel').forEach(carousel => {
+        const imgs = carousel.querySelectorAll('img');
+        if(imgs.length <= 1) return;
+        let activeIndex = [...imgs].findIndex(img => img.classList.contains('active'));
+        imgs[activeIndex].classList.remove('active');
+        let nextIndex = (activeIndex + 1) % imgs.length;
+        imgs[nextIndex].classList.add('active');
+      });
+    }, 3000);
   </script>
 
 </body>
