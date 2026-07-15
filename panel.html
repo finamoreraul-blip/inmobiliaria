@@ -91,12 +91,11 @@ button:hover{background:#8E0000;}
         </div>
 
         <div class="upload-box">
-          <label><b>Foto Principal</b></label>
-          <input type="file" id="fotoInput" accept="image/*" onchange="subirFotoAGithub()">
+          <label><b>Foto Principal - Desde Galería</b></label>
+          <input type="file" id="fotoInput" accept="image/*" onchange="subirFoto()">
           <p id="uploadStatus">Selecciona una foto de tu galería</p>
           <img id="fotoPreview" src="" style="display:none;">
           <input type="hidden" id="imagen">
-          <input type="hidden" id="imagenes">
         </div>
 
         <textarea id="descripcion" rows="4" placeholder="Descripción completa"></textarea>
@@ -127,13 +126,13 @@ button:hover{background:#8E0000;}
 </div>
 
 <script>
+// TUS DATOS DE JSONBIN
+const API_KEY = "$2a$10$B1K/L0dBd09SArO06y5gQOa6bCi52crjbHvBwXJFahIHEp9Tvh3d6";
+const BIN_ID = "6a56ce97f5f4af5e299000c2";
 const CLAVE = "admin123";
-const GITHUB_USER = "finamoreraul-blip";
-const GITHUB_REPO = "web-inmobiliaria";
-const GITHUB_TOKEN = "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";
-const FILE_PATH = "propiedades.json";
-let propiedades = []; let sha = ""; let subiendoFoto = false; let filtroActual = 'todos'; let intervaloAuto;
+let propiedades = []; let intervaloAuto = false; let filtroActual = 'todos';
 
+// LAS 6 DE MUESTRA - NO LAS TOCO
 const PROPIEDADES_DEMO = [
   {"id":"1","titulo":"Casa 4 Ambientes - Centro","tipo":"casa","operacion":"venta","precio":"95000000","ubicacion":"Centro, Tres Arroyos","dorm":"3","bano":"2","amb":"4","m2cub":"200","m2tot":"300","imagen":"https://images.unsplash.com/photo-1570129477492-45c003edd2be?q=80&w=2070","imagenes":["https://images.unsplash.com/photo-1570129477492-45c003edd2be?q=80&w=2070","https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=2070"],"descripcion":"Hermosa casa ubicada en pleno centro.","whatsapp":"5492983389710","estado":"disponible"},
   {"id":"2","titulo":"Casa 3 Ambientes - Barrio Norte","tipo":"casa","operacion":"alquiler","precio":"450000","ubicacion":"Barrio Norte, Tres Arroyos","dorm":"2","bano":"1","amb":"3","m2cub":"120","m2tot":"180","imagen":"https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?q=80&w=2070","imagenes":["https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?q=80&w=2070","https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?q=80&w=2053"],"descripcion":"Casa ideal para familia.","whatsapp":"5492983389710","estado":"disponible"},
@@ -143,50 +142,43 @@ const PROPIEDADES_DEMO = [
   {"id":"6","titulo":"Local + Depósito - Zona Norte","tipo":"local","operacion":"venta","precio":"85000000","ubicacion":"Zona Norte, Tres Arroyos","dorm":"0","bano":"2","amb":"2","m2cub":"150","m2tot":"200","imagen":"https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=2070","imagenes":["https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=2070","https://images.unsplash.com/photo-1497366811353-6870744d04b2?q=80&w=2069"],"descripcion":"Local amplio con depósito.","whatsapp":"5492983389710","estado":"disponible"}
 ];
 
+// SUBIR FOTO A IMGBB - AHORA SI FUNCIONA DESDE GALERIA
+async function subirFoto(){
+  const file = document.getElementById('fotoInput').files[0];
+  if(!file) return;
+  document.getElementById('uploadStatus').innerHTML = '<span class="loading">Subiendo foto...</span>';
+  document.getElementById('btnGuardar').disabled = true;
+  const formData = new FormData();
+  formData.append('image', file);
+  let res = await fetch('https://api.imgbb.com/1/upload?key=546c25a59c58ad7', { method: 'POST', body: formData });
+  let data = await res.json();
+  const urlFoto = data.data.url;
+  document.getElementById('imagen').value = urlFoto;
+  document.getElementById('fotoPreview').src = urlFoto;
+  document.getElementById('fotoPreview').style.display = 'block';
+  document.getElementById('uploadStatus').innerText = 'Foto subida correctamente!';
+  actualizarPreview();
+  document.getElementById('btnGuardar').disabled = false;
+}
+
+// CARGAR DESDE JSONBIN
 async function cargarDatos(){
   try{
-    let res = await fetch(`https://api.github.com/repos/${GITHUB_USER}/${GITHUB_REPO}/contents/${FILE_PATH}`);
-    if(!res.ok) throw new Error();
-    let data = await res.json(); sha = data.sha;
-    let content = atob(data.content.replace(/\s/g, '')); propiedades = JSON.parse(content);
-    if(propiedades.length === 0) propiedades = PROPIEDADES_DEMO;
+    let res = await fetch(`https://api.jsonbin.io/v3/b/${BIN_ID}/latest`, { headers: { 'X-Master-Key': API_KEY } });
+    let data = await res.json();
+    propiedades = data.record || PROPIEDADES_DEMO;
   } catch(e){ propiedades = PROPIEDADES_DEMO; }
   listar();
 }
 
-async function subirFotoAGithub(){
-  const file = document.getElementById('fotoInput').files[0];
-  if(!file) return;
-  subiendoFoto = true;
-  document.getElementById('uploadStatus').innerHTML = '<span class="loading">Subiendo foto...</span>';
-  document.getElementById('btnGuardar').disabled = true;
-  const reader = new FileReader();
-  reader.onload = async function(e){
-    const base64 = e.target.result.split(',')[1];
-    const nombreArchivo = `img/${Date.now()}_${file.name}`;
-    let resImg = await fetch(`https://api.github.com/repos/${GITHUB_USER}/${GITHUB_REPO}/contents/${nombreArchivo}`, {
-      method: 'PUT', headers: { 'Authorization': `token ${GITHUB_TOKEN}` },
-      body: JSON.stringify({ message: `Subir foto ${nombreArchivo}`, content: base64 })
-    });
-    let dataImg = await resImg.json();
-    const urlFoto = `https://raw.githubusercontent.com/${GITHUB_USER}/${GITHUB_REPO}/main/${nombreArchivo}`;
-    document.getElementById('imagen').value = urlFoto;
-    document.getElementById('imagenes').value = JSON.stringify([urlFoto]);
-    document.getElementById('fotoPreview').src = urlFoto;
-    document.getElementById('fotoPreview').style.display = 'block';
-    document.getElementById('uploadStatus').innerText = 'Foto subida correctamente!';
-    actualizarPreview(); subiendoFoto = false; document.getElementById('btnGuardar').disabled = false;
-  };
-  reader.readAsDataURL(file);
-}
-
-async function guardarEnGithub(){
-  let content = btoa(unescape(encodeURIComponent(JSON.stringify(propiedades, null, 2))));
-  let res = await fetch(`https://api.github.com/repos/${GITHUB_USER}/${GITHUB_REPO}/contents/${FILE_PATH}`, {
-    method: 'PUT', headers: { 'Authorization': `token ${GITHUB_TOKEN}` },
-    body: JSON.stringify({ message: "Update desde panel", content: content, sha: sha })
+// GUARDAR EN JSONBIN
+async function guardarEnDB(){
+  await fetch(`https://api.jsonbin.io/v3/b/${BIN_ID}`, {
+    method: 'PUT',
+    headers: { 'Content-Type': 'application/json', 'X-Master-Key': API_KEY },
+    body: JSON.stringify(propiedades)
   });
-  let data = await res.json(); sha = data.content.sha; cargarDatos();
+  cargarDatos();
 }
 
 function entrar(){
@@ -194,15 +186,10 @@ function entrar(){
     document.getElementById('login').classList.add('hidden');
     document.getElementById('panel').classList.remove('hidden');
     cargarDatos();
-    // AUTO ACTUALIZAR CADA 10 SEGUNDOS
     intervaloAuto = setInterval(cargarDatos, 10000);
   } else { alert('Clave incorrecta') }
 }
-
-function salir(){
-  clearInterval(intervaloAuto); // Parar el auto refresh al salir
-  location.reload();
-}
+function salir(){ clearInterval(intervaloAuto); location.reload(); }
 
 function mostrarForm(id = null){
   document.getElementById('formulario').classList.remove('hidden');
@@ -239,22 +226,20 @@ function actualizarPreview(){
 }
 
 async function guardar(){
-  if(subiendoFoto) return alert("Espera a que termine de subir la foto");
-  let imgs = document.getElementById('imagenes').value? JSON.parse(document.getElementById('imagenes').value) : [document.getElementById('imagen').value];
   let prop = { id: document.getElementById('editId').value || Date.now().toString(),
     titulo: titulo.value, tipo: tipo.value, operacion: operacion.value, precio: precio.value, ubicacion: ubicacion.value,
-    dorm: dorm.value, bano: bano.value, amb: amb.value, m2cub: m2cub.value, imagen: imagen.value, imagenes: imgs, descripcion: descripcion.value, whatsapp: "5492983389710", estado: "disponible" };
+    dorm: dorm.value, bano: bano.value, amb: amb.value, m2cub: m2cub.value, imagen: imagen.value, descripcion: descripcion.value, whatsapp: "5492983389710", estado: "disponible" };
   let index = propiedades.findIndex(p => p.id === prop.id);
   if(index === -1) propiedades.push(prop); else { prop.estado = propiedades[index].estado; propiedades[index] = prop; }
-  await guardarEnGithub(); cancelar(); alert("Guardado! En 10 seg aparece en la web");
+  await guardarEnDB(); cancelar(); alert("Guardado! Ya está en la web");
 }
 
-async function eliminar(id){ if(confirm("¿Eliminar esta propiedad?")){ propiedades = propiedades.filter(p => p.id!== id); await guardarEnGithub(); } }
+async function eliminar(id){ if(confirm("¿Eliminar esta propiedad?")){ propiedades = propiedades.filter(p => p.id!== id); await guardarEnDB(); } }
 
 async function marcarEstado(id, estado){
   let p = propiedades.find(x => x.id === id);
   p.estado = estado;
-  await guardarEnGithub();
+  await guardarEnDB();
 }
 
 function filtrarPanel(filtro){
@@ -274,7 +259,7 @@ function listar(){
   propsFiltradas.forEach(p => {
     let claseEstado = p.estado === 'vendido'? 'vendido' : p.estado === 'alquilado'? 'alquilado' : '';
     let btnEstado = p.operacion === 'venta'
-   ? `<button class="btn-vendido" onclick="marcarEstado('${p.id}','vendido')">Marcar Vendido</button>`
+  ? `<button class="btn-vendido" onclick="marcarEstado('${p.id}','vendido')">Marcar Vendido</button>`
       : `<button class="btn-alquilado" onclick="marcarEstado('${p.id}','alquilado')">Marcar Alquilado</button>`;
 
     html += `<div class="prop-card-panel ${claseEstado}">
