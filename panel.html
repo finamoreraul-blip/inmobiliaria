@@ -26,26 +26,26 @@ button:hover{background:#8E0000;}
 .prop-card-panel.alquilado::after{content:"ALQUILADO";position:absolute;top:20px;right:-40px;background:#1565C0;color:#fff;padding:5px 40px;transform:rotate(45deg);font-weight:900;z-index:2;}
 .prop-card-panel img { width:100%; height:180px; object-fit:cover; }
 .prop-card-panel-info { padding:15px; }
-.prop-card-panel h3 { font-size:16px; margin-bottom:5px; }
-.prop-card-panel p { font-size:13px; color:#666; margin-bottom:10px; }
 .preview-card{background:#FFF;border:1px solid var(--border);border-radius:8px;overflow:hidden;position:sticky;top:20px;}
 .preview-img{position:relative;height:220px;}
-.preview-tag{position:absolute;top:15px;left:15px;background:var(--primary);color:#FFF;padding:6px 12px;font-weight:700;font-size:11px;letter-spacing:1px;}
+.preview-tag{position:absolute;top:15px;left:15px;background:var(--primary);color:#FFF;padding:6px 12px;font-weight:700;font-size:11px;}
 .preview-tag.alquiler{background:#1565C0;}
 .preview-img img{width:100%;height:100%;object-fit:cover;}
 .preview-info{padding:20px;}
 .preview-price{font-size:24px;font-weight:900;color:var(--dark);margin-bottom:8px;}
-.preview-title{font-size:15px;color:#777;margin-bottom:15px;}
 .preview-features{display:flex;gap:15px;border-top:1px solid var(--border);padding-top:12px;font-size:12px;flex-wrap:wrap;}
 .feature-item{display:flex;align-items:center;gap:5px;}.feature-item svg{width:18px;height:18px;fill:var(--primary);}
 .upload-box{border:2px dashed #ccc;padding:15px;text-align:center;border-radius:8px;margin:10px 0;}
-.upload-box img{max-width:100%;max-height:150px;margin-top:10px;border-radius:6px;}
+.upload-box img{max-width:100px;max-height:100px;margin:5px;border-radius:6px;object-fit:cover;}
+.upload-preview{display:flex;flex-wrap:wrap;gap:10px;margin-top:10px;}
 .loading{color:var(--primary);font-weight:bold;}
 .filtros{margin:20px 0;display:flex;gap:10px;}
 .filtros button{background:#666;font-size:13px;}
 .filtros button.active{background:var(--primary);}
 .auto-refresh{font-size:12px;color:#666;text-align:right;margin-top:10px;}
-@media(max-width:900px){.flex{flex-direction:column;}.prop-grid-panel { grid-template-columns:1fr; }.preview-card{position:static;}}
+.remove-img{background:red;color:white;border:none;border-radius:50%;width:20px;height:20px;font-size:12px;position:absolute;cursor:pointer;}
+.img-container{position:relative;display:inline-block;}
+@media(max-width:900px){.flex{flex-direction:column;}.prop-grid-panel { grid-template-columns:1fr; }}
 </style>
 </head>
 <body>
@@ -61,6 +61,7 @@ button:hover{background:#8E0000;}
   <h1>Panel de Propiedades</h1>
   <button onclick="salir()" style="float:right; background:#666;">Salir</button>
   <button onclick="mostrarForm()">+ Nueva Propiedad</button>
+  <button onclick="inicializarDB()" style="background:#1565C0;">Inicializar con 6 de muestra</button>
 
   <div class="filtros">
     <button onclick="filtrarPanel('todos')" class="active" id="filtroTodos">Todos</button>
@@ -91,11 +92,11 @@ button:hover{background:#8E0000;}
         </div>
 
         <div class="upload-box">
-          <label><b>Foto Principal - Desde Galería</b></label>
-          <input type="file" id="fotoInput" accept="image/*" onchange="subirFoto()">
-          <p id="uploadStatus">Selecciona una foto de tu galería</p>
-          <img id="fotoPreview" src="" style="display:none;">
-          <input type="hidden" id="imagen">
+          <label><b>Fotos - Puedes seleccionar varias</b></label>
+          <input type="file" id="fotoInput" accept="image/*" multiple onchange="subirFotos()">
+          <p id="uploadStatus">Selecciona 1 o más fotos de tu galería</p>
+          <div class="upload-preview" id="uploadPreview"></div>
+          <input type="hidden" id="imagenes">
         </div>
 
         <textarea id="descripcion" rows="4" placeholder="Descripción completa"></textarea>
@@ -126,13 +127,11 @@ button:hover{background:#8E0000;}
 </div>
 
 <script>
-// TUS DATOS DE JSONBIN
 const API_KEY = "$2a$10$B1K/L0dBd09SArO06y5gQOa6bCi52crjbHvBwXJFahIHEp9Tvh3d6";
 const BIN_ID = "6a56ce97f5f4af5e299000c2";
 const CLAVE = "admin123";
-let propiedades = []; let intervaloAuto = false; let filtroActual = 'todos';
+let propiedades = []; let intervaloAuto = false; let filtroActual = 'todos'; let fotosSubidas = [];
 
-// LAS 6 DE MUESTRA - NO LAS TOCO
 const PROPIEDADES_DEMO = [
   {"id":"1","titulo":"Casa 4 Ambientes - Centro","tipo":"casa","operacion":"venta","precio":"95000000","ubicacion":"Centro, Tres Arroyos","dorm":"3","bano":"2","amb":"4","m2cub":"200","m2tot":"300","imagen":"https://images.unsplash.com/photo-1570129477492-45c003edd2be?q=80&w=2070","imagenes":["https://images.unsplash.com/photo-1570129477492-45c003edd2be?q=80&w=2070","https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=2070"],"descripcion":"Hermosa casa ubicada en pleno centro.","whatsapp":"5492983389710","estado":"disponible"},
   {"id":"2","titulo":"Casa 3 Ambientes - Barrio Norte","tipo":"casa","operacion":"alquiler","precio":"450000","ubicacion":"Barrio Norte, Tres Arroyos","dorm":"2","bano":"1","amb":"3","m2cub":"120","m2tot":"180","imagen":"https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?q=80&w=2070","imagenes":["https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?q=80&w=2070","https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?q=80&w=2053"],"descripcion":"Casa ideal para familia.","whatsapp":"5492983389710","estado":"disponible"},
@@ -142,36 +141,58 @@ const PROPIEDADES_DEMO = [
   {"id":"6","titulo":"Local + Depósito - Zona Norte","tipo":"local","operacion":"venta","precio":"85000000","ubicacion":"Zona Norte, Tres Arroyos","dorm":"0","bano":"2","amb":"2","m2cub":"150","m2tot":"200","imagen":"https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=2070","imagenes":["https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=2070","https://images.unsplash.com/photo-1497366811353-6870744d04b2?q=80&w=2069"],"descripcion":"Local amplio con depósito.","whatsapp":"5492983389710","estado":"disponible"}
 ];
 
-// SUBIR FOTO A IMGBB - AHORA SI FUNCIONA DESDE GALERIA
-async function subirFoto(){
-  const file = document.getElementById('fotoInput').files[0];
-  if(!file) return;
-  document.getElementById('uploadStatus').innerHTML = '<span class="loading">Subiendo foto...</span>';
+// SUBIR MULTIPLES FOTOS A IMGBB
+async function subirFotos(){
+  const files = document.getElementById('fotoInput').files;
+  if(!files.length) return;
+
+  document.getElementById('uploadStatus').innerHTML = '<span class="loading">Subiendo fotos...</span>';
   document.getElementById('btnGuardar').disabled = true;
-  const formData = new FormData();
-  formData.append('image', file);
-  let res = await fetch('https://api.imgbb.com/1/upload?key=546c25a59c58ad7', { method: 'POST', body: formData });
-  let data = await res.json();
-  const urlFoto = data.data.url;
-  document.getElementById('imagen').value = urlFoto;
-  document.getElementById('fotoPreview').src = urlFoto;
-  document.getElementById('fotoPreview').style.display = 'block';
-  document.getElementById('uploadStatus').innerText = 'Foto subida correctamente!';
+
+  for(let i = 0; i < files.length; i++){
+    const formData = new FormData();
+    formData.append('image', files[i]);
+    let res = await fetch('https://api.imgbb.com/1/upload?key=3b7d1e8b8f7c9a0', { method: 'POST', body: formData });
+    let data = await res.json();
+    fotosSubidas.push(data.data.url);
+  }
+
+  document.getElementById('imagenes').value = JSON.stringify(fotosSubidas);
+  mostrarPreviewFotos();
+  document.getElementById('uploadStatus').innerText = `${fotosSubidas.length} foto(s) subida(s)`;
   actualizarPreview();
   document.getElementById('btnGuardar').disabled = false;
 }
 
-// CARGAR DESDE JSONBIN
+function mostrarPreviewFotos(){
+  const container = document.getElementById('uploadPreview');
+  container.innerHTML = '';
+  fotosSubidas.forEach((url, index) => {
+    container.innerHTML += `
+      <div class="img-container">
+        <img src="${url}">
+        <button class="remove-img" onclick="eliminarFoto(${index})">x</button>
+      </div>
+    `;
+  });
+}
+
+function eliminarFoto(index){
+  fotosSubidas.splice(index, 1);
+  document.getElementById('imagenes').value = JSON.stringify(fotosSubidas);
+  mostrarPreviewFotos();
+  actualizarPreview();
+}
+
 async function cargarDatos(){
   try{
     let res = await fetch(`https://api.jsonbin.io/v3/b/${BIN_ID}/latest`, { headers: { 'X-Master-Key': API_KEY } });
     let data = await res.json();
-    propiedades = data.record || PROPIEDADES_DEMO;
-  } catch(e){ propiedades = PROPIEDADES_DEMO; }
+    propiedades = data.record || [];
+  } catch(e){ propiedades = []; }
   listar();
 }
 
-// GUARDAR EN JSONBIN
 async function guardarEnDB(){
   await fetch(`https://api.jsonbin.io/v3/b/${BIN_ID}`, {
     method: 'PUT',
@@ -179,6 +200,14 @@ async function guardarEnDB(){
     body: JSON.stringify(propiedades)
   });
   cargarDatos();
+}
+
+async function inicializarDB(){
+  if(confirm("¿Cargar las 6 propiedades de muestra?")) {
+    propiedades = PROPIEDADES_DEMO;
+    await guardarEnDB();
+    alert("Listo! Ya tenes las 6 de muestra");
+  }
 }
 
 function entrar(){
@@ -194,13 +223,17 @@ function salir(){ clearInterval(intervaloAuto); location.reload(); }
 function mostrarForm(id = null){
   document.getElementById('formulario').classList.remove('hidden');
   window.scrollTo(0,0);
-  document.getElementById('fotoPreview').style.display = 'none';
-  document.getElementById('uploadStatus').innerText = 'Selecciona una foto de tu galería';
+  fotosSubidas = [];
+  document.getElementById('uploadPreview').innerHTML = '';
+  document.getElementById('uploadStatus').innerText = 'Selecciona 1 o más fotos de tu galería';
+
   if(id){
     document.getElementById('formTitulo').innerText = "Editando Propiedad";
     let p = propiedades.find(x => x.id === id);
     for(let key in p){ if(document.getElementById(key)) document.getElementById(key).value = p[key]; }
-    if(p.imagen){ document.getElementById('fotoPreview').src = p.imagen; document.getElementById('fotoPreview').style.display = 'block'; }
+    fotosSubidas = p.imagenes || [p.imagen];
+    document.getElementById('imagenes').value = JSON.stringify(fotosSubidas);
+    mostrarPreviewFotos();
   } else {
     document.getElementById('formTitulo').innerText = "Agregar Propiedad";
     document.getElementById('editId').value = "";
@@ -211,9 +244,9 @@ function mostrarForm(id = null){
 function cancelar(){ document.getElementById('formulario').classList.add('hidden'); }
 
 function actualizarPreview(){
-  document.getElementById('previewTitle').innerText = document.getElementById('titulo').value || 'Título de la propiedad';
+  document.getElementById('previewTitle').innerText = document.getElementById('titulo').value || 'Título';
   let precio = document.getElementById('precio').value; document.getElementById('previewPrice').innerText = precio? '$' + parseInt(precio).toLocaleString('es-AR') : '$0';
-  document.getElementById('previewImg').src = document.getElementById('imagen').value || 'https://via.placeholder.com/400x300';
+  document.getElementById('previewImg').src = fotosSubidas[0] || 'https://via.placeholder.com/400x300';
   let dorm = document.getElementById('dorm').value, bano = document.getElementById('bano').value, amb = document.getElementById('amb').value, m2 = document.getElementById('m2cub').value;
   document.getElementById('previewFeatures').innerHTML = `
     ${dorm?`<div class="feature-item"><svg viewBox="0 0 24 24"><path d="M12 3L2 12h3v8h14v-8h3L12 3z"/></svg><span>${dorm}</span>Dorm</div>`:''}
@@ -226,15 +259,16 @@ function actualizarPreview(){
 }
 
 async function guardar(){
+  let imgs = fotosSubidas.length > 0? fotosSubidas : [document.getElementById('imagenes').value];
   let prop = { id: document.getElementById('editId').value || Date.now().toString(),
     titulo: titulo.value, tipo: tipo.value, operacion: operacion.value, precio: precio.value, ubicacion: ubicacion.value,
-    dorm: dorm.value, bano: bano.value, amb: amb.value, m2cub: m2cub.value, imagen: imagen.value, descripcion: descripcion.value, whatsapp: "5492983389710", estado: "disponible" };
+    dorm: dorm.value, bano: bano.value, amb: amb.value, m2cub: m2cub.value, imagen: imgs[0], imagenes: imgs, descripcion: descripcion.value, whatsapp: "5492983389710", estado: "disponible" };
   let index = propiedades.findIndex(p => p.id === prop.id);
   if(index === -1) propiedades.push(prop); else { prop.estado = propiedades[index].estado; propiedades[index] = prop; }
-  await guardarEnDB(); cancelar(); alert("Guardado! Ya está en la web");
+  await guardarEnDB(); cancelar(); alert("Guardado! Ya está en la web con " + imgs.length + " fotos");
 }
 
-async function eliminar(id){ if(confirm("¿Eliminar esta propiedad?")){ propiedades = propiedades.filter(p => p.id!== id); await guardarEnDB(); } }
+async function eliminar(id){ if(confirm("¿Eliminar?")){ propiedades = propiedades.filter(p => p.id!== id); await guardarEnDB(); } }
 
 async function marcarEstado(id, estado){
   let p = propiedades.find(x => x.id === id);
@@ -259,14 +293,15 @@ function listar(){
   propsFiltradas.forEach(p => {
     let claseEstado = p.estado === 'vendido'? 'vendido' : p.estado === 'alquilado'? 'alquilado' : '';
     let btnEstado = p.operacion === 'venta'
-  ? `<button class="btn-vendido" onclick="marcarEstado('${p.id}','vendido')">Marcar Vendido</button>`
-      : `<button class="btn-alquilado" onclick="marcarEstado('${p.id}','alquilado')">Marcar Alquilado</button>`;
+ ? `<button class="btn-vendido" onclick="marcarEstado('${p.id}','vendido')">Vendido</button>`
+      : `<button class="btn-alquilado" onclick="marcarEstado('${p.id}','alquilado')">Alquilado</button>`;
 
     html += `<div class="prop-card-panel ${claseEstado}">
       <img src="${p.imagen}">
       <div class="prop-card-panel-info">
         <h3>${p.titulo}</h3>
-        <p><b>$${parseInt(p.precio).toLocaleString('es-AR')}</b> - ${p.ubicacion} - ${p.operacion}</p>
+        <p><b>$${parseInt(p.precio).toLocaleString('es-AR')}</b> - ${p.ubicacion}</p>
+        <p style="font-size:12px;color:#666;">${(p.imagenes || [p.imagen]).length} foto(s)</p>
         <div class="btns">
           <button class="btn-edit" onclick="mostrarForm('${p.id}')">Editar</button>
           ${p.estado === 'disponible'? btnEstado : `<button class="btn-edit" onclick="marcarEstado('${p.id}','disponible')">Reactivar</button>`}
@@ -275,7 +310,7 @@ function listar(){
       </div>
     </div>`;
   });
-  document.getElementById('lista').innerHTML = html || "<p>No hay propiedades</p>";
+  document.getElementById('lista').innerHTML = html || "<p>No hay propiedades. Dale a 'Inicializar con 6 de muestra'</p>";
 }
 </script>
 </body>
