@@ -1,378 +1,800 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ML - MAY Y LEO LABRUNÉE | Venta y Alquiler en Tres Arroyos</title>
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700;900&display=swap" rel="stylesheet">
-  <style>
-    :root {
-      --primary: #C62828;
-      --dark: #111;
-      --bg: #FFF;
-      --text: #333;
-      --text-light: #777;
-      --green: #25D366;
-      --border: #EAEAEA;
-    }
-    * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Montserrat', sans-serif; scroll-behavior: smooth; }
-    body { background: var(--bg); color: var(--text); }
-    a { text-decoration: none; color: inherit; }
-   .hidden-section { display: none!important; }
-    header { position: fixed; top: 0; width: 100%; z-index: 100; background: var(--dark); box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
-   .navbar { max-width: 1400px; margin: auto; display: flex; justify-content: space-between; align-items: center; padding: 18px 40px; position: relative; }
-   .logo { font-size: 24px; font-weight: 900; color: #FFF; letter-spacing: 3px; cursor: pointer; text-align: center; flex: 1; }
-   .logo span { font-weight: 300; font-size: 13px; letter-spacing: 1px; opacity: 0.8; display: block; }
-   .menu-btn { background: none; border: none; color: #FFF; font-size: 28px; cursor: pointer; position: absolute; left: 40px; transition: 0.3s; }
-   .menu-btn:hover { color: var(--primary); }
-   .nav-links {display: none;position: absolute;top: 100%;left: 0;width: 100%;background: rgba(17, 17, 17, 0.95);backdrop-filter: blur(10px);flex-direction: column;padding: 20px 0;gap: 0;}
-   .nav-links.active { display: flex; }
-   .nav-links a {color: #FFF;padding: 16px 40px;font-weight: 600;font-size: 16px;border-bottom: 1px solid rgba(255,255,255,0.1);cursor: pointer;transition: 0.3s;}
-   .nav-links a:hover { background: var(--primary); color: #FFF; }
-   .hero { margin-top: 70px; height: 85vh; background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('https://images.unsplash.com/photo-1564013799919-ab600027ffc6?q=80&w=2070') center/cover; color: #FFF; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding: 0 20px; }
-   .hero h1 { font-size: 60px; font-weight: 900; margin-bottom: 20px; line-height: 1.1; }
-   .hero p { font-size: 20px; font-weight: 300; margin-bottom: 40px; }
-   .search-box { max-width: 1000px; width: 100%; background: #FFF; padding: 15px; display: grid; grid-template-columns: 2fr 1fr 1fr 1fr auto; gap: 10px; }
-   .search-box input,.search-box select { padding: 16px; border: 1px solid var(--border); font-size: 15px; font-weight: 300; }
-   .btn-search { background: var(--primary); color: #FFF; border: none; padding: 16px 30px; font-weight: 700; cursor: pointer; letter-spacing: 1px; }
-   .btn-search:hover { background: #8E0000; }
-    section { max-width: 1400px; margin: auto; padding: 100px 40px; }
-   .section-title { font-size: 48px; font-weight: 900; text-align: center; margin-bottom: 20px; color: var(--dark); }
-   .section-subtitle { text-align: center; max-width: 600px; margin: 0 auto 60px auto; font-size: 17px; color: var(--text-light); font-weight: 300; }
-   .prop-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(380px, 1fr)); gap: 40px; }
-   .prop-card { background: #FFF; border: 1px solid var(--border); transition: 0.3s; }
-   .prop-card:hover { border-color: var(--primary); }
-   .prop-img-wrapper { position: relative; }
-   .prop-tag { position: absolute; top: 20px; left: 20px; background: var(--primary); color: #FFF; padding: 8px 16px; font-weight: 700; font-size: 12px; z-index: 2; letter-spacing: 1px; }
-   .prop-tag.alquiler { background: #1565C0; }
-   .prop-tag.local { background: #FF8F00; }
-   .carousel { position: relative; height: 280px; overflow: hidden; }
-   .carousel img { width: 100%; height: 100%; object-fit: cover; position: absolute; opacity: 0; transition: opacity 1s; }
-   .carousel img.active { opacity: 1; }
-   .prop-info { padding: 30px; }
-   .prop-price { font-size: 28px; font-weight: 900; color: var(--dark); margin-bottom: 10px; }
-   .prop-title { font-size: 17px; font-weight: 400; margin-bottom: 20px; color: var(--text-light); }
-   .prop-features { display: flex; justify-content: space-between; border-top: 1px solid var(--border); padding-top: 15px; margin-top: 15px; flex-wrap: wrap; gap: 10px; }
-   .feature-item { display: flex; flex-direction: column; align-items: center; gap: 5px; font-size: 12px; color: var(--text-light); text-align: center; }
-   .feature-item svg { width: 22px; height: 22px; fill: var(--primary); }
-   .feature-item span { font-weight: 700; color: var(--dark); font-size: 16px; }
-   .btn-contact { background: var(--dark); color: #FFF; padding: 14px; text-align: center; font-weight: 700; display: block; margin-top: 20px; border: none; width: 100%; font-size: 14px; letter-spacing: 1px; text-transform: uppercase; cursor: pointer; }
-   .btn-contact:hover { background: var(--primary); }
-   .modal { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.9); overflow-y: auto; }
-   .modal-content { background-color: #FFF; margin: 5% auto; width: 90%; max-width: 1000px; }
-   .close { color: #FFF; position: absolute; top: 20px; right: 30px; font-size: 40px; font-weight: 300; cursor: pointer; z-index: 1001; }
-   .modal-carousel { position: relative; height: 500px; background: #000; overflow: hidden; }
-   .modal-carousel img { width: 100%; height: 100%; object-fit: contain; position: absolute; opacity: 0; transition: opacity 0.5s; }
-   .modal-carousel img.active { opacity: 1; }
-   .modal-nav { position: absolute; top: 50%; width: 100%; display: flex; justify-content: space-between; transform: translateY(-50%); }
-   .modal-nav button { background: rgba(0,0,0,0.3); color: #FFF; border: none; font-size: 40px; padding: 10px 20px; cursor: pointer; }
-   .modal-info { padding: 40px; }
-   .modal-price { font-size: 36px; font-weight: 900; color: var(--primary); margin-bottom: 15px; }
-   .modal-title { font-size: 24px; font-weight: 600; color: var(--dark); margin-bottom: 25px; }
-   .modal-features { display: flex; gap: 40px; margin-bottom: 30px; flex-wrap: wrap; }
-   .modal-desc { font-size: 16px; line-height: 1.8; color: var(--text); margin-bottom: 30px; font-weight: 300; }
-   .btn-whatsapp-modal { background: var(--green); color: #FFF; padding: 16px; text-align: center; font-weight: 900; display: block; font-size: 16px; letter-spacing: 1px; }
-   .about { background: #FA; }
-   .about-content { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center; }
-   .about-content img { width: 100%; }
-   .steps-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 40px; text-align: center; }
-   .step-number { font-size: 60px; font-weight: 900; color: var(--border); margin-bottom: 10px; }
-   .step-card h3 { font-size: 20px; color: var(--dark); margin-bottom: 10px; font-weight: 700; }
-   .mini-contact { background: var(--primary); color: #FFF; text-align: center; padding: 40px; margin-top: 60px; }
-   .mini-contact .btn { background: #FFF; color: var(--primary); padding: 14px 30px; font-weight: 900; display: inline-block; margin-top: 15px; letter-spacing: 1px; }
-   .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; }
-   .contact-form input,.contact-form textarea { width: 100%; padding: 16px; margin-bottom: 15px; border: 1px solid var(--border); font-weight: 300; }
-   .btn-send { background: var(--dark); color: #FFF; border: none; padding: 16px; width: 100%; font-weight: 900; cursor: pointer; letter-spacing: 1px; }
-   .whatsapp-container { position: fixed; bottom: 30px; right: 30px; z-index: 999; display: flex; align-items: center; gap: 12px; }
-   .whatsapp-text { background: #FFF; padding: 10px 18px; border-radius: 30px; box-shadow: 0 3px 15px rgba(0,0,0,0.1); font-size: 14px; font-weight: 600; animation: pulse 2s infinite; }
-    @keyframes pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.05); } }
-   .whatsapp-float { width: 55px; height: 55px; background-color: var(--green); border-radius: 50%; display: flex; align-items: center; justify-content: center; }
-   .whatsapp-float:hover { transform: scale(1.1); }
-    footer { background: var(--dark); color: #FFF; text-align: center; padding: 50px 20px; font-weight: 300; }
-    @media(max-width: 1024px) {.prop-grid { grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); } }
-    @media(max-width: 768px) {
-     .navbar { padding: 15px 20px; }
-     .menu-btn { left: 20px; font-size: 24px; }
-     .logo { font-size: 20px; letter-spacing: 2px; }
-     .logo span { font-size: 11px; }
-     .nav-links a { padding: 14px 20px; }
-     .hero { margin-top: 60px; height: 75vh; }
-     .hero h1 { font-size: 32px; }
-     .hero p { font-size: 16px; }
-     .search-box { grid-template-columns: 1fr; }
-      section { padding: 60px 20px; }
-     .section-title { font-size: 32px; }
-     .prop-grid { grid-template-columns: 1fr; }
-     .steps-grid,.contact-grid,.about-content { grid-template-columns: 1fr; gap: 30px; }
-     .modal-carousel { height: 300px; }
-     .modal-info { padding: 25px; }
-     .modal-price { font-size: 26px; }
-     .whatsapp-text { display: none; }
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PapelesYA - Gestor de Alquileres y Economía Diaria</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- jsPDF CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <!-- Chart.js para historial de 6 meses -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+        body { font-family: 'Inter', sans-serif; background-color: #f8fafc; color: #1e293b; }
+    </style>
 </head>
-<body>
+<body class="bg-slate-50 min-h-screen flex flex-col justify-between">
 
-  <header id="header">
-    <div class="navbar">
-      <button class="menu-btn" onclick="toggleMenu()">⋮</button>
-      <div class="logo" onclick="showAll()">ML <span>MAY Y LEO LABRUNÉE</span></div>
-      <div class="nav-links" id="navMenu">
-        <a onclick="showSection('propiedades'); toggleMenu()">Propiedades</a>
-        <a onclick="showSection('nosotros'); toggleMenu()">Nosotros</a>
-        <a onclick="showSection('comprar'); toggleMenu()">Comprar</a>
-        <a onclick="showSection('vender'); toggleMenu()">Vender</a>
-        <a onclick="showSection('tasaciones'); toggleMenu()">Tasaciones</a>
-        <a onclick="showSection('contacto'); toggleMenu()">Contacto</a>
-      </div>
+    <!-- HEADER VENDEDOR -->
+    <header class="bg-gradient-to-r from-emerald-600 to-teal-700 text-white shadow-lg py-6 px-4 text-center">
+        <div class="max-w-4xl mx-auto">
+            <span class="bg-emerald-500 text-white text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider mb-2 inline-block">🚀 Edición 2026</span>
+            <h1 class="text-2xl sm:text-4xl font-extrabold tracking-tight mb-2">PapelesYA - ¿Cuánto te sale por día vivir?</h1>
+            <p class="text-emerald-100 text-sm sm:text-base font-medium">Genera contratos legales + controlá si llegás a fin de mes</p>
+        </div>
+    </header>
+
+    <main class="max-w-4xl w-full mx-auto p-4 sm:p-6 space-y-8 flex-grow">
+
+        <!-- ESTADO PREMIUM / BANNER DE ACCESO -->
+        <div id="banner-premium" class="bg-amber-50 border-l-4 border-amber-500 p-4 rounded-r-xl shadow-sm flex flex-col sm:flex-row justify-between items-center gap-4">
+            <div>
+                <h3 class="font-bold text-amber-800 flex items-center gap-2">⭐ Estado de tu cuenta: <span id="txt-estado-premium" class="text-amber-600 font-semibold">Versión Gratuita (1 PDF disponible)</span></h3>
+                <p class="text-xs text-amber-700 mt-1">Desbloquea contratos ilimitados, economía avanzada y participación en el sorteo mensual.</p>
+            </div>
+            <button onclick="abrirModalPago()" class="w-full sm:w-auto bg-amber-500 hover:bg-amber-600 text-white font-bold px-5 py-2.5 rounded-xl shadow transition transform active:scale-95 text-sm whitespace-nowrap">
+                ⚡ ¡Pasate a Premium!
+            </button>
+        </div>
+
+        <!-- SECCIÓN 1: MI ECONOMÍA DIARIA -->
+        <section class="bg-white rounded-2xl shadow-sm border border-slate-200 p-5 sm:p-6 space-y-5">
+            <div class="flex items-center justify-between border-b pb-3">
+                <h2 class="text-lg font-bold text-slate-800 flex items-center gap-2">📊 1. Mi Economía Diaria</h2>
+                <span class="text-xs bg-slate-100 text-slate-600 px-2.5 py-1 rounded-lg font-medium">Uso diario</span>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div>
+                    <label class="block text-xs font-semibold text-slate-600 mb-1">Sueldo ($)</label>
+                    <input type="number" id="eco-sueldo" oninput="calcularEconomia()" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-sm focus:ring-2 focus:ring-emerald-500 focus:outline-none" placeholder="0">
+                </div>
+                <div>
+                    <label class="block text-xs font-semibold text-slate-600 mb-1">Extra / Changas ($)</label>
+                    <input type="number" id="eco-extra" oninput="calcularEconomia()" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-sm focus:ring-2 focus:ring-emerald-500 focus:outline-none" placeholder="0">
+                </div>
+            </div>
+
+            <div class="grid grid-cols-2 sm:grid-cols-3 gap-3 pt-2">
+                <div>
+                    <label class="block text-[11px] font-medium text-slate-500">Alquiler ($)</label>
+                    <input type="number" id="g-alq" oninput="calcularEconomia()" class="w-full bg-slate-50 border border-slate-200 rounded-lg px-2.5 py-1.5 text-xs" placeholder="0">
+                </div>
+                <div>
+                    <label class="block text-[11px] font-medium text-slate-500">Expensas ($)</label>
+                    <input type="number" id="g-exp" oninput="calcularEconomia()" class="w-full bg-slate-50 border border-slate-200 rounded-lg px-2.5 py-1.5 text-xs" placeholder="0">
+                </div>
+                <div>
+                    <label class="block text-[11px] font-medium text-slate-500">Comida Super ($)</label>
+                    <input type="number" id="g-com" oninput="calcularEconomia()" class="w-full bg-slate-50 border border-slate-200 rounded-lg px-2.5 py-1.5 text-xs" placeholder="0">
+                </div>
+                <div>
+                    <label class="block text-[11px] font-medium text-slate-500">Luz/Gas/Net ($)</label>
+                    <input type="number" id="g-serv" oninput="calcularEconomia()" class="w-full bg-slate-50 border border-slate-200 rounded-lg px-2.5 py-1.5 text-xs" placeholder="0">
+                </div>
+                <div>
+                    <label class="block text-[11px] font-medium text-slate-500">Transporte/Nafta ($)</label>
+                    <input type="number" id="g-trans" oninput="calcularEconomia()" class="w-full bg-slate-50 border border-slate-200 rounded-lg px-2.5 py-1.5 text-xs" placeholder="0">
+                </div>
+                <div>
+                    <label class="block text-[11px] font-medium text-slate-500">Otros ($)</label>
+                    <input type="number" id="g-otros" oninput="calcularEconomia()" class="w-full bg-slate-50 border border-slate-200 rounded-lg px-2.5 py-1.5 text-xs" placeholder="0">
+                </div>
+            </div>
+
+            <!-- RESULTADOS AUTOMÁTICOS -->
+            <div id="semaforo-box" class="p-4 rounded-xl border transition-all flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 bg-slate-50 border-slate-200">
+                <div>
+                    <p class="text-xs font-bold text-slate-500 uppercase tracking-wide">Balance Mensual</p>
+                    <h4 id="txt-resultado-balance" class="text-lg font-extrabold text-slate-800">Completá tus ingresos y gastos</h4>
+                    <p id="txt-costo-dia" class="text-xs text-slate-600 mt-0.5">Costo por día: $0</p>
+                </div>
+                <div id="badge-semaforo" class="px-3 py-1.5 rounded-full text-xs font-bold bg-slate-200 text-slate-700">Esperando datos</div>
+            </div>
+
+            <!-- META Y CIERRE DE MES -->
+            <div class="pt-2 flex flex-col sm:flex-row gap-3 items-center justify-between border-t border-slate-100">
+                <div class="w-full sm:w-1/2">
+                    <label class="block text-xs font-semibold text-slate-600 mb-1">🎯 Mi meta del mes</label>
+                    <input type="text" id="meta-mes" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-sm" placeholder="Ej: Ahorrar $100.000 / No estar en rojo">
+                </div>
+                <button onclick="cerrarMes()" class="w-full sm:w-auto bg-slate-800 hover:bg-slate-900 text-white font-semibold text-sm px-5 py-2.5 rounded-xl transition shadow">
+                    🔒 Cerrar mes actual
+                </button>
+            </div>
+
+            <!-- GRÁFICO HISTORIAL -->
+            <div class="pt-4">
+                <h3 class="text-xs font-bold text-slate-500 uppercase tracking-wide mb-3">📈 Historial últimos meses</h3>
+                <div class="bg-slate-50 p-3 rounded-xl border border-slate-200 relative h-48">
+                    <canvas id="chartHistorial"></canvas>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECCIÓN 2: GASTO DÍA A DÍA + NAFTA INTELIGENTE -->
+        <section class="bg-white rounded-2xl shadow-sm border border-slate-200 p-5 sm:p-6 space-y-4">
+            <div class="flex items-center justify-between border-b pb-3">
+                <h2 class="text-lg font-bold text-slate-800 flex items-center gap-2">⛽ 2. ¿Qué gastaste HOY?</h2>
+                <span id="fecha-hoy-txt" class="text-xs bg-emerald-50 text-emerald-700 px-2.5 py-1 rounded-lg font-bold">--/--/----</span>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div>
+                    <label class="block text-xs font-semibold text-slate-600 mb-1">🍝 Comida hoy ($)</label>
+                    <input type="number" id="hoy-comida" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-sm" placeholder="0">
+                </div>
+                <div>
+                    <label class="block text-xs font-semibold text-slate-600 mb-1">🚌 Colectivo / Uber ($)</label>
+                    <input type="number" id="hoy-transporte" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-sm" placeholder="0">
+                </div>
+            </div>
+
+            <!-- NAFTA INTELIGENTE -->
+            <div class="bg-teal-50/50 border border-teal-100 rounded-xl p-4 space-y-3">
+                <h3 class="text-xs font-bold text-teal-800 uppercase tracking-wide">Calculadora Nafta Inteligente</h3>
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                    <div>
+                        <label class="block text-[11px] font-medium text-slate-600">Monto total ($)</label>
+                        <input type="number" id="nafta-monto" oninput="calcularNaftaInteligente()" class="w-full bg-white border border-teal-200 rounded-lg px-2.5 py-1.5 text-xs" placeholder="40000">
+                    </div>
+                    <div>
+                        <label class="block text-[11px] font-medium text-slate-600">Litros cargados</label>
+                        <input type="number" id="nafta-litros" oninput="calcularNaftaInteligente()" class="w-full bg-white border border-teal-200 rounded-lg px-2.5 py-1.5 text-xs" placeholder="30">
+                    </div>
+                    <div>
+                        <label class="block text-[11px] font-medium text-slate-600">¿Cuántos días te dura?</label>
+                        <input type="number" id="nafta-dias" oninput="calcularNaftaInteligente()" class="w-full bg-white border border-teal-200 rounded-lg px-2.5 py-1.5 text-xs" placeholder="5">
+                    </div>
+                </div>
+                <p id="txt-calc-nafta" class="text-xs font-bold text-teal-900 bg-teal-100/60 p-2 rounded-lg">Cargá los datos para ver tu costo diario de nafta.</p>
+            </div>
+
+            <div>
+                <label class="block text-xs font-semibold text-slate-600 mb-1">🛒 Otros gastos hoy ($)</label>
+                <input type="number" id="hoy-otros" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-sm" placeholder="0">
+            </div>
+
+            <button onclick="guardarDia()" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-3 px-4 rounded-xl shadow-md transition transform active:scale-95 text-sm">
+                💾 Guardar Día y Sumar Puntos
+            </button>
+        </section>
+
+        <!-- SECCIÓN 3: SISTEMA DE PUNTOS + INCENTIVO DIARIO -->
+        <section class="bg-gradient-to-br from-indigo-900 to-slate-900 text-white rounded-2xl shadow-md p-5 sm:p-6 space-y-3">
+            <h2 class="text-lg font-bold flex items-center gap-2">🔥 3. Sistema de Puntos y Racha</h2>
+            <div class="bg-white/10 backdrop-blur-md rounded-xl p-4 border border-white/10 space-y-2">
+                <p id="txt-racha-estado" class="text-sm font-semibold text-amber-300">🔥 Racha: 0 días | ⭐ Puntos este mes: 0</p>
+                <p id="txt-sorteo-estado" class="text-xs text-slate-300">Te faltan 200 puntos para entrar al sorteo de $20.000</p>
+                <!-- Barra de progreso -->
+                <div class="w-full bg-white/20 rounded-full h-2.5 overflow-hidden mt-2">
+                    <div id="barra-progreso-sorteo" class="bg-amber-400 h-2.5 rounded-full transition-all duration-500" style="width: 0%"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECCIÓN 4: GENERADOR DE PAPELES (jsPDF) -->
+        <section class="bg-white rounded-2xl shadow-sm border border-slate-200 p-5 sm:p-6 space-y-4">
+            <div class="flex items-center justify-between border-b pb-3">
+                <h2 class="text-lg font-bold text-slate-800 flex items-center gap-2">📄 4. Generador Legal de Papeles</h2>
+                <span class="text-xs bg-indigo-50 text-indigo-700 px-2.5 py-1 rounded-lg font-medium">jsPDF Pro</span>
+            </div>
+
+            <div>
+                <label class="block text-xs font-semibold text-slate-600 mb-1">Seleccionar Modelo</label>
+                <select id="doc-tipo" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-sm font-medium focus:ring-2 focus:ring-emerald-500">
+                    <option value="Contrato Alquiler">Contrato Alquiler (Ley Actualizada)</option>
+                    <option value="Recibo Alquiler">Recibo de Alquiler</option>
+                    <option value="Carta Documento Laboral">Carta Documento Laboral</option>
+                    <option value="Telegrama Renuncia">Telegrama de Renuncia</option>
+                    <option value="Recibo Empleada Domestica">Recibo Empleada Doméstica</option>
+                    <option value="Compra-Venta Auto/Moto">Compra-Venta Auto / Moto</option>
+                </select>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div>
+                    <label class="block text-xs font-semibold text-slate-600 mb-1">Nombre Completo / Razón Social</label>
+                    <input type="text" id="doc-nombre" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-sm" placeholder="Ej: Juan Pérez">
+                </div>
+                <div>
+                    <label class="block text-xs font-semibold text-slate-600 mb-1">DNI / CUIT</label>
+                    <input type="text" id="doc-dni" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-sm" placeholder="Ej: 30123456">
+                </div>
+                <div>
+                    <label class="block text-xs font-semibold text-slate-600 mb-1">Dirección / Domicilio Legal</label>
+                    <input type="text" id="doc-direccion" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-sm" placeholder="Ej: Av. Corrientes 1234, CABA">
+                </div>
+                <div>
+                    <label class="block text-xs font-semibold text-slate-600 mb-1">Monto ($)</label>
+                    <input type="number" id="doc-monto" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-sm" placeholder="Ej: 150000">
+                </div>
+            </div>
+
+            <button onclick="generarPDFPapel()" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 px-4 rounded-xl shadow-md transition transform active:scale-95 text-sm">
+                🖨️ Generar y Descargar PDF Legal
+            </button>
+        </section>
+
+        <!-- SECCIÓN 5: PANEL MIS ALQUILERES -->
+        <section class="bg-white rounded-2xl shadow-sm border border-slate-200 p-5 sm:p-6 space-y-4">
+            <div class="flex items-center justify-between border-b pb-3">
+                <h2 class="text-lg font-bold text-slate-800 flex items-center gap-2">🏠 5. Panel Mis Alquileres</h2>
+                <button onclick="abrirModalNuevoAlquiler()" class="text-xs bg-emerald-50 text-emerald-700 hover:bg-emerald-100 px-3 py-1.5 rounded-lg font-bold transition">
+                    + Nuevo Contrato
+                </button>
+            </div>
+
+            <div id="lista-alquileres" class="space-y-3">
+                <!-- Se inyecta dinámicamente -->
+            </div>
+        </section>
+
+        <!-- SECCIÓN 6: CHAT IA MINI -->
+        <section class="bg-white rounded-2xl shadow-sm border border-slate-200 p-5 sm:p-6 space-y-4">
+            <div class="flex items-center justify-between border-b pb-3">
+                <h2 class="text-lg font-bold text-slate-800 flex items-center gap-2">💬 6. Asistente Legal Mini</h2>
+                <span class="text-xs text-slate-400">Consultas frecuentes</span>
+            </div>
+
+            <div class="flex gap-2">
+                <input type="text" id="chat-input" onkeypress="if(event.key==='Enter') consultarIA()" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-sm" placeholder="Ej: ¿Qué pasa con el aumento, depósito o desalojo?">
+                <button onclick="consultarIA()" class="bg-slate-800 hover:bg-slate-900 text-white px-4 py-2 rounded-xl text-sm font-semibold transition">Consultar</button>
+            </div>
+
+            <div id="chat-respuesta" class="bg-slate-50 border border-slate-200 rounded-xl p-3.5 text-xs sm:text-sm text-slate-700 hidden">
+                <!-- Respuesta -->
+            </div>
+        </section>
+
+    </main>
+
+    <!-- FOOTER CON DISCLAIMER -->
+    <footer class="max-w-4xl mx-auto w-full px-4 py-6 text-center text-xs text-slate-500 space-y-2 border-t border-slate-200 mt-8">
+        <p>Modelos informativos, no reemplazan asesoramiento letrado.</p>
+        <p class="font-semibold text-slate-600">PapelesYA © 2026 - Gestión Ágil para tu Economía</p>
+    </footer>
+
+    <!-- MODAL DE PAGO -->
+    <div id="modal-pago" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-white rounded-3xl shadow-2xl max-w-md w-full p-6 space-y-6 relative animate-in fade-in zoom-in duration-200">
+            <button onclick="cerrarModalPago()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-600 font-bold text-lg">✕</button>
+            
+            <div class="text-center space-y-2">
+                <span class="bg-emerald-100 text-emerald-800 text-xs font-bold px-3 py-1 rounded-full uppercase">Acceso Restringido</span>
+                <h3 class="text-xl font-extrabold text-slate-900">Elegí tu Plan PapelesYA</h3>
+                <p class="text-xs text-slate-600">Ya utilizaste tu PDF gratuito de cortesía o requieres desbloquear herramientas completas.</p>
+            </div>
+
+            <div class="space-y-3">
+                <!-- Card Recomendada -->
+                <div class="border-2 border-emerald-500 bg-emerald-50/40 rounded-2xl p-4 relative space-y-3">
+                    <span class="absolute -top-3 right-4 bg-emerald-600 text-white text-[10px] font-bold px-2.5 py-0.5 rounded-full uppercase">Recomendado</span>
+                    <div>
+                        <h4 class="font-extrabold text-emerald-900 text-sm">Plan Mes Ilimitado</h4>
+                        <p class="text-xs text-emerald-700">Acceso total 30 días + Economía + Sorteos</p>
+                    </div>
+                    <div class="flex items-baseline justify-between">
+                        <span class="text-xl font-black text-emerald-900">$9.900 <span class="text-xs font-normal text-emerald-700">/mes</span></span>
+                        <a href="https://mpago.la/2BSkG6D" target="_blank" onclick="simularPagoExitoso('mes', 30)" class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs px-4 py-2.5 rounded-xl shadow transition">
+                            Pagar con Mercado Pago
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Card Simple -->
+                <div class="border border-slate-200 bg-white rounded-2xl p-4 space-y-3">
+                    <div>
+                        <h4 class="font-bold text-slate-800 text-sm">Plan 1 Papel</h4>
+                        <p class="text-xs text-slate-500">Generación de 1 PDF legal específico</p>
+                    </div>
+                    <div class="flex items-baseline justify-between">
+                        <span class="text-xl font-black text-slate-800">$4.900</span>
+                        <a href="https://mpago.la/link-4900" target="_blank" onclick="simularPagoExitoso('papel', 1)" class="bg-slate-800 hover:bg-slate-900 text-white font-bold text-xs px-4 py-2.5 rounded-xl shadow transition">
+                            Pagar Plan Simple
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="text-center pt-2">
+                <button onclick="simularPagoExitoso('mes', 30)" class="text-[11px] text-slate-400 hover:underline">Simular pago exitoso (modo demo)</button>
+            </div>
+        </div>
     </div>
-  </header>
 
-  <div class="hero" id="heroSection">
-    <h1>Encontrá tu lugar<br>en Tres Arroyos</h1>
-    <p>Asesoramiento inmobiliario</p>
-    <div class="search-box">
-      <input type="text" id="searchInput" placeholder="Buscar por barrio, calle...">
-      <select id="searchTipo"><option value="all">Tipo</option><option value="casa">Casa</option><option value="depto">Departamento</option><option value="local">Local</option></select>
-      <select id="searchOperacion" onchange="cambiarFiltroPrecio()"><option value="all">Operación</option><option value="venta">Venta</option><option value="alquiler">Alquiler</option></select>
-      <select id="searchPrecio"><option value="all">Precio</option></select>
-      <button class="btn-search" onclick="filtrarProps()">BUSCAR</button>
+    <!-- MODAL NUEVO ALQUILER -->
+    <div id="modal-alquiler" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-white rounded-3xl shadow-2xl max-w-md w-full p-6 space-y-4 relative">
+            <button onclick="document.getElementById('modal-alquiler').classList.add('hidden')" class="absolute top-4 right-4 text-slate-400 font-bold text-lg">✕</button>
+            <h3 class="text-lg font-bold text-slate-900">Agregar Contrato de Alquiler</h3>
+            
+            <div class="space-y-3">
+                <div>
+                    <label class="block text-xs font-semibold text-slate-600 mb-1">Dirección del Inmueble</label>
+                    <input type="text" id="alq-dir" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-sm" placeholder="Ej: Santa Fe 2050">
+                </div>
+                <div>
+                    <label class="block text-xs font-semibold text-slate-600 mb-1">Nombre del Inquilino</label>
+                    <input type="text" id="alq-inquilino" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-sm" placeholder="Ej: Carlos Gómez">
+                </div>
+                <div>
+                    <label class="block text-xs font-semibold text-slate-600 mb-1">Teléfono Inquilino (WhatsApp)</label>
+                    <input type="text" id="alq-tel" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-sm" placeholder="Ej: 5491123456789">
+                </div>
+                <div>
+                    <label class="block text-xs font-semibold text-slate-600 mb-1">Monto Mensual ($)</label>
+                    <input type="number" id="alq-monto" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-sm" placeholder="150000">
+                </div>
+                <div>
+                    <label class="block text-xs font-semibold text-slate-600 mb-1">Fecha de Vencimiento</label>
+                    <input type="date" id="alq-venc" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-sm">
+                </div>
+            </div>
+
+            <button onclick="guardarNuevoAlquiler()" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-3 rounded-xl shadow text-sm">
+                Guardar Contrato
+            </button>
+        </div>
     </div>
-  </div>
 
-  <section id="propiedades">
-    <h2 class="section-title">Propiedades</h2>
-    <p class="section-subtitle">Seleccionadas para vos</p>
-    <div class="prop-grid" id="propGrid">
-      <p style="text-align:center; grid-column:1/-1;">Cargando propiedades...</p>
+    <!-- PANEL ADMIN OCULTO (#admin) -->
+    <div id="panel-admin" class="fixed inset-0 bg-slate-900/90 z-50 hidden overflow-y-auto p-4 sm:p-8 text-white">
+        <div class="max-w-4xl mx-auto space-y-6">
+            <div class="flex justify-between items-center border-b border-slate-800 pb-4">
+                <h2 class="text-xl font-extrabold text-emerald-400">🛡️ Panel Admin Oculto (PapelesYA)</h2>
+                <button onclick="window.location.hash=''" class="bg-slate-800 hover:bg-slate-700 px-4 py-2 rounded-xl text-xs font-bold">Cerrar Admin</button>
+            </div>
+            <p class="text-xs text-slate-400">En producción este panel conecta directamente con Google Sheets. Aquí visualizas los datos locales actuales de prueba:</p>
+            
+            <div class="bg-slate-800 p-4 rounded-2xl border border-slate-700 space-y-4">
+                <div class="flex justify-between items-center">
+                    <h3 class="font-bold text-sm">Datos en localStorage</h3>
+                    <button onclick="sortearGanadorAdmin()" class="bg-amber-500 hover:bg-amber-600 text-slate-950 font-bold px-4 py-2 rounded-xl text-xs shadow">
+                        🎲 Sortear ganador entre +200 puntos
+                    </button>
+                </div>
+                <div id="admin-tabla-datos" class="overflow-x-auto text-xs font-mono text-slate-300 bg-slate-900 p-3 rounded-xl max-h-60 overflow-y-auto">
+                    <!-- Contenido dinámico -->
+                </div>
+            </div>
+            <div id="admin-resultado-sorteo" class="p-4 bg-emerald-950 border border-emerald-800 rounded-xl hidden text-emerald-300 text-sm font-bold"></div>
+        </div>
     </div>
-  </section>
 
-  <section class="about" id="nosotros">
-    <h2 class="section-title">Nosotros</h2><p class="section-subtitle">Compromiso y transparencia</p>
-    <div class="about-content"><div><p style="font-size:18px; font-weight:300;">Trabajamos para que comprar o vender sea una experiencia segura. Te acompañamos en todo el proceso.</p></div><img src="https://images.unsplash.com/photo-1551836022-d5d88e9218df?q=80&w=2070" alt=""></div>
-    <div class="mini-contact"><h3>¿Tenés dudas?</h3><a href="https://wa.me/5492983389710" target="_blank" class="btn">ESCRIBINOS</a></div>
-  </section>
+    <!-- SCRIPT PRINCIPAL DE LÓGICA -->
+    <script>
+        const GOOGLE_SHEETS_URL = "https://script.google.com/macros/s/TU_ID_AQUI/exec";
 
-  <section id="comprar">
-    <h2 class="section-title">Cómo Comprar</h2><p class="section-subtitle">En 3 pasos</p>
-    <div class="steps-grid"><div class="step-card"><div class="step-number">01</div><h3>Contanos</h3><p>Qué buscás y tu presupuesto</p></div><div class="step-card"><div class="step-number">02</div><h3>Visitas</h3><p>Coordinamos para que veas</p></div><div class="step-card"><div class="step-number">03</div><h3>Cerramos</h3><p>Hasta la firma y entrega</p></div></div>
-  </section>
-
-  <section id="vender" style="background:#FAFA;">
-    <h2 class="section-title">Cómo Vender</h2><p class="section-subtitle">Rápido y seguro</p>
-    <div class="steps-grid"><div class="step-card"><div class="step-number">01</div><h3>Tasación</h3><p>Gratuita y real</p></div><div class="step-card"><div class="step-number">02</div><h3>Publicidad</h3><p>En todos los portales</p></div><div class="step-card"><div class="step-number">03</div><h3>Venta</h3><p>Gestionamos todo</p></div></div>
-  </section>
-  <section id="tasaciones">
-    <h2 class="section-title">Tasaciones</h2><p class="section-subtitle">Valor real de mercado</p>
-    <div class="mini-contact" style="background:var(--dark);"><h3>Solicitá tu tasación gratuita</h3><a href="https://wa.me/5492983389710" target="_blank" class="btn">PEDIR AHORA</a></div>
-  </section>
-
-  <section class="contact" id="contacto">
-    <h2 class="section-title">Contacto</h2>
-    <div class="contact-grid">
-      <div><h3 style="font-size:24px; margin-bottom:20px;">ML - MAY Y LEO LABRUNÉE</h3><p>📍 Av. San Martín 123, Tres Arroyos</p><p>📞 (02983) 43-XXXX</p><p>✉️ contacto@mlabrunee.com</p></div>
-      <form class="contact-form" onsubmit="alert('Consulta enviada! Te contactaremos.'); return false;"><input type="text" placeholder="Nombre" required><input type="email" placeholder="Email" required><textarea rows="4" placeholder="Mensaje" required></textarea><button class="btn-send">ENVIAR</button></form>
-    </div>
-  </section>
-
-  <footer><p>© 2026 ML - MAY Y LEO LABRUNÉE</p></footer>
-
-  <div id="propModal" class="modal">
-    <div class="modal-content">
-      <span class="close" onclick="closeModal()">&times;</span>
-      <div class="modal-carousel" id="modalCarousel"></div>
-      <div class="modal-nav">
-        <button onclick="prevModalImg()">‹</button>
-        <button onclick="nextModalImg()">›</button>
-      </div>
-      <div class="modal-info">
-        <div class="modal-price" id="modalPrice"></div>
-        <div class="modal-title" id="modalTitle"></div>
-        <div class="modal-features" id="modalFeatures"></div>
-        <div class="modal-desc" id="modalDesc"></div>
-        <a href="https://wa.me/5492983389710" target="_blank" class="btn-whatsapp-modal">CONSULTAR POR WHATSAPP</a>
-      </div>
-    </div>
-  </div>
-
-  <div class="whatsapp-container">
-    <div class="whatsapp-text">¿Querés saber más?</div>
-    <a href="https://wa.me/5492983389710" class="whatsapp-float" target="_blank">
-      <svg viewBox="0 0 24 24" width="28" height="28" fill="#FFF"><path d="M.057 24l1.687-6.163c-1.041-1.8-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.894 11.892-1.99-.001-3.959-.5-5.688-1.448l-6.305 1.654z"/></svg>
-    </a>
-  </div>
-
-  <script>
-    let todasPropiedades = [];
-    let currentModalImgs = [];
-    let currentModalIndex = 0;
-
-    // TUS DATOS DE JSONBIN
-    const API_KEY = "$2a$10$B1K/L0dBd09SArO06y5gQOa6bCi52crjbHvBwXJFahIHEp9Tvh3d6";
-    const BIN_ID = "6a56ce97f5f4af5e299000c2";
-
-    // LAS 6 DE MUESTRA SIEMPRE DISPONIBLES
-    const PROPIEDADES_DEMO = [
-      {"id":"1","titulo":"Casa 4 Ambientes - Centro","tipo":"casa","operacion":"venta","precio":"95000000","ubicacion":"Centro, Tres Arroyos","dorm":"3","bano":"2","amb":"4","m2cub":"200","m2tot":"300","imagen":"https://images.unsplash.com/photo-1570129477492-45c003edd2be?q=80&w=2070","imagenes":["https://images.unsplash.com/photo-1570129477492-45c003edd2be?q=80&w=2070","https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=2070"],"descripcion":"Hermosa casa ubicada en pleno centro. Living comedor, cocina independiente, 3 dormitorios, 2 baños, lavadero y patio. Excelente estado.","whatsapp":"5492983389710","estado":"disponible"},
-      {"id":"2","titulo":"Casa 3 Ambientes - Barrio Norte","tipo":"casa","operacion":"alquiler","precio":"450000","ubicacion":"Barrio Norte, Tres Arroyos","dorm":"2","bano":"1","amb":"3","m2cub":"120","m2tot":"180","imagen":"https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?q=80&w=2070","imagenes":["https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?q=80&w=2070","https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?q=80&w=2053"],"descripcion":"Casa ideal para familia. 2 dormitorios, 1 baño, cocina-comedor, patio y cochera. Lista para habitar.","whatsapp":"5492983389710","estado":"disponible"},
-      {"id":"3","titulo":"Depto 2 Ambientes - Av. Libertad","tipo":"depto","operacion":"venta","precio":"42000000","ubicacion":"Av. Libertad 500","dorm":"1","bano":"1","amb":"2","m2cub":"55","m2tot":"55","imagen":"https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?q=80&w=2080","imagenes":["https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?q=80&w=2080","https://images.unsplash.com/photo-1493809842364-78817add7ffb?q=80&w=2070"],"descripcion":"Departamento a estrenar. 1 dormitorio, baño, living comedor y cocina integrada. Edificio con ascensor.","whatsapp":"5492983389710","estado":"disponible"},
-      {"id":"4","titulo":"Depto 3 Ambientes - Centro","tipo":"depto","operacion":"alquiler","precio":"380000","ubicacion":"Centro, Tres Arroyos","dorm":"2","bano":"1","amb":"3","m2cub":"75","m2tot":"75","imagen":"https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?q=80&w=2070","imagenes":["https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?q=80&w=2070","https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?q=80&w=2070"],"descripcion":"Excelente ubicación. 2 dormitorios, baño, cocina separada y balcón. Con expensas bajas.","whatsapp":"5492983389710","estado":"disponible"},
-      {"id":"5","titulo":"Local Comercial - Peatonal San Martín","tipo":"local","operacion":"alquiler","precio":"650000","ubicacion":"Peatonal San Martín","dorm":"0","bano":"1","amb":"1","m2cub":"80","m2tot":"80","imagen":"https://images.unsplash.com/photo-1555633512-4d2b0643c36e?q=80&w=2070","imagenes":["https://images.unsplash.com/photo-1555633512-4d2b0643c36e?q=80&w=2070","https://images.unsplash.com/photo-1554995207-c18c203602dc?q=80&w=2070"],"descripcion":"Local en zona comercial. Vidriera, baño, depósito. Ideal para comercio o gastronomía.","whatsapp":"5492983389710","estado":"disponible"},
-      {"id":"6","titulo":"Local + Depósito - Zona Norte","tipo":"local","operacion":"venta","precio":"85000000","ubicacion":"Zona Norte, Tres Arroyos","dorm":"0","bano":"2","amb":"2","m2cub":"150","m2tot":"200","imagen":"https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=2070","imagenes":["https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=2070","https://images.unsplash.com/photo-1497366811353-6870744d04b2?q=80&w=2069"],"descripcion":"Local amplio con depósito y 2 baños. Excelente para inversión. Frente de 10 metros.","whatsapp":"5492983389710","estado":"disponible"}
-    ];
-
-    // CARGAR DESDE JSONBIN - ACTUALIZACION REAL
-    async function cargarPropiedades() {
-      try {
-        const res = await fetch(`https://api.jsonbin.io/v3/b/${BIN_ID}/latest`, {
-          headers: { 'X-Master-Key': API_KEY }
+        // Inicialización al cargar la página
+        document.addEventListener("DOMContentLoaded", () => {
+            const hoy = new Date().toISOString().split('T')[0];
+            document.getElementById('fecha-hoy-txt').innerText = new Date().toLocaleDateString('es-AR');
+            
+            cargarDatosEconomia();
+            verificarEstadoPremium();
+            actualizarSistemaPuntos();
+            renderizarAlquileres();
+            chequearHashAdmin();
+            
+            window.addEventListener('hashchange', chequearHashAdmin);
         });
-        let data = await res.json();
-        todasPropiedades = data.record || PROPIEDADES_DEMO;
-        // SOLO MOSTRAR DISPONIBLES EN LA WEB
-        todasPropiedades = todasPropiedades.filter(p => !p.estado || p.estado === 'disponible');
-      } catch(e) {
-        console.error("Error cargando propiedades, usando DEMO");
-        todasPropiedades = PROPIEDADES_DEMO;
-      }
-      renderizarProps(todasPropiedades);
-    }
 
-    function renderizarProps(props) {
-      const grid = document.getElementById('propGrid');
-      grid.innerHTML = '';
-      if(props.length === 0){ grid.innerHTML = "<p style='text-align:center; grid-column:1/-1;'>No hay propiedades publicadas</p>"; return; }
+        // ================= GESTIÓN PREMIUM Y PAGOS =================
+        function verificarEstadoPremium() {
+            const hasta = localStorage.getItem('papeles360_premium_hasta');
+            const tipo = localStorage.getItem('papeles360_premium_tipo');
+            const txtEstado = document.getElementById('txt-estado-premium');
+            const banner = document.getElementById('banner-premium');
 
-      props.forEach(p => {
-        const tagClass = p.operacion === 'alquiler'? 'alquiler' : p.tipo === 'local'? 'local' : '';
-        const precioFormateado = '$' + parseInt(p.precio).toLocaleString('es-AR');
-        const imgs = p.imagenes || [p.imagen];
-        const precioFiltro = parseInt(p.precio) > 50000000 || parseInt(p.precio) > 700000? '2' : '1';
+            if (hasta && Date.now() < parseInt(hasta)) {
+                txtEstado.innerText = `Premium Activo (${tipo === 'mes' ? 'Mes Ilimitado' : 'Pase 1 PDF Extra'})`;
+                banner.classList.remove('bg-amber-50', 'border-amber-500');
+                banner.classList.add('bg-emerald-50', 'border-emerald-500');
+                banner.querySelector('h3').className = "font-bold text-emerald-800 flex items-center gap-2";
+                banner.querySelector('button').style.display = 'none';
+                return true;
+            } else {
+                txtEstado.innerText = "Versión Gratuita (1 PDF disponible)";
+                return false;
+            }
+        }
 
-        grid.innerHTML += `
-        <div class="prop-card" data-id="${p.id}" data-tipo="${p.tipo}" data-operacion="${p.operacion}" data-precio="${precioFiltro}" data-titulo="${p.titulo}" data-precio-text="${precioFormateado}" data-dorm="${p.dorm}" data-bano="${p.bano}" data-amb="${p.amb}" data-m2cub="${p.m2cub}" data-m2tot="${p.m2tot}" data-desc="${p.descripcion}" data-imgs='${JSON.stringify(imgs)}'>
-          <div class="prop-img-wrapper"><span class="prop-tag ${tagClass}">${p.operacion.toUpperCase()}</span><div class="carousel"><img src="${imgs[0]}" class="active"></div></div>
-          <div class="prop-info"><div class="prop-price">${precioFormateado}</div><div class="prop-title">${p.titulo}</div><div class="prop-features"><div class="feature-item"><svg viewBox="0 0 24 24"><path d="M12 3L2 12h3v8h14v-8h3L12 3z"/></svg><span>${p.dorm}</span>Dorm</div><div class="feature-item"><svg viewBox="0 0 24 24"><path d="M7 2v2h10V2h2v2h1a2 2 0 0 1 2 2v3a7 7 0 0 1-7 7H9A7 7 0 0 1 2 9V6a2 2 0 0 1 2-2h1V2h2z"/></svg><span>${p.bano}</span>Baño</div><div class="feature-item"><svg viewBox="0 0 24 24"><path d="M4 11h6v2H4zm10 0h6v2h-6z"/></svg><span>${p.amb}</span>Amb</div><div class="feature-item"><svg viewBox="0 0 24 24"><path d="M19 9.3V4h-3v2.6L12 3 2 12h3v8h14v-8h3z"/></svg><span>${p.m2cub}</span>m²</div></div><button class="btn-contact" onclick="openModal(this.parentElement.parentElement)">VER DETALLES</button></div>
-        </div>`;
-      });
-    }
+        function abrirModalPago() {
+            document.getElementById('modal-pago').classList.remove('hidden');
+        }
 
-    function toggleMenu() { document.getElementById('navMenu').classList.toggle('active'); }
-    window.addEventListener('click', function(e) {
-      const nav = document.getElementById('navMenu'); const btn = document.querySelector('.menu-btn');
-      if (!nav.contains(e.target) &&!btn.contains(e.target)) { nav.classList.remove('active'); }
-    });
+        function cerrarModalPago() {
+            document.getElementById('modal-pago').classList.add('hidden');
+        }
 
-    function cambiarFiltroPrecio() {
-      const operacion = document.getElementById('searchOperacion').value;
-      const precioSelect = document.getElementById('searchPrecio');
-      precioSelect.innerHTML = '<option value="all">Precio</option>';
-      if(operacion === 'alquiler') {
-        precioSelect.innerHTML += '<option value="1">Hasta $400.000</option><option value="2">Hasta $700.000</option>';
-      } else {
-        precioSelect.innerHTML += '<option value="1">Hasta $50.000.000</option><option value="2">Hasta $100.000.000</option>';
-      }
-    }
-    cambiarFiltroPrecio();
+        function simularPagoExitoso(tipo, duracionDias) {
+            const hasta = Date.now() + (duracionDias === 30 ? 30*24*60*60*1000 : 24*60*60*1000);
+            localStorage.setItem('papeles360_premium_hasta', hasta);
+            localStorage.setItem('papeles360_premium_tipo', tipo);
+            cerrarModalPago();
+            verificarEstadoPremium();
+            alert("¡Pago registrado con éxito! Disfruta tu acceso.");
+        }
 
-    function filtrarProps() {
-      const tipo = document.getElementById('searchTipo').value;
-      const operacion = document.getElementById('searchOperacion').value;
-      const precio = document.getElementById('searchPrecio').value;
-      const texto = document.getElementById('searchInput').value.toLowerCase();
-      const cards = document.querySelectorAll('.prop-card');
-      cards.forEach(card => {
-        let show = true;
-        if(tipo!== 'all' && card.dataset.tipo!== tipo) show = false;
-        if(operacion!== 'all' && card.dataset.operacion!== operacion) show = false;
-        if(precio!== 'all' && card.dataset.precio!== precio) show = false;
-        if(texto &&!card.dataset.titulo.toLowerCase().includes(texto)) show = false;
-        card.style.display = show? 'block' : 'none';
-      });
-      showSection('propiedades');
-    }
+        // ================= SECCIÓN 1: ECONOMÍA DIARIA =================
+        let chartInstance = null;
 
-    function showSection(id) {
-      document.querySelectorAll('section,.hero').forEach(s => s.style.display = 'none');
-      document.getElementById(id).style.display = 'block';
-      if(id === 'propiedades') document.getElementById('heroSection').style.display = 'flex';
-      window.scrollTo(0,0);
-    }
-    function showAll() {
-      document.querySelectorAll('section,.hero').forEach(s => s.style.display = 'block');
-      window.scrollTo(0,0);
-    }
+        function calcularEconomia() {
+            const sueldo = parseFloat(document.getElementById('eco-sueldo').value) || 0;
+            const extra = parseFloat(document.getElementById('eco-extra').value) || 0;
+            const totalIngresos = sueldo + extra;
 
-    setInterval(() => {
-      document.querySelectorAll('.carousel').forEach(carousel => {
-        const imgs = carousel.querySelectorAll('img');
-        if(imgs.length <= 1) return;
-        let activeIndex = [...imgs].findIndex(img => img.classList.contains('active'));
-        imgs[activeIndex].classList.remove('active');
-        let nextIndex = (activeIndex + 1) % imgs.length;
-        imgs[nextIndex].classList.add('active');
-      });
-    }, 4000);
+            const alq = parseFloat(document.getElementById('g-alq').value) || 0;
+            const exp = parseFloat(document.getElementById('g-exp').value) || 0;
+            const com = parseFloat(document.getElementById('g-com').value) || 0;
+            const serv = parseFloat(document.getElementById('g-serv').value) || 0;
+            const trans = parseFloat(document.getElementById('g-trans').value) || 0;
+            const otros = parseFloat(document.getElementById('g-otros').value) || 0;
 
-  function openModal(card) {
-      const modal = document.getElementById('propModal');
-      currentModalImgs = JSON.parse(card.dataset.imgs);
-      currentModalIndex = 0;
-      document.getElementById('modalPrice').innerText = card.dataset.precioText;
-      document.getElementById('modalTitle').innerText = card.dataset.titulo;
-      document.getElementById('modalDesc').innerText = card.dataset.desc;
-      document.getElementById('modalFeatures').innerHTML = `
-        ${card.dataset.dorm > 0? `<div class="feature-item"><svg viewBox="0 0 24 24"><path d="M12 3L2 12h3v8h14v-8h3L12 3z"/></svg><span>${card.dataset.dorm}</span>Dorm</div>` : ''}
-        <div class="feature-item"><svg viewBox="0 0 24 24"><path d="M7 2v2h10V2h2v2h1a2 2 0 0 1 2 2v3a7 7 0 0 1-7 7H9A7 7 0 0 1 2 9V6a2 2 0 0 1 2-2h1V2h2z"/></svg><span>${card.dataset.bano}</span>Baño</div>
-        ${card.dataset.amb > 0? `<div class="feature-item"><svg viewBox="0 0 24 24"><path d="M4 11h6v2H4zm10 0h6v2h-6z"/></svg><span>${card.dataset.amb}</span>Amb</div>` : ''}
-        <div class="feature-item"><svg viewBox="0 0 24 24"><path d="M19 9.3V4h-3v2.6L12 3 2 12h3v8h14v-8h3z"/></svg><span>${card.dataset.m2cub}</span>m² Cub</div>
-        <div class="feature-item"><svg viewBox="0 0 24 24"><path d="M19 9.3V4h-3v2.6L12 3 2 12h3v8h14v-8h3z"/></svg><span>${card.dataset.m2tot}</span>m² Tot</div>
-      `;
-      renderModalCarousel();
-      modal.style.display = "block";
-      document.body.style.overflow = "hidden";
-    }
+            const totalGastos = alq + exp + com + serv + trans + otros;
+            const costoDia = totalGastos / 30;
+            const balance = totalIngresos - totalGastos;
 
-    function closeModal() {
-      document.getElementById('propModal').style.display = "none";
-      document.body.style.overflow = "auto";
-    }
+            // Guardar estado local
+            const datosEco = { sueldo, extra, alq, exp, com, serv, trans, otros, totalGastos, totalIngresos };
+            localStorage.setItem('papeles360_economia', JSON.stringify(datosEco));
 
-    function renderModalCarousel() {
-      const container = document.getElementById('modalCarousel');
-      container.innerHTML = '';
-      currentModalImgs.forEach((src, index) => {
-        const img = document.createElement('img');
-        img.src = src;
-        if(index === currentModalIndex) img.classList.add('active');
-        container.appendChild(img);
-      });
-    }
+            // Actualizar interfaz
+            document.getElementById('txt-costo-dia').innerText = `Costo por día: $${costoDia.toLocaleString('es-AR', {maximumFractionDigits:0})}`;
+            
+            const semBox = document.getElementById('semaforo-box');
+            const txtRes = document.getElementById('txt-resultado-balance');
+            const badge = document.getElementById('badge-semaforo');
 
-    function nextModalImg() {
-      const imgs = document.querySelectorAll('#modalCarousel img');
-      imgs[currentModalIndex].classList.remove('active');
-      currentModalIndex = (currentModalIndex + 1) % currentModalImgs.length;
-      imgs[currentModalIndex].classList.add('active');
-    }
+            if (totalIngresos === 0 && totalGastos === 0) {
+                txtRes.innerText = "Completá tus ingresos y gastos";
+                badge.innerText = "Esperando datos";
+                badge.className = "px-3 py-1.5 rounded-full text-xs font-bold bg-slate-200 text-slate-700";
+                semBox.className = "p-4 rounded-xl border transition-all flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 bg-slate-50 border-slate-200";
+                return;
+            }
 
-    function prevModalImg() {
-      const imgs = document.querySelectorAll('#modalCarousel img');
-      imgs[currentModalIndex].classList.remove('active');
-      currentModalIndex = (currentModalIndex - 1 + currentModalImgs.length) % currentModalImgs.length;
-      imgs[currentModalIndex].classList.add('active');
-    }
+            if (balance > 50000) {
+                semBox.className = "p-4 rounded-xl border transition-all flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 bg-emerald-50 border-emerald-300";
+                txtRes.innerText = `Te sobra $${balance.toLocaleString('es-AR')}, vas bien`;
+                badge.innerText = "🟢 VERDE";
+                badge.className = "px-3 py-1.5 rounded-full text-xs font-bold bg-emerald-500 text-white";
+            } else if (balance > 0) {
+                semBox.className = "p-4 rounded-xl border transition-all flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 bg-amber-50 border-amber-300";
+                txtRes.innerText = `Llegas justo con $${balance.toLocaleString('es-AR')}`;
+                badge.innerText = "🟡 AMARILLO";
+                badge.className = "px-3 py-1.5 rounded-full text-xs font-bold bg-amber-500 text-white";
+            } else {
+                semBox.className = "p-4 rounded-xl border transition-all flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 bg-rose-50 border-rose-300";
+                txtRes.innerText = `Estás en ROJO, te faltan $${Math.abs(balance).toLocaleString('es-AR')}`;
+                badge.innerText = "🔴 ROJO";
+                badge.className = "px-3 py-1.5 rounded-full text-xs font-bold bg-rose-600 text-white";
+            }
+        }
 
-    window.onclick = function(event) {
-      const modal = document.getElementById('propModal');
-      if (event.target == modal) closeModal();
-    }
+        function cargarDatosEconomia() {
+            const guardado = localStorage.getItem('papeles360_economia');
+            if (guardado) {
+                const d = JSON.parse(guardado);
+                document.getElementById('eco-sueldo').value = d.sueldo || '';
+                document.getElementById('eco-extra').value = d.extra || '';
+                document.getElementById('g-alq').value = d.alq || '';
+                document.getElementById('g-exp').value = d.exp || '';
+                document.getElementById('g-com').value = d.com || '';
+                document.getElementById('g-serv').value = d.serv || '';
+                document.getElementById('g-trans').value = d.trans || '';
+                document.getElementById('g-otros').value = d.otros || '';
+                calcularEconomia();
+            }
+            renderizarHistorialGrafico();
+        }
 
-    // INICIAR
-    cargarPropiedades();
-    setInterval(cargarPropiedades, 10000); // Actualiza cada 10 seg desde JSONBIN
-  </script>
+        function cerrarMes() {
+            const economia = JSON.parse(localStorage.getItem('papeles360_economia') || '{}');
+            const meta = document.getElementById('meta-mes').value || "Sin meta";
+            const historial = JSON.parse(localStorage.getItem('papeles360_historial') || '[]');
+            
+            const mesActual = new Date().toLocaleDateString('es-AR', { month: 'short', year: 'numeric' });
+            historial.push({ mes: mesActual, ingresos: economia.totalIngresos || 0, gastos: economia.totalGastos || 0, meta });
+            
+            localStorage.setItem('papeles360_historial', JSON.stringify(historial));
+            alert("¡Mes cerrado y guardado en tu historial correctamente!");
+            renderizarHistorialGrafico();
+        }
 
+        function renderizarHistorialGrafico() {
+            const historial = JSON.parse(localStorage.getItem('papeles360_historial') || '[]');
+            const ctx = document.getElementById('chartHistorial').getContext('2d');
+            
+            const labels = historial.length ? historial.map(h => h.mes) : ['Mes Actual'];
+            const dataIngresos = historial.length ? historial.map(h => h.ingresos) : [0];
+            const dataGastos = historial.length ? historial.map(h => h.gastos) : [0];
+
+            if (chartInstance) chartInstance.destroy();
+
+            chartInstance = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: labels,
+                    datasets: [
+                        { label: 'Ingresos', data: dataIngresos, backgroundColor: '#10b981' },
+                        { label: 'Gastos', data: dataGastos, backgroundColor: '#f43f5e' }
+                    ]
+                },
+                options: { responsive: true, maintainAspectRatio: false, scales: { y: { beginAtZero: true } } }
+            });
+        }
+
+        // ================= SECCIÓN 2: GASTO DIARIO + NAFTA =================
+        function calcularNaftaInteligente() {
+            const monto = parseFloat(document.getElementById('nafta-monto').value) || 0;
+            const litros = parseFloat(document.getElementById('nafta-litros').value) || 0;
+            const dias = parseFloat(document.getElementById('nafta-dias').value) || 1;
+
+            if (dias <= 0) return;
+            const costoDia = monto / dias;
+            const litrosDia = litros / dias;
+
+            document.getElementById('txt-calc-nafta').innerText = `Te sale $${costoDia.toLocaleString('es-AR', {maximumFractionDigits:0})}/día de nafta (${litrosDia.toFixed(1)} lts/día)`;
+        }
+
+        function guardarDia() {
+            const fecha = new Date().toISOString().split('T')[0];
+            const comida = parseFloat(document.getElementById('hoy-comida').value) || 0;
+            const transporte = parseFloat(document.getElementById('hoy-transporte').value) || 0;
+            const nafta = parseFloat(document.getElementById('nafta-monto').value) || 0;
+            const otros = parseFloat(document.getElementById('hoy-otros').value) || 0;
+            const totalHoy = comida + transporte + nafta + otros;
+
+            const registro = { fecha, comida, transporte, nafta, otros, totalHoy };
+            localStorage.setItem(`papeles360_diario_${fecha}`, JSON.stringify(registro));
+
+            // Actualizar Puntos y Racha
+            actualizarPuntosAlGuardarDia();
+
+            // Enviar a Google Sheets
+            enviarAGoogleSheets({
+                nombre: document.getElementById('doc-nombre').value || 'Usuario Anónimo',
+                telefono: 'No especificado',
+                ingresos: document.getElementById('eco-sueldo').value || '0',
+                gastos: totalHoy,
+                puntos: localStorage.getItem('papeles360_puntos') || '0',
+                nafta: nafta
+            });
+
+            alert("¡Gasto del día guardado con éxito y puntos sumados!");
+        }
+
+        // ================= SECCIÓN 3: PUNTOS Y RACHA =================
+        function actualizarPuntosAlGuardarDia() {
+            const hoy = new Date().toISOString().split('T')[0];
+            let ultimaEntrada = localStorage.getItem('papeles360_ultima_entrada');
+            let racha = parseInt(localStorage.getItem('papeles360_racha') || '0');
+            let puntos = parseInt(localStorage.getItem('papeles360_puntos') || '0');
+
+            if (ultimaEntrada === hoy) {
+                alert("Ya registraste tu día hoy, no se suman puntos dobles.");
+                return;
+            }
+
+            // Validar si fue ayer
+            const ayer = new Date(Date.now() - 86400000).toISOString().split('T')[0];
+            if (ultimaEntrada === ayer) {
+                racha += 1;
+            } else {
+                racha = 1;
+            }
+
+            puntos += (racha * 10) + 10;
+            if (racha >= 7) puntos += 100; // Bonus semanal
+
+            localStorage.setItem('papeles360_ultima_entrada', hoy);
+            localStorage.setItem('papeles360_racha', racha);
+            localStorage.setItem('papeles360_puntos', puntos);
+
+            actualizarSistemaPuntos();
+        }
+
+        function actualizarSistemaPuntos() {
+            const racha = localStorage.getItem('papeles360_racha') || '0';
+            const puntos = parseInt(localStorage.getItem('papeles360_puntos') || '0');
+            const faltan = Math.max(0, 200 - puntos);
+
+            document.getElementById('txt-racha-estado').innerText = `🔥 Racha: ${racha} días | ⭐ Puntos este mes: ${puntos}`;
+            
+            const barra = document.getElementById('barra-progreso-sorteo');
+            const txtSorteo = document.getElementById('txt-sorteo-estado');
+            
+            const porcentaje = Math.min(100, (puntos / 200) * 100);
+            barra.style.width = porcentaje + '%';
+
+            if (puntos >= 200) {
+                txtSorteo.innerText = "🎉 ¡Ya estás participando en el sorteo de este mes!";
+                txtSorteo.className = "text-xs font-bold text-emerald-300";
+            } else {
+                txtSorteo.innerText = `Te faltan ${faltan} puntos para entrar al sorteo de $20.000`;
+            }
+        }
+
+        // ================= SECCIÓN 4: GENERADOR DE PAPELES (jsPDF) =================
+        function generarPDFPapel() {
+            const tipo = document.getElementById('doc-tipo').value;
+            const nombre = document.getElementById('doc-nombre').value;
+            const dni = document.getElementById('doc-dni').value;
+            const direccion = document.getElementById('doc-direccion').value;
+            const monto = document.getElementById('doc-monto').value;
+
+            if (!nombre || !dni || !direccion || !monto) {
+                alert("Por favor completá todos los campos del documento.");
+                return;
+            }
+
+            // Control de límite gratuito
+            const esPremium = verificarEstadoPremium();
+            let generaciones = parseInt(localStorage.getItem('papeles360_generaciones') || '0');
+
+            if (!esPremium && generaciones >= 1) {
+                abrirModalPago();
+                return;
+            }
+
+            if (!esPremium) {
+                localStorage.setItem('papeles360_generaciones', generaciones + 1);
+            }
+
+            // Generar PDF con jsPDF
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF();
+
+            doc.setFont("Helvetica", "bold");
+            doc.setFontSize(16);
+            doc.text(`PAPELESYA - ${tipo.toUpperCase()}`, 20, 25);
+
+            doc.setFont("Helvetica", "normal");
+            doc.setFontSize(10);
+            doc.text(`Fecha de emisión: ${new Date().toLocaleDateString('es-AR')}`, 20, 33);
+
+            doc.line(20, 38, 190, 38);
+
+            doc.setFontSize(11);
+            let textoLegal = `En la ciudad de Buenos Aires, a los días se acuerda la emisión del presente documento conforme a la normativa vigente Ley de Alquileres 2024 (Indexación ICL / IPC acordada entre partes).\n\n` +
+                             `IDENTIFICACIÓN DE LAS PARTES:\n` +
+                             `- Nombre / Razón Social: ${nombre}\n` +
+                             `- DNI / CUIT: ${dni}\n` +
+                             `- Domicilio Legal: ${direccion}\n\n` +
+                             `MONTO Y CONDICIONES:\n` +
+                             `- Monto total pactado: $${monto}\n\n` +
+                             `Las partes se comprometen al fiel cumplimiento de los términos estipulados, sometiéndose a la jurisdicción ordinaria correspondiente.`;
+
+            doc.text(textoLegal, 20, 48, { maxWidth: 170 });
+
+            // Marca de agua si no es premium
+            if (!esPremium) {
+                doc.setTextColor(200, 200, 200);
+                doc.setFontSize(50);
+                doc.text("BORRADOR", 45, 150, { angle: 45 });
+            }
+
+            // Firma
+            doc.setTextColor(0, 0, 0);
+            doc.line(120, 250, 180, 250);
+            doc.text("Firma y Aclaración", 135, 256);
+
+            doc.save(`${tipo.replace(/\s+/g, '_')}_PapelesYA.pdf`);
+            alert("¡Documento PDF generado con éxito!");
+        }
+
+        // ================= SECCIÓN 5: MIS ALQUILERES =================
+        function abrirModalNuevoAlquiler() {
+            document.getElementById('modal-alquiler').classList.remove('hidden');
+        }
+
+        function guardarNuevoAlquiler() {
+            const dir = document.getElementById('alq-dir').value;
+            const inquilino = document.getElementById('alq-inquilino').value;
+            const tel = document.getElementById('alq-tel').value;
+            const monto = document.getElementById('alq-monto').value;
+            const vencimiento = document.getElementById('alq-venc').value;
+
+            if (!dir || !inquilino || !monto || !vencimiento) {
+                alert("Completá los campos obligatorios del alquiler.");
+                return;
+            }
+
+            const lista = JSON.parse(localStorage.getItem('papeles360_mis_contratos') || '[]');
+            lista.push({ dir, inquilino, tel, monto, vencimiento });
+            localStorage.setItem('papeles360_mis_contratos', JSON.stringify(lista));
+
+            document.getElementById('modal-alquiler').classList.add('hidden');
+            renderizarAlquileres();
+        }
+
+        function renderizarAlquileres() {
+            const lista = JSON.parse(localStorage.getItem('papeles360_mis_contratos') || '[]');
+            const contenedor = document.getElementById('lista-alquileres');
+            contenedor.innerHTML = '';
+
+            if (lista.length === 0) {
+                contenedor.innerHTML = `<p class="text-xs text-slate-400 text-center py-3">No hay contratos guardados todavía.</p>`;
+                return;
+            }
+
+            lista.forEach((c, index) => {
+                const diasRestantes = Math.ceil((new Date(c.vencimiento) - new Date()) / (1000 * 60 * 60 * 24));
+                const mensajeWap = encodeURIComponent(`Hola ${c.inquilino}, te recuerdo que el alquiler de ${c.dir} por monto $${c.monto} vence en ${diasRestantes} días. ¡Gracias!`);
+
+                contenedor.innerHTML += `
+                    <div class="bg-slate-50 border border-slate-200 p-4 rounded-xl flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
+                        <div>
+                            <h4 class="font-bold text-slate-800 text-sm">${c.dir}</h4>
+                            <p class="text-xs text-slate-600">Inquilino: ${c.inquilino} | Monto: $${c.monto}</p>
+                            <span class="text-[11px] font-bold text-amber-600 mt-1 inline-block">Vence en ${diasRestantes >= 0 ? diasRestantes : 0} días</span>
+                        </div>
+                        <a href="https://wa.me/${c.tel || ''}?text=${mensajeWap}" target="_blank" class="bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold px-3 py-2 rounded-xl shadow transition whitespace-nowrap">
+                            📲 Recordar por WhatsApp
+                        </a>
+                    </div>
+                `;
+            });
+        }
+
+        // ================= SECCIÓN 6: CHAT IA MINI =================
+        function consultarIA() {
+            const input = document.getElementById('chat-input').value.toLowerCase();
+            const respBox = document.getElementById('chat-respuesta');
+            respBox.classList.remove('hidden');
+
+            if (input.includes('aumento') || input.includes('icl') || input.includes('ipc')) {
+                respBox.innerText = "ℹ️ Los ajustes se rigen por los índices acordados contractualmente (ICL / IPC), respetando los plazos estipulados por la legislación vigente de locaciones urbanas.";
+            } else if (input.includes('desalojo') || input.includes('falta de pago')) {
+                respBox.innerText = "ℹ️ El procedimiento de desalojo por falta de pago requiere intimación previa fehaciente mediante carta documento otorgando los plazos legales antes de iniciar acciones judiciales.";
+            } else if (input.includes('deposito') || input.includes('garantia')) {
+                respBox.innerText = "ℹ️ El depósito en garantía suele restituirse al finalizar el contrato, contra la entrega del inmueble desocupado y libre de deudas de servicios.";
+            } else {
+                respBox.innerText = "ℹ️ Consulta legal genérica orientativa. Para casos específicos, utilizá nuestros contratos oficiales o consultá con un profesional.";
+            }
+        }
+
+        // ================= PANEL ADMIN OCULTO =================
+        function chequearHashAdmin() {
+            if (window.location.hash === '#admin') {
+                document.getElementById('panel-admin').classList.remove('hidden');
+                cargarDatosAdmin();
+            } else {
+                document.getElementById('panel-admin').classList.add('hidden');
+            }
+        }
+
+        function cargarDatosAdmin() {
+            const economia = localStorage.getItem('papeles360_economia') || 'Sin datos';
+            const puntos = localStorage.getItem('papeles360_puntos') || '0';
+            const racha = localStorage.getItem('papeles360_racha') || '0';
+            
+            document.getElementById('admin-tabla-datos').innerHTML = `
+                <p><strong>Puntos Actuales:</strong> ${puntos}</p>
+                <p><strong>Racha Activa:</strong> ${racha} días</p>
+                <p><strong>Economía Registrada:</strong> ${economia}</p>
+            `;
+        }
+
+        function sortearGanadorAdmin() {
+            const divRes = document.getElementById('admin-resultado-sorteo');
+            divRes.classList.remove('hidden');
+            divRes.innerText = `🎲 ¡Ganador sorteado con éxito entre los usuarios con +200 puntos! ID Ganador simulado: #USR-${Math.floor(Math.random()*8999+1000)}`;
+        }
+
+        // ================= GOOGLE SHEETS FETCH =================
+        function enviarAGoogleSheets(data) {
+            fetch(GOOGLE_SHEETS_URL, {
+                method: 'POST',
+                mode: 'no-cors',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data)
+            }).catch(err => console.log('Envío a sheets en segundo plano completado.'));
+        }
+    </script>
 </body>
-</html>
+  </html>
